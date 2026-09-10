@@ -102,49 +102,158 @@
         </div>
 
         <!-- Action Buttons -->
-        <div class="flex justify-end gap-2">
-          <button disabled class="text-xs border px-3 py-1 rounded-md transition-colors disabled:opacity-30 disabled:cursor-not-allowed text-zinc-500 hover:text-teal-400 border-zinc-700 hover:border-teal-500/50 disabled:hover:text-zinc-500 disabled:hover:border-zinc-700">
-            링크 복사
-          </button>
-          <button class="text-xs text-zinc-500 hover:text-zinc-300 border border-zinc-700 hover:border-zinc-500 px-3 py-1 rounded-md transition-colors">
-            초기화
-          </button>
+        <div class="flex justify-between items-center gap-2">
+          <div id="currentPartyLabel" class="text-sm font-bold text-zinc-200"></div>
+
+          <div class="flex items-center gap-2">
+            <div id="partySaveBar" class="hidden items-center gap-2">
+              <input id="partyNameInput" type="text" placeholder="파티 이름..."
+                class="bg-transparent border border-teal-500/60 rounded-md px-4 py-1 text-xs text-zinc-200 placeholder-zinc-500 focus:outline-none focus:border-teal-400 w-32">
+              <button onclick="confirmPartySave()" class="shrink-0 text-xs font-medium text-teal-300 hover:text-teal-200 border border-teal-500/60 hover:border-teal-400 rounded-md px-2 py-1 transition-colors">
+                저장
+              </button>
+              <button onclick="cancelPartySave()" class="shrink-0 text-zinc-500 hover:text-zinc-300 text-lg leading-none px-1">
+                ×
+              </button>
+            </div>
+
+            <button id="partyUpdateBtn" onclick="updateCurrentParty()" class="hidden text-xs text-teal-400 hover:text-teal-300 border border-teal-500/60 hover:border-teal-400 px-3 py-1 rounded-md transition-colors">
+              수정
+            </button>
+            <button id="partySaveOpenBtn" onclick="openPartySaveBar()" class="text-xs text-zinc-500 hover:text-teal-400 border border-zinc-700 hover:border-teal-500/50 px-3 py-1 rounded-md transition-colors">
+              파티 저장
+            </button>
+            <button onclick="resetCharacterSetup()" class="text-xs text-zinc-500 hover:text-zinc-300 border border-zinc-700 hover:border-zinc-500 px-3 py-1 rounded-md transition-colors">
+              초기화
+            </button>
+          </div>
         </div>
 
-        <!-- Character Selection Grid -->
-        <div class="grid grid-cols-3 gap-3 md:gap-5">
-          <!-- Character 1 -->
-          <button class="relative aspect-[3/4] rounded-xl border-2 border-dashed border-zinc-700 bg-zinc-900/40 hover:border-teal-500/40 hover:bg-zinc-900/70 overflow-hidden transition-all group">
-            <div class="absolute inset-0 flex items-center justify-center text-zinc-600 group-hover:text-teal-400 transition-colors">
-              <div class="text-center">
-                <div class="text-3xl mb-1">＋</div>
-                <div class="text-xs">1번 캐릭터</div>
-              </div>
-            </div>
-          </button>
-
-          <!-- Character 2 -->
-          <button class="relative aspect-[3/4] rounded-xl border-2 border-dashed border-zinc-700 bg-zinc-900/40 hover:border-teal-500/40 hover:bg-zinc-900/70 overflow-hidden transition-all group">
-            <div class="absolute inset-0 flex items-center justify-center text-zinc-600 group-hover:text-teal-400 transition-colors">
-              <div class="text-center">
-                <div class="text-3xl mb-1">＋</div>
-                <div class="text-xs">2번 캐릭터</div>
-              </div>
-            </div>
-          </button>
-
-          <!-- Character 3 -->
-          <button class="relative aspect-[3/4] rounded-xl border-2 border-dashed border-zinc-700 bg-zinc-900/40 hover:border-teal-500/40 hover:bg-zinc-900/70 overflow-hidden transition-all group">
-            <div class="absolute inset-0 flex items-center justify-center text-zinc-600 group-hover:text-teal-400 transition-colors">
-              <div class="text-center">
-                <div class="text-3xl mb-1">＋</div>
-                <div class="text-xs">3번 캐릭터</div>
-              </div>
-            </div>
-          </button>
+        <!-- 저장된 파티 목록 -->
+        <div id="partyListSection" class="hidden">
+          <div class="text-xs text-zinc-500 mb-2">저장된 파티</div>
+          <div id="partyListPills" class="flex flex-wrap gap-2"></div>
         </div>
+
+        <div class="">
+          캐릭터 육성 설정
+        </div>
+
+        <!-- 캐릭터 스펙 설정 -->
+        <div class="grid grid-cols-3 gap-4">
+
+          <!-- 슬롯 1 -->
+          <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-3">
+            <div id="spec-slot-1" class="relative w-full aspect-square rounded-lg overflow-hidden">
+              <button onclick="openCharacterPicker('spec-slot-1')" class="w-full h-full flex items-center justify-center text-2xl text-zinc-600 hover:text-teal-400 border-2 border-dashed border-zinc-700 hover:border-teal-500 rounded-lg transition-colors">
+                ＋
+              </button>
+            </div>
+          </div>
+
+          <!-- 슬롯 2 -->
+          <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-3">
+            <div id="spec-slot-2" class="relative w-full aspect-square rounded-lg overflow-hidden">
+              <button onclick="openCharacterPicker('spec-slot-2')" class="w-full h-full flex items-center justify-center text-2xl text-zinc-600 hover:text-teal-400 border-2 border-dashed border-zinc-700 hover:border-teal-500 rounded-lg transition-colors">
+                ＋
+              </button>
+            </div>
+          </div>
+
+          <!-- 슬롯 3 -->
+          <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-3">
+            <div id="spec-slot-3" class="relative w-full aspect-square rounded-lg overflow-hidden">
+              <button onclick="openCharacterPicker('spec-slot-3')" class="w-full h-full flex items-center justify-center text-2xl text-zinc-600 hover:text-teal-400 border-2 border-dashed border-zinc-700 hover:border-teal-500 rounded-lg transition-colors">
+                ＋
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- 캐릭터별 속성 상세정보 (기본 스펙 + 무기/에코/스킬 합산 결과) -->
+        <div class="grid grid-cols-3 gap-4">
+          <div id="spec-detail-1"></div>
+          <div id="spec-detail-2"></div>
+          <div id="spec-detail-3"></div>
+        </div>
+
       </div>
     </main>
+
+    <!-- 캐릭터 선택 모달 -->
+    <div id="characterPickerModal" onclick="if(event.target===this) closeCharacterPicker()" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
+      <div class="bg-zinc-900 border border-zinc-800 rounded-xl w-full max-w-3xl max-h-[80vh] flex flex-col overflow-hidden p-5">
+
+        <!-- 타이틀 -->
+        <div class="flex items-center justify-between mb-4">
+          <h2 id="pickerTitle" class="text-lg font-bold text-zinc-100">캐릭터 선택</h2>
+          <button onclick="closeCharacterPicker()" class="text-zinc-500 hover:text-zinc-300 text-xl leading-none">
+            ×
+          </button>
+        </div>
+
+        <!-- 검색창 -->
+        <input id="characterSearchInput" type="text" placeholder="캐릭터 이름 검색..." oninput="filterCharacterList()"
+          class="w-full bg-transparent border border-zinc-700 rounded-lg px-4 py-2.5 text-sm text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-zinc-500 mb-4">
+
+        <!-- 캐릭터 목록 (스크롤) -->
+        <div class="overflow-y-auto">
+          <div id="characterList" class="grid grid-cols-5 gap-3">
+            <!-- 캐릭터 카드는 renderCharacterList()가 characters 배열로 자동 생성함 -->
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 에코 설정 모달 -->
+    <div id="echoEditorModal" onclick="if(event.target===this) closeEchoEditor()" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
+      <div class="bg-zinc-900 border border-zinc-800 rounded-xl w-full max-w-md max-h-[85vh] flex flex-col overflow-hidden p-5">
+
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="text-lg font-bold text-zinc-100">에코 설정</h2>
+          <button onclick="closeEchoEditor()" class="text-zinc-500 hover:text-zinc-300 text-xl leading-none">
+            ×
+          </button>
+        </div>
+
+        <div id="echoEditorBody" class="space-y-3 overflow-y-auto">
+          <!-- renderEchoEditorModal()이 채움 -->
+        </div>
+
+        <div class="flex gap-2 mt-5 shrink-0">
+          <button onclick="clearEchoEditor()" class="flex-1 text-sm text-zinc-400 hover:text-zinc-200 border border-zinc-700 hover:border-zinc-500 rounded-lg py-2 transition-colors">
+            비우기
+          </button>
+          <button onclick="saveEchoEditor()" class="flex-1 text-sm text-white bg-teal-600 hover:bg-teal-500 rounded-lg py-2 transition-colors">
+            완료
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 속성 상세정보 모달 -->
+    <div id="statDetailModal" onclick="if(event.target===this) closeStatDetailModal()" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
+      <div class="bg-zinc-900 border border-zinc-800 rounded-xl w-full max-w-sm max-h-[80vh] flex flex-col overflow-hidden p-5">
+
+        <div class="flex items-center justify-between mb-4">
+          <h2 id="statDetailTitle" class="text-lg font-bold text-zinc-100">속성 상세정보</h2>
+          <button onclick="closeStatDetailModal()" class="text-zinc-500 hover:text-zinc-300 text-xl leading-none">
+            ×
+          </button>
+        </div>
+
+        <div id="statDetailBody" class="overflow-y-auto">
+          <!-- openStatDetailMore()가 채움 -->
+        </div>
+
+      </div>
+    </div>
+
+    <script src="js/data.js"></script>
+    <script src="js/main.js"></script>
 
   </body>
 </html>

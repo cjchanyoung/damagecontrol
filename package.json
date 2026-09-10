@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "watch": "npx @tailwindcss/cli -i ./input.css -o ./output.css --watch"
+    "watch": "npx @tailwindcss/cli -i ./input.css -o ./output.css --watch",
+    "serve": "npx serve -l 5500 ."
   },
   "keywords": [],
   "author": "",
