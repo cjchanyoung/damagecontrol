@@ -147,7 +147,20 @@ const EXTRA_STAT_LABEL_TO_KEY = {
   '강공격 피해 보너스': 'heavyAtkDmgBonus',
   '공명 해방 피해 보너스': 'liberationDmgBonus',
   '치료 효과 보너스': 'healBonus',
+  // 에코 주옵션의 속성별 피해 보너스는 캐릭터 속성이 하나뿐이므로 전부 elementDmgBonus 하나로 합침
+  '용융 피해 보너스': 'elementDmgBonus',
+  '응결 피해 보너스': 'elementDmgBonus',
+  '전도 피해 보너스': 'elementDmgBonus',
+  '기류 피해 보너스': 'elementDmgBonus',
+  '회절 피해 보너스': 'elementDmgBonus',
+  '인멸 피해 보너스': 'elementDmgBonus',
 };
+
+// 에코 주옵션 이름(공격력/HP/방어력)은 실제로는 %증가라서, accumulateStat에 넘기기 전에 (%) 붙은 타입으로 바꿔줌
+const ECHO_MAIN_STAT_PERCENT_ALIAS = { '공격력': '공격력(%)', 'HP': 'HP(%)', '방어력': '방어력(%)' };
+function echoMainStatType(name) {
+  return ECHO_MAIN_STAT_PERCENT_ALIAS[name] || name;
+}
 
 // 무기 mainStat, 에코 부옵션 등 "라벨 + 수치" 형태의 보너스 하나를 base/percent/bonus/additive 중
 // 맞는 버킷에 누적함. base는 나중에 (1 + percent%) 를 곱하고, bonus는 그 뒤에 그냥 더함.
@@ -190,9 +203,15 @@ function getMergedStats(slotId) {
     accumulateStat(weaponDetail.mainStat.type, weaponDetail.mainStat.value, percent, bonus, additive);
   }
 
-  // 에코 부옵션(5칸 × 최대 5개) 반영. 메인 에코 옵션은 코스트별 고정 수치 표가 아직 없어서 계산엔 반영 안 함
+  // 에코 5칸: 주옵션(코스트별 고정 수치) + 보조 옵션(코스트별 고정, 선택 불필요) + 부옵션(최대 5개)을 모두 반영
   echoList.forEach(echo => {
     if (!echo) return;
+    if (echo.mainStat && echo.cost) {
+      const mainValue = (echoMainStatValuesByCost[echo.cost] || {})[echo.mainStat];
+      if (mainValue != null) accumulateStat(echoMainStatType(echo.mainStat), mainValue, percent, bonus, additive);
+    }
+    const secondary = echoSecondaryStatByCost[echo.cost];
+    if (secondary) accumulateStat(secondary.type, secondary.value, percent, bonus, additive);
     (echo.subStats || []).forEach(sub => {
       if (sub && sub.name && sub.value != null) accumulateStat(sub.name, sub.value, percent, bonus, additive);
     });
