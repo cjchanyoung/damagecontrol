@@ -1,0 +1,14 @@
+{
+  "baseAtk": 463,
+  "mainStat": {
+    "type": "공격력(%)",
+    "value": 18.2
+  },
+  "passive": {
+    "name": "어획",
+    "description": "「광학 효과」가 있는 적에게 피해를 입힐 시 다음 효과를 얻을 수 있다. 자신의 회절 피해가 {spectroDmgBonus}% 증가되고, 1초마다 1스택을 획득할 수 있으며, 6초간 지속되고, 최대 4스택 중첩이 가능하다",
+    "valuesByRefinement": {
+      "spectroDmgBonus": [6, 7, 8, 9, 10]
+    }
+  }
+}

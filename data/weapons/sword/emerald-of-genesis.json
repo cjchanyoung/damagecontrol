@@ -1,0 +1,15 @@
+{
+  "baseAtk": 587,
+  "mainStat": {
+    "type": "크리티컬",
+    "value": 24.3
+  },
+  "passive": {
+    "name": "무한의 소용돌이",
+    "description": "공명 효율 {energyRegenBonus}% 증가. 공명 스킬 발동 시, 공격력이 {atkBonus}% 증가하고, 최대 2스택 중첩이 가능하며, 10초간 지속된다",
+    "valuesByRefinement": {
+      "energyRegenBonus": [12.8, 16, 19.2, 22.4, 25.6],
+      "atkBonus": [6, 7.5, 9, 10.5, 12]
+    }
+  }
+}

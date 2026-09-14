@@ -1,0 +1,14 @@
+{
+  "baseAtk": 325,
+  "mainStat": {
+    "type": "공격력(%)",
+    "value": 24.3
+  },
+  "passive": {
+    "name": "상성",
+    "description": "일반 공격과 강공격 피해 보너스 {dmgBonus}% 증가",
+    "valuesByRefinement": {
+      "dmgBonus": [12, 15, 18, 21, 24]
+    }
+  }
+}

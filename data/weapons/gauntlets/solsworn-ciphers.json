@@ -1,0 +1,16 @@
+{
+  "baseAtk": 587,
+  "mainStat": {
+    "type": "크리티컬 피해",
+    "value": 48.6
+  },
+  "passive": {
+    "name": "근일점",
+    "description": "공격력이 {atkBonus}% 증가된다. 변주 스킬 혹은 에코 어빌리티 발동 시, 에코 어빌리티 피해가 {echoDmgBoost}% 부스트되고, 15초간 지속된다. 에코 어빌리티 피해를 입힐 시, 기류 피해는 목표의 {defIgnore}% 방어력을 무시하고, 6초간 지속된다",
+    "valuesByRefinement": {
+      "atkBonus": [12, 15, 18, 21, 24],
+      "echoDmgBoost": [32, 40, 48, 56, 64],
+      "defIgnore": [10, 12.5, 15, 17.5, 20]
+    }
+  }
+}

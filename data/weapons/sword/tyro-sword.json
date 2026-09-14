@@ -1,0 +1,14 @@
+{
+  "baseAtk": 275,
+  "mainStat": {
+    "type": "공격력(%)",
+    "value": 14.8
+  },
+  "passive": {
+    "name": "시작의 발걸음",
+    "description": "공격력 {atkBonus}% 증가",
+    "valuesByRefinement": {
+      "atkBonus": [5, 6.25, 7.5, 8.75, 10]
+    }
+  }
+}

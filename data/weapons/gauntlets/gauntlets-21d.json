@@ -1,0 +1,16 @@
+{
+  "baseAtk": 387,
+  "mainStat": {
+    "type": "공명 효율",
+    "value": 38.8
+  },
+  "passive": {
+    "name": "주도면밀",
+    "description": "회피 또는 돌진 시, 공격력이 {atkBonus}% 증가하며, 회피 반격으로 가한 피해가 {counterDmgBonus}% 증가하며, 8초간 지속된다. 회피 반격 발동할 경우, 캐릭터의 HP가 {hpRestore}% 회복하며, 6초마다 1회 발생할 수 있다",
+    "valuesByRefinement": {
+      "atkBonus": [8, 10, 12, 14, 16],
+      "counterDmgBonus": [50, 62.5, 75, 87.5, 100],
+      "hpRestore": [5, 6.25, 7.5, 8.75, 10]
+    }
+  }
+}

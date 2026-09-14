@@ -1,0 +1,16 @@
+{
+  "baseAtk": 587,
+  "mainStat": {
+    "type": "크리티컬",
+    "value": 24.3
+  },
+  "passive": {
+    "name": "별을 좇아서",
+    "description": "전체 속성 피해 보너스가 {allDmgBonus}% 증가된다. 조화 파동 · 이탈 혹은 불꽃 효과 추가 시, 공명 해방 피해는 목표의 {defIgnore}% 방어력과 {meltResIgnore}%의 용융 저항을 무시하고, 8초간 지속된다",
+    "valuesByRefinement": {
+      "allDmgBonus": [12, 15, 18, 21, 24],
+      "defIgnore": [32, 40, 48, 56, 64],
+      "meltResIgnore": [10, 15, 20, 25, 30]
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "baseAtk": 300,
+  "mainStat": {
+    "type": "크리티컬 피해",
+    "value": 40.5
+  },
+  "passive": {
+    "name": "유합",
+    "description": "일반 공격을 사용하여 피해를 입힐 경우, 자신의 HP가 {hpRestore}% 회복하며, 3초마다 1회 발생할 수 있다",
+    "valuesByRefinement": {
+      "hpRestore": [0.5, 0.65, 0.8, 0.95, 1.1]
+    }
+  }
+}

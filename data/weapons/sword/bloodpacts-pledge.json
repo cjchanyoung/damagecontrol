@@ -1,0 +1,15 @@
+{
+  "baseAtk": 587,
+  "mainStat": {
+    "type": "공명 효율",
+    "value": 38.8
+  },
+  "passive": {
+    "name": "화음 공진",
+    "description": "치료 효과 발동 시, 자신의 공명 스킬 피해가 {skillDmgBonus}% 증가되고, 6초간 지속된다. 방랑자 · 기류가 공명 스킬 · 허무맹랑 발동 시, 근처 파티 내 등장 캐릭터의 기류 피해가 {windDmgBoost}% 부스트되고, 30초간 지속된다",
+    "valuesByRefinement": {
+      "skillDmgBonus": [10, 14, 18, 22, 26],
+      "windDmgBoost": [10, 14, 18, 22, 26]
+    }
+  }
+}

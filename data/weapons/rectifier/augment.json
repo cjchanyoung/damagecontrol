@@ -1,0 +1,14 @@
+{
+  "baseAtk": 412,
+  "mainStat": {
+    "type": "크리티컬",
+    "value": 20.2
+  },
+  "passive": {
+    "name": "강유병존",
+    "description": "공명 해방 발동 시, 자신의 공격력이 {atkBonus}% 증가하고, 15초간 지속된다",
+    "valuesByRefinement": {
+      "atkBonus": [15, 23.25, 31.5, 39.75, 48]
+    }
+  }
+}

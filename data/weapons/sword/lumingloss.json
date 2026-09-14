@@ -1,0 +1,14 @@
+{
+  "baseAtk": 388,
+  "mainStat": {
+    "type": "공격력(%)",
+    "value": 36.5
+  },
+  "passive": {
+    "name": "칼날의 질풍",
+    "description": "공명 스킬 발동 시, 자신의 일반 공격 피해 보너스와 강공격 피해 보너스가 {dmgBonus}% 증가하고, 최대 1스택 중첩이 가능하며, 10초간 지속된다. 1초마다 1회 발생할 수 있다",
+    "valuesByRefinement": {
+      "dmgBonus": [20, 31, 42, 53, 63]
+    }
+  }
+}

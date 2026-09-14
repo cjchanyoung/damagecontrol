@@ -1,0 +1,14 @@
+{
+  "baseAtk": 300,
+  "mainStat": {
+    "type": "방어력(%)",
+    "value": 38.5
+  },
+  "passive": {
+    "name": "합력",
+    "description": "공명 해방 피해 보너스 {liberationDmgBonus}% 증가",
+    "valuesByRefinement": {
+      "liberationDmgBonus": [12, 15, 18, 21, 24]
+    }
+  }
+}

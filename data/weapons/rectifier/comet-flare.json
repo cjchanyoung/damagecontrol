@@ -1,0 +1,14 @@
+{
+  "baseAtk": 412,
+  "mainStat": {
+    "type": "HP(%)",
+    "value": 30.3
+  },
+  "passive": {
+    "name": "빛의 비호",
+    "description": "일반 공격이나 강공격을 사용하여 피해를 입힐 경우, 치료 효과 보너스가 {healBonus}% 증가하고, 8초간 지속되며, 최대 3스택 중첩이 가능하며, 0.6초마다 1회 발생할 수 있다",
+    "valuesByRefinement": {
+      "healBonus": [3, 3.5, 4, 4.5, 5]
+    }
+  }
+}

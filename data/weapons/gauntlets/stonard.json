@@ -1,0 +1,14 @@
+{
+  "baseAtk": 412,
+  "mainStat": {
+    "type": "크리티컬",
+    "value": 20.2
+  },
+  "passive": {
+    "name": "불굴의 권갑",
+    "description": "공명 스킬 발동 시, 자신의 공명 해방 피해 보너스가 {liberationDmgBonus}% 증가하며, 15초간 지속된다",
+    "valuesByRefinement": {
+      "liberationDmgBonus": [18, 27, 36, 45, 54]
+    }
+  }
+}

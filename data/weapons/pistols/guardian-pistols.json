@@ -1,0 +1,14 @@
+{
+  "baseAtk": 300,
+  "mainStat": {
+    "type": "공격력(%)",
+    "value": 30.4
+  },
+  "passive": {
+    "name": "동심",
+    "description": "공명 스킬 피해 보너스 {skillDmgBonus}% 증가",
+    "valuesByRefinement": {
+      "skillDmgBonus": [12, 15, 18, 21, 24]
+    }
+  }
+}

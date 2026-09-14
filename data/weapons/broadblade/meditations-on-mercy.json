@@ -1,0 +1,14 @@
+{
+  "baseAtk": 462,
+  "mainStat": {
+    "type": "공격력(%)",
+    "value": 18.2
+  },
+  "passive": {
+    "name": "수식",
+    "description": "「이상 효과」가 있는 몬스터에게 피해를 입힐 시, 자신의 공격력이 {atkBonusPerStack}% 증가하며, 10초간 지속된다. 1초마다 1회 발생할 수 있으며, 최대 4스택 중첩이 가능하다",
+    "valuesByRefinement": {
+      "atkBonusPerStack": [4, 5, 6, 7, 8]
+    }
+  }
+}

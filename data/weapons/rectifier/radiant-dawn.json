@@ -1,0 +1,14 @@
+{
+  "baseAtk": 412,
+  "mainStat": {
+    "type": "크리티컬 피해",
+    "value": 40.5
+  },
+  "passive": {
+    "name": "흑조(黑潮) 사냥의 맹세",
+    "description": "공명 스킬 발동 시, 공격력과 일반 공격 피해 보너스가 {bonus}% 증가되고 10초간 지속된다",
+    "valuesByRefinement": {
+      "bonus": [9, 13.9, 18.9, 23.8, 28.8]
+    }
+  }
+}

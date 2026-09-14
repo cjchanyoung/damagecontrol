@@ -1,0 +1,16 @@
+{
+  "baseAtk": 412,
+  "mainStat": {
+    "type": "HP(%)",
+    "value": 72.2
+  },
+  "passive": {
+    "name": "자유기사의 독무",
+    "description": "HP가 {hpBonus}% 증가된다. 변주 스킬 혹은 일반 공격 발동 후 15초 내에, 자신이 입히는 피해가 목표의 {defIgnore}% 방어력을 무시하고, 목표가 1스택 이상의 풍식 효과를 보유시 목표에게 입히는 피해가 {dmgBoost}% 부스트 된다.",
+    "valuesByRefinement": {
+      "hpBonus": [12, 15, 18, 21, 24],
+      "defIgnore": [8, 10, 12, 14, 16],
+      "dmgBoost": [20, 25, 30, 35, 40]
+    }
+  }
+}

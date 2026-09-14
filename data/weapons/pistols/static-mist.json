@@ -1,0 +1,15 @@
+{
+  "baseAtk": 587,
+  "mainStat": {
+    "type": "크리티컬",
+    "value": 24.3
+  },
+  "passive": {
+    "name": "지옥의 징벌",
+    "description": "공명 효율 {energyRegenBonus}% 증가. 반주 스킬 발동 후, 교체 캐릭터 공격력이 {swapAtkBonus}% 증가하고, 최대 1스택 중첩이 가능하며, 14초간 지속된다",
+    "valuesByRefinement": {
+      "energyRegenBonus": [12.8, 16, 19.2, 22.4, 25.6],
+      "swapAtkBonus": [10, 12.5, 15, 17.5, 20]
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "baseAtk": 300,
+  "mainStat": {
+    "type": "HP(%)",
+    "value": 30.4
+  },
+  "passive": {
+    "name": "도움의 손길",
+    "description": "변주 스킬 발동 시, 자신의 HP가 {hpRestore}% 회복하며, 20초마다 1회 발생할 수 있다",
+    "valuesByRefinement": {
+      "hpRestore": [5, 6.25, 7.5, 8.75, 10]
+    }
+  }
+}

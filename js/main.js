@@ -43,13 +43,15 @@ async function loadCharacterDetail(id) {
   return detail;
 }
 
-const weaponDetailCache = {}; // id별 무기 상세 데이터 캐시. 아직 data/weapons/<id>.json이 없으면 null
+const weaponDetailCache = {}; // id별 무기 상세 데이터 캐시. 아직 data/weapons/<타입>/<id>.json이 없으면 null
 
 async function loadWeaponDetail(id) {
   if (id in weaponDetailCache) return weaponDetailCache[id];
   let detail = null;
   try {
-    const res = await fetch(`data/weapons/${id}.json`);
+    const weapon = weapons.find(w => w.id === id);
+    const folder = weapon ? weapon.weaponType : '';
+    const res = await fetch(`data/weapons/${folder}/${id}.json`);
     if (res.ok) detail = await res.json();
   } catch {
     detail = null;
@@ -116,9 +118,107 @@ function getStatDetailExtraFields(character) {
   ];
 }
 
+// 스탯 라벨(한글) → 내부 키 매핑. 4가지로 나뉨:
+// - PERCENT_OF_BASE_TO_KEY: 'HP(%)'/'공격력(%)'/'방어력(%)' — 기본값(캐릭터+무기)에 곱해서 적용
+// - FLAT_BONUS_TO_KEY: 순수 'HP'/'공격력'/'방어력' (에코 부옵션에만 있음, 무기엔 없음) — %적용 끝난 뒤에 더함
+// - STAT_LABEL_TO_KEY: 크리티컬/크리티컬 피해/공명 효율 — 그 자체가 %단위 값이라 그냥 더함
+// - EXTRA_STAT_LABEL_TO_KEY: 각종 피해 보너스류 — 마찬가지로 그냥 더함
+const PERCENT_OF_BASE_TO_KEY = {
+  'HP(%)': 'hp',
+  '공격력(%)': 'atk',
+  '방어력(%)': 'def',
+};
+
+const FLAT_BONUS_TO_KEY = {
+  'HP': 'hp',
+  '공격력': 'atk',
+  '방어력': 'def',
+};
+
+const STAT_LABEL_TO_KEY = {
+  '공명 효율': 'energyRegen',
+  '크리티컬': 'critRate',
+  '크리티컬 피해': 'critDmg',
+};
+
+const EXTRA_STAT_LABEL_TO_KEY = {
+  '공명 스킬 피해 보너스': 'skillDmgBonus',
+  '일반 공격 피해 보너스': 'normalAtkDmgBonus',
+  '강공격 피해 보너스': 'heavyAtkDmgBonus',
+  '공명 해방 피해 보너스': 'liberationDmgBonus',
+  '치료 효과 보너스': 'healBonus',
+};
+
+// 무기 mainStat, 에코 부옵션 등 "라벨 + 수치" 형태의 보너스 하나를 base/percent/bonus/additive 중
+// 맞는 버킷에 누적함. base는 나중에 (1 + percent%) 를 곱하고, bonus는 그 뒤에 그냥 더함.
+function accumulateStat(type, value, percent, bonus, additive) {
+  if (PERCENT_OF_BASE_TO_KEY[type]) {
+    const key = PERCENT_OF_BASE_TO_KEY[type];
+    percent[key] = (percent[key] || 0) + value;
+  } else if (FLAT_BONUS_TO_KEY[type]) {
+    const key = FLAT_BONUS_TO_KEY[type];
+    bonus[key] = (bonus[key] || 0) + value;
+  } else if (STAT_LABEL_TO_KEY[type]) {
+    const key = STAT_LABEL_TO_KEY[type];
+    additive[key] = (additive[key] || 0) + value;
+  } else if (EXTRA_STAT_LABEL_TO_KEY[type]) {
+    const key = EXTRA_STAT_LABEL_TO_KEY[type];
+    additive[key] = (additive[key] || 0) + value;
+  }
+}
+
+// 최종 스탯 = (캐릭터 기본 + 무기 기본 공격력) × (1 + 무기/에코 %보너스 합) + 에코 깡스탯 부옵션
 function getMergedStats(slotId) {
   const baseStats = slotDetail[slotId] && slotDetail[slotId].baseStats;
-  return { ...COMMON_BASE_STATS, ...(baseStats || {}) };
+  const weaponDetail = slotWeaponDetail[slotId];
+  const echoList = slotEcho[slotId] || [];
+
+  const base = {}; // %가 곱해지는 대상 (캐릭터 기본 스탯 + 무기 기본 공격력)
+  const percent = {}; // HP(%)/공격력(%)/방어력(%) 보너스 합
+  const bonus = {}; // 에코의 순수 HP/공격력/방어력 부옵션 — %와 무관하게 마지막에 더함
+  const additive = { ...COMMON_BASE_STATS }; // 크리티컬류/각종 피해 보너스 — 그냥 다 더함
+
+  if (baseStats) {
+    if (baseStats.hp != null) base.hp = (base.hp || 0) + baseStats.hp;
+    if (baseStats.atk != null) base.atk = (base.atk || 0) + baseStats.atk;
+    if (baseStats.def != null) base.def = (base.def || 0) + baseStats.def;
+  }
+  if (weaponDetail && weaponDetail.baseAtk) {
+    base.atk = (base.atk || 0) + weaponDetail.baseAtk;
+  }
+  if (weaponDetail && weaponDetail.mainStat) {
+    accumulateStat(weaponDetail.mainStat.type, weaponDetail.mainStat.value, percent, bonus, additive);
+  }
+
+  // 에코 부옵션(5칸 × 최대 5개) 반영. 메인 에코 옵션은 코스트별 고정 수치 표가 아직 없어서 계산엔 반영 안 함
+  echoList.forEach(echo => {
+    if (!echo) return;
+    (echo.subStats || []).forEach(sub => {
+      if (sub && sub.name && sub.value != null) accumulateStat(sub.name, sub.value, percent, bonus, additive);
+    });
+  });
+
+  const stats = { ...additive };
+  ['hp', 'atk', 'def'].forEach(key => {
+    if (base[key] !== undefined || bonus[key] !== undefined) {
+      stats[key] = (base[key] || 0) * (1 + (percent[key] || 0) / 100) + (bonus[key] || 0);
+    }
+  });
+
+  return stats;
+}
+
+// 패시브 설명에서 {이름} 형태 placeholder를 재련(1~5)에 맞는 실제 수치로 치환
+// valuesByRefinement가 배열이면(값이 하나뿐인 옛 형식) {value}만, 객체면({이름1: [...], 이름2: [...]}) 여러 개 지원
+function renderWeaponPassiveText(passive, refinement) {
+  if (!passive || !passive.description) return '';
+  const idx = Math.max(1, Math.min(5, refinement || 1)) - 1;
+  const values = passive.valuesByRefinement;
+
+  return passive.description.replace(/\{(\w+)\}/g, (match, key) => {
+    const arr = Array.isArray(values) ? (key === 'value' ? values : undefined) : (values && values[key]);
+    return arr && arr[idx] !== undefined ? arr[idx] : match;
+  });
 }
 
 function formatStatValue(stats, field) {
@@ -271,11 +371,16 @@ function selectWeapon(select, slotId) {
   const weaponId = select.value;
   slotWeapon[slotId] = weaponId || null;
   markPartyDirty();
-  if (!weaponId) return;
+  if (!weaponId) {
+    slotWeaponDetail[slotId] = null;
+    renderStatDetail(slotId);
+    return;
+  }
 
   // 무기별 상세 데이터(효과 등)는 준비되는 대로 이 슬롯에 채워짐
   loadWeaponDetail(weaponId).then(detail => {
     slotWeaponDetail[slotId] = detail;
+    renderStatDetail(slotId); // 로드가 끝나면 무기 보너스 반영해서 다시 그림
   });
 }
 
@@ -317,6 +422,7 @@ function saveEchoEditor() {
   if (activeEchoSlot === null) return;
   slotEcho[activeEchoSlot][activeEchoIndex] = echoEditorDraft;
   renderEchoSlots(activeEchoSlot);
+  renderStatDetail(activeEchoSlot); // 에코 부옵션이 스탯에 바로 반영되게
   closeEchoEditor();
   markPartyDirty();
 }
@@ -325,6 +431,7 @@ function clearEchoEditor() {
   if (activeEchoSlot === null) return;
   slotEcho[activeEchoSlot][activeEchoIndex] = null;
   renderEchoSlots(activeEchoSlot);
+  renderStatDetail(activeEchoSlot);
   closeEchoEditor();
   markPartyDirty();
 }

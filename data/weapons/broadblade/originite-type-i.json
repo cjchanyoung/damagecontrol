@@ -1,0 +1,14 @@
+{
+  "baseAtk": 300,
+  "mainStat": {
+    "type": "방어력(%)",
+    "value": 38.5
+  },
+  "passive": {
+    "name": "응급 치료",
+    "description": "공명 스킬 발동 시, 자신의 HP가 {hpRestore}% 증가하고, 12초마다 1회 발생할 수 있다",
+    "valuesByRefinement": {
+      "hpRestore": [3, 3.75, 4.5, 5.25, 6]
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "baseAtk": 500,
+  "mainStat": {
+    "type": "크리티컬",
+    "value": 36
+  },
+  "passive": {
+    "name": "생명의 현",
+    "description": "공격력이 {atkBonus}% 증가된다. 변주 스킬 발동 혹은 「이상 효과」 추가 시, 자신의 공명 해방 피해 보너스가 {liberationDmgBonus}% 증가되고 최대 3스택까지 중첩이 가능하며 15초간 지속된다.\n해당 효과가 스택 최대치까지 중첩될 경우, 파티 내 캐릭터가 「이상 효과」 추가 시 해당 캐릭터의 전체 속성 피해 보너스가 {allElementDmgBonus}% 증가되고, 15초간 지속된다. 같은 이름의 효과는 중첩이 불가하다",
+    "valuesByRefinement": {
+      "atkBonus": [12, 15, 18, 21, 24],
+      "liberationDmgBonus": [8, 10, 12, 14, 16],
+      "allElementDmgBonus": [24, 30, 36, 42, 48]
+    }
+  }
+}

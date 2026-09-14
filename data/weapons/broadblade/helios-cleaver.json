@@ -1,0 +1,14 @@
+{
+  "baseAtk": 412,
+  "mainStat": {
+    "type": "공격력(%)",
+    "value": 30.3
+  },
+  "passive": {
+    "name": "잠재력의 상한",
+    "description": "공명 스킬 발동 후 12초 내에 2초마다 공격력이 {atkBonusPerStack}% 증가하며, 최대 4스택 중첩이 가능하다. 12초마다 1회 발생할 수 있으며, 스택이 4스택에 도달하면 6초 내에 전체 스택을 리셋한다",
+    "valuesByRefinement": {
+      "atkBonusPerStack": [3, 3.75, 4.5, 5.25, 6]
+    }
+  }
+}

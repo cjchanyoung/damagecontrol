@@ -1,0 +1,17 @@
+{
+  "baseAtk": 587,
+  "mainStat": {
+    "type": "크리티컬",
+    "value": 24.3
+  },
+  "passive": {
+    "name": "진혼곡",
+    "description": "공격력이 {atkBonus}% 증가된다. 에코 어빌리티 피해를 입힌 후 12초 내에, 공명 스킬 피해 보너스가 {skillDmgBonus}% 증가되고, 에코 어빌리티 피해가 {echoDmgBoost}% 부스트되며, 피해를 입힐 시 목표의 {defIgnore}% 방어력을 무시한다",
+    "valuesByRefinement": {
+      "atkBonus": [12, 15, 18, 21, 24],
+      "skillDmgBonus": [32, 40, 48, 56, 64],
+      "echoDmgBoost": [32, 40, 48, 56, 64],
+      "defIgnore": [8, 10, 12, 14, 16]
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "baseAtk": 412,
+  "mainStat": {
+    "type": "공명 효율",
+    "value": 77
+  },
+  "passive": {
+    "name": "운명의 해답",
+    "description": "방어력이 {defBonus}% 증가된다. 공명 스킬 발동 시, 자신의 협주 에너지를 {concertoEnergyRestore}pt 회복하며, 20초마다 1회 발생할 수 있다. 치료 효과 발동 시, 근처 파티 내 모든 캐릭터의 크리티컬 피해를 {critDmgBonus}% 증가시키며, 4초간 지속된다. 같은 이름의 효과는 중첩이 불가하다",
+    "valuesByRefinement": {
+      "defBonus": [16, 20, 24, 28, 32],
+      "concertoEnergyRestore": [8, 10, 12, 14, 16],
+      "critDmgBonus": [20, 25, 30, 35, 40]
+    }
+  }
+}

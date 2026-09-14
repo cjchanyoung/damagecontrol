@@ -1,0 +1,16 @@
+{
+  "baseAtk": 587,
+  "mainStat": {
+    "type": "크리티컬",
+    "value": 24.3
+  },
+  "passive": {
+    "name": "페이드 아웃",
+    "description": "공격력이 {atkBonus}% 증가된다. 서리 효과 추가 후, 자신의 응결 피해 보너스가 {frostDmgBonus}% 증가되고, 12초간 지속된다. 파티 내 캐릭터의 공격력이 {partyAtkBonus}% 증가되고 30초간 지속되며, 같은 이름의 효과는 중첩이 불가하다",
+    "valuesByRefinement": {
+      "atkBonus": [12, 15, 18, 21, 24],
+      "frostDmgBonus": [30, 37.5, 45, 52.5, 60],
+      "partyAtkBonus": [24, 30, 36, 42, 48]
+    }
+  }
+}

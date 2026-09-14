@@ -1,0 +1,15 @@
+{
+  "baseAtk": 387,
+  "mainStat": {
+    "type": "공격력(%)",
+    "value": 36.4
+  },
+  "passive": {
+    "name": "끝없는 탐구",
+    "description": "캐릭터가 피해를 입지 않은 경우, 5초마다 공격력이 {atkBonus}% 증가하며, 해당 효과는 최대 2스택 중첩이 가능하고, 8초간 지속된다. 피해를 입었을 경우, 1스택의 효과를 소모하고 캐릭터의 HP가 {hpRestore}% 회복한다",
+    "valuesByRefinement": {
+      "atkBonus": [6, 7.5, 9, 10.5, 12],
+      "hpRestore": [5, 6.25, 7.5, 8.75, 10]
+    }
+  }
+}

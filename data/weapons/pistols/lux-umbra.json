@@ -1,0 +1,18 @@
+{
+  "baseAtk": 587,
+  "mainStat": {
+    "type": "크리티컬 피해",
+    "value": 48.6
+  },
+  "passive": {
+    "name": "불의 귀환",
+    "description": "공격력이 {atkBonus}% 증가된다. 에코 어빌리티 피해를 입힐 시, 강공격 피해가 {heavyAtkDmgBoost}% 부스트되고 6초간 지속된다. 강공격 피해를 입힐시, 에코 어빌리티 피해가 {echoDmgBoost}% 부스트되고, 6초간 지속된다. 단일 공격으로 최대 {maxDmgBoost}%의 피해 부스트 효과를 얻는다. 두 가지 효과를 동시에 보유한 경우, 피해를 입힐 시 목표의 {defIgnore}% 방어력을 무시한다",
+    "valuesByRefinement": {
+      "atkBonus": [12, 15, 18, 21, 24],
+      "heavyAtkDmgBoost": [24, 30, 36, 42, 48],
+      "echoDmgBoost": [24, 30, 36, 42, 48],
+      "maxDmgBoost": [24, 30, 36, 42, 48],
+      "defIgnore": [8, 10, 12, 14, 16]
+    }
+  }
+}

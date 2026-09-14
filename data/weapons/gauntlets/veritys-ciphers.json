@@ -1,0 +1,15 @@
+{
+  "baseAtk": 587,
+  "mainStat": {
+    "type": "크리티컬",
+    "value": 24.3
+  },
+  "passive": {
+    "name": "근원의 추적",
+    "description": "전체 속성 피해 보너스가 {allDmgBonus}% 증가된다. 공명 해방 발동 시, 자신의 공명 해방 피해 보너스가 {liberationDmgBonus}% 증가되며, 8초간 지속된다. 공명 스킬 발동 시, 해당 효과가 5초 연장되며, 최대 3회 연장이 가능하다",
+    "valuesByRefinement": {
+      "allDmgBonus": [12, 15, 18, 21, 24],
+      "liberationDmgBonus": [48, 60, 72, 84, 96]
+    }
+  }
+}

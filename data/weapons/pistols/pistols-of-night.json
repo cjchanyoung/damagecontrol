@@ -1,0 +1,14 @@
+{
+  "baseAtk": 325,
+  "mainStat": {
+    "type": "공격력(%)",
+    "value": 24.3
+  },
+  "passive": {
+    "name": "필사의 결심",
+    "description": "변주 스킬 발동 시, 공격력이 {atkBonus}% 증가하며, 10초간 지속된다",
+    "valuesByRefinement": {
+      "atkBonus": [8, 10, 12, 14, 16]
+    }
+  }
+}

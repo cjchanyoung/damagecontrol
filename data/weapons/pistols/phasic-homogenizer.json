@@ -1,0 +1,15 @@
+{
+  "baseAtk": 587,
+  "mainStat": {
+    "type": "크리티컬 피해",
+    "value": 48.6
+  },
+  "passive": {
+    "name": "통찰자",
+    "description": "공격력이 {atkBonus}% 증가된다. 파티내 캐릭터가 「조화도 파괴 스킬」을 발동한 후, 자신의 전체 피해 보너스가 {allDmgBonus}% 증가되고, 14초간 지속된다",
+    "valuesByRefinement": {
+      "atkBonus": [12, 15, 18, 21, 24],
+      "allDmgBonus": [20, 22.5, 25, 27.5, 30]
+    }
+  }
+}

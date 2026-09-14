@@ -1,0 +1,15 @@
+{
+  "baseAtk": 337,
+  "mainStat": {
+    "type": "방어력(%)",
+    "value": 61.5
+  },
+  "passive": {
+    "name": "만반의 준비",
+    "description": "변주 스킬 발동 시, 자신의 공격력이 {atkBonus}% 증가하고, 방어력이 {defBonus}% 증가하며, 15초간 지속된다",
+    "valuesByRefinement": {
+      "atkBonus": [8, 10, 12, 14, 16],
+      "defBonus": [15, 18.75, 22.5, 26.25, 30]
+    }
+  }
+}

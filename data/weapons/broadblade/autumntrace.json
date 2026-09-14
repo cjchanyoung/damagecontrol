@@ -1,0 +1,14 @@
+{
+  "baseAtk": 412,
+  "mainStat": {
+    "type": "크리티컬",
+    "value": 20.2
+  },
+  "passive": {
+    "name": "검이 가리키는 곳",
+    "description": "일반 공격이나 강공격을 사용하여 피해를 입힐 경우, 공격력이 {atkBonusPerStack}% 증가하고, 최대 5스택 중첩이 가능하며, 7초간 지속되며, 1초마다 1회 발생할 수 있다",
+    "valuesByRefinement": {
+      "atkBonusPerStack": [4, 6.2, 8.4, 10.6, 12.8]
+    }
+  }
+}

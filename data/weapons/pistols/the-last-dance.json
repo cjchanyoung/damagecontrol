@@ -1,0 +1,15 @@
+{
+  "baseAtk": 500,
+  "mainStat": {
+    "type": "크리티컬 피해",
+    "value": 72.0
+  },
+  "passive": {
+    "name": "침묵 속의 추도사",
+    "description": "공격력이 {atkBonus}% 증가된다. 변주 스킬 혹은 공명 해방 발동 시, 자신의 공명 스킬 피해 보너스가 {skillDmgBonus}% 증가되며, 5초간 지속된다",
+    "valuesByRefinement": {
+      "atkBonus": [12, 15, 18, 21, 24],
+      "skillDmgBonus": [48, 60, 72, 84, 96]
+    }
+  }
+}

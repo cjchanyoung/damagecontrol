@@ -1,0 +1,14 @@
+{
+  "baseAtk": 300,
+  "mainStat": {
+    "type": "공명 효율",
+    "value": 32.4
+  },
+  "passive": {
+    "name": "기나긴 여정",
+    "description": "공명 스킬 발동 시, 공명 에너지 {energyRestore}pt를 회복하며, 20초마다 1회 발생할 수 있다",
+    "valuesByRefinement": {
+      "energyRestore": [8, 9, 10, 11, 12]
+    }
+  }
+}

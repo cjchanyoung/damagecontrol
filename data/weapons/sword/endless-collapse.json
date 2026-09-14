@@ -1,0 +1,15 @@
+{
+  "baseAtk": 463,
+  "mainStat": {
+    "type": "공격력(%)",
+    "value": 18.2
+  },
+  "passive": {
+    "name": "피안의 눈동자",
+    "description": "공명 스킬 발동 시, 공명 에너지를 {energyRestore}pt 획득하고, 공격력이 {atkBonus}% 증가하며, 16초간 지속된다. 해당 효과는 20초마다 1회 발생 가능하다.",
+    "valuesByRefinement": {
+      "energyRestore": [6, 7, 8, 9, 10],
+      "atkBonus": [10, 12.5, 15, 17.5, 20]
+    }
+  }
+}

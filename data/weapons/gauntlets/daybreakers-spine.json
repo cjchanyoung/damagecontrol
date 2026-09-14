@@ -1,0 +1,17 @@
+{
+  "baseAtk": 587,
+  "mainStat": {
+    "type": "크리티컬",
+    "value": 24.3
+  },
+  "passive": {
+    "name": "봉합된 새벽과 황혼",
+    "description": "공격력이 {atkBonus}% 증가된다. 일반 공격 피해를 입힌 후, 회절 피해 보너스가 {spectroDmgBonus}% 증가되고, 4초간 지속된다. 매번 적에게 「조화 밀집 · 이탈」을 추가 후, 일반 공격 피해가 {normalAtkDmgBoost}% 부스트되고, 일반 공격 피해가 목표의 {defIgnore}% 방어력을 무시하며, 6초간 지속된다",
+    "valuesByRefinement": {
+      "atkBonus": [12, 15, 18, 21, 24],
+      "spectroDmgBonus": [20, 25, 30, 35, 40],
+      "normalAtkDmgBoost": [20, 25, 30, 35, 40],
+      "defIgnore": [10, 12.5, 15, 17.5, 20]
+    }
+  }
+}

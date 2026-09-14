@@ -1,0 +1,14 @@
+{
+  "baseAtk": 337,
+  "mainStat": {
+    "type": "공명 효율",
+    "value": 51.8
+  },
+  "passive": {
+    "name": "은하수 조망",
+    "description": "공명 해방 발동 시, 자신의 치료효과 보너스가 {healBonus}% 증가하며, 15초간 지속된다",
+    "valuesByRefinement": {
+      "healBonus": [16, 20, 24, 28, 32]
+    }
+  }
+}

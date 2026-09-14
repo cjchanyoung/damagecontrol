@@ -1,0 +1,16 @@
+{
+  "baseAtk": 500,
+  "mainStat": {
+    "type": "크리티컬",
+    "value": 36.0
+  },
+  "passive": {
+    "name": "만물을 연결하는 달",
+    "description": "공격력이 {atkBonus}% 증가된다. 변주 스킬 혹은 공명 해방 발동 시, 공명 해방 피해가 {liberationDmgBonus}% 증가되고, 15초간 지속된다. 자신이 실드를 획득할 시: 공명 해방 피해는 목표의 {defIgnorePerStack}% 방어력을 무시한다. 해당 효과는 0.5초마다 1회만 적용하며, 최대 5스택 중첩이 가능하고 7초간 지속된다. 변주 스킬 발동시, 목표의 방어력을 무시하는 효과가 스택 최대치로 간주되고 3초간 지속된다",
+    "valuesByRefinement": {
+      "atkBonus": [12, 15, 18, 21, 24],
+      "liberationDmgBonus": [20, 25, 30, 35, 40],
+      "defIgnorePerStack": [7.2, 8.4, 9.6, 10.8, 12]
+    }
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "baseAtk": 387,
+  "mainStat": {
+    "type": "공격력(%)",
+    "value": 36.4
+  },
+  "passive": {
+    "name": "전사의 충정",
+    "description": "변주 스킬 발동 시, 자신의 공격력이 {atkBonus}% 증가하고, HP가 {hpBonus}% 증가하며, 15초간 지속된다",
+    "valuesByRefinement": {
+      "atkBonus": [8, 10, 12, 14, 16],
+      "hpBonus": [10, 12.5, 15, 17.5, 20]
+    }
+  }
+}

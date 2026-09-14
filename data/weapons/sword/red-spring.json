@@ -1,0 +1,16 @@
+{
+  "baseAtk": 587,
+  "mainStat": {
+    "type": "크리티컬",
+    "value": 24.3
+  },
+  "passive": {
+    "name": "시작과 끝",
+    "description": "공격력이 {atkBonus}% 증가한다. 일반 공격 피해를 입힐 시, 자신의 일반 공격 피해 보너스가 {normalAtkDmgBonus}% 증가하고, 14초간 지속되며, 1초마다 1회 발생할 수 있고, 최대 3스택 중첩이 가능하다.\n자신의 협주 에너지 소모 시, 자신의 일반 공격 피해 보너스가 {concertoDmgBonus}% 증가되며, 10초간 지속된다. 초마다 1회 발생이 가능하다. 다른 캐릭터로 교체 시 해당 효과가 미리 종료된다",
+    "valuesByRefinement": {
+      "atkBonus": [12, 15, 18, 21, 24],
+      "normalAtkDmgBonus": [10, 12.5, 15, 17.8, 20],
+      "concertoDmgBonus": [40, 50, 60, 70, 80]
+    }
+  }
+}

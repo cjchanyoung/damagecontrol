@@ -1,0 +1,14 @@
+{
+  "baseAtk": 412,
+  "mainStat": {
+    "type": "공격력(%)",
+    "value": 30.3
+  },
+  "passive": {
+    "name": "별의 동반",
+    "description": "공명 해방 발동 시, 3스택의 「철갑」 효과를 획득하고, 각 스택마다 공격력과 방어력을 {statPerStack}% 증가시키며, 최대 3스택 중첩이 가능하다. 피해를 입을 때마다 1스택 감소한다",
+    "valuesByRefinement": {
+      "statPerStack": [3, 3.5, 4, 4.5, 5]
+    }
+  }
+}

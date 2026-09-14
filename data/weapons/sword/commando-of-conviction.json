@@ -1,0 +1,14 @@
+{
+  "baseAtk": 413,
+  "mainStat": {
+    "type": "공격력(%)",
+    "value": 30.4
+  },
+  "passive": {
+    "name": "정면돌파",
+    "description": "변주 스킬 발동 시, 자신의 공격력이 {atkBonus}% 증가하며, 15초간 지속된다",
+    "valuesByRefinement": {
+      "atkBonus": [15, 18.75, 22.5, 26.25, 30]
+    }
+  }
+}

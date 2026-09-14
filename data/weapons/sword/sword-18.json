@@ -1,0 +1,16 @@
+{
+  "baseAtk": 388,
+  "mainStat": {
+    "type": "공격력(%)",
+    "value": 36.5
+  },
+  "passive": {
+    "name": "전진의 발걸음",
+    "description": "HP가 {hpThreshold}% 이하일 경우, 강공격 피해 보너스가 {heavyAtkDmgBonus}% 증가하고, 강공격 피해를 입힐 때 현재 캐릭터의 HP가 {hpRestore}% 회복되며, 8초마다 1회 발생할 수 있다",
+    "valuesByRefinement": {
+      "hpThreshold": [40, 50, 60, 70, 80],
+      "heavyAtkDmgBonus": [18, 22.5, 27, 31.5, 36],
+      "hpRestore": [5, 6.25, 7.5, 8.75, 10]
+    }
+  }
+}

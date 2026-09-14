@@ -1,0 +1,14 @@
+{
+  "baseAtk": 387,
+  "mainStat": {
+    "type": "공격력(%)",
+    "value": 36.4
+  },
+  "passive": {
+    "name": "거침없는 기세",
+    "description": "일반 공격이나 강공격을 사용하여 피해를 입힐 경우, 자신의 공명 스킬 피해 보너스가 {skillDmgBonus}% 증가하고, 최대 3스택 중첩이 가능하며, 10초간 지속되고, 1초마다 1회 발생할 수 있다",
+    "valuesByRefinement": {
+      "skillDmgBonus": [7, 11, 15, 19, 23]
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "baseAtk": 587,
+  "mainStat": {
+    "type": "공격력(%)",
+    "value": 36.4
+  },
+  "passive": {
+    "name": "죽음의 심연",
+    "description": "공명 효율 {energyRegenBonus}% 증가. 공명 스킬을 사용하여 피해를 입힐 경우, 일반 공격 피해 보너스가 {normalAtkDmgBonus}% 증가하며, 8초간 지속된다. 일반 공격을 사용하여 피해를 입힐 경우, 공명 스킬 피해 보너스가 {skillDmgBonus}% 증가하며, 8초간 지속된다",
+    "valuesByRefinement": {
+      "energyRegenBonus": [12.8, 16, 19.2, 22.4, 25.6],
+      "normalAtkDmgBonus": [10, 12.5, 15, 17.5, 20],
+      "skillDmgBonus": [10, 12.5, 15, 17.5, 20]
+    }
+  }
+}

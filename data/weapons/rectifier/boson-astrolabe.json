@@ -1,0 +1,16 @@
+{
+  "baseAtk": 525,
+  "mainStat": {
+    "type": "공명 효율",
+    "value": 38.8
+  },
+  "passive": {
+    "name": "관측자",
+    "description": "공격력이 {atkBonus}% 증가된다. 파티내 캐릭터가 「조화도 파괴 스킬」을 발동한 후, 자신의 공격력이 {selfAtkBonus}% 증가되고, 일반 공격 피해 보너스가 {normalAtkDmgBonus}% 증가되며, 14초간 지속된다",
+    "valuesByRefinement": {
+      "atkBonus": [12, 15, 18, 21, 24],
+      "selfAtkBonus": [12, 13.5, 15, 16.5, 18],
+      "normalAtkDmgBonus": [12, 13.5, 15, 16.5, 18]
+    }
+  }
+}

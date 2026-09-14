@@ -1,0 +1,16 @@
+{
+  "baseAtk": 675,
+  "mainStat": {
+    "type": "크리티컬",
+    "value": 12.1
+  },
+  "passive": {
+    "name": "불타오른 권력",
+    "description": "공격력이 {atkBonus}% 증가된다. 변주 스킬 혹은 공명 스킬 발동 시, 강공격 피해가 {heavyAtkDmgBonus}% 증가되고 15초간 지속된다. 자신이 실드를 획득할 시, 강공격 피해는 목표의 {defIgnore}% 방어력을 무시한다. 해당 효과는 0.5초마다 1회만 적용하며, 최대 5스택 중첩이 가능하고 7초간 지속된다",
+    "valuesByRefinement": {
+      "atkBonus": [12, 15, 18, 21, 24],
+      "heavyAtkDmgBonus": [20, 25, 30, 35, 40],
+      "defIgnore": [7.2, 8.4, 9.6, 10.8, 12]
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "baseAtk": 500,
+  "mainStat": {
+    "type": "크리티컬",
+    "value": 36.0
+  },
+  "passive": {
+    "name": "뇌전의 증폭",
+    "description": "전체 속성 피해 보너스 {allDmgBonus}% 증가한다. 공명 스킬 피해를 입힐 경우, 자신의 공격력이 {atkBonus}% 증가하고, 2스택 중첩이 가능하며, 5초간 지속된다. 자신이 미출전 상태일 경우, 공격력이 추가로 {offFieldAtkBonus}% 증가한다",
+    "valuesByRefinement": {
+      "allDmgBonus": [12, 15, 18, 21, 24],
+      "atkBonus": [12, 15, 18, 21, 24],
+      "offFieldAtkBonus": [12, 15, 18, 21, 24]
+    }
+  }
+}

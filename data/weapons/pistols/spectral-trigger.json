@@ -1,0 +1,17 @@
+{
+  "baseAtk": 587,
+  "mainStat": {
+    "type": "크리티컬 피해",
+    "value": 48.6
+  },
+  "passive": {
+    "name": "가라앉은 꿈",
+    "description": "공격력이 {atkBonus}% 증가된다. 공명 스킬 발동 시, 자신의 회절 피해 보너스가 {spectroDmgBonus}% 증가되고 최대 2스택 중첩이 가능하며, 14초간 지속된다. 적에게 「해킹 · 이탈」을 추가할 때마다, 강공격 피해가 {heavyAtkDmgBoost}% 부스트되고 강공격 피해는 목표의 {defIgnore}% 방어력을 무시하며, 14초간 지속된다",
+    "valuesByRefinement": {
+      "atkBonus": [12, 15, 18, 21, 24],
+      "spectroDmgBonus": [20, 25, 30, 35, 40],
+      "heavyAtkDmgBoost": [30, 37.5, 45, 52.5, 60],
+      "defIgnore": [10, 12.5, 15, 17.5, 20]
+    }
+  }
+}

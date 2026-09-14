@@ -1,0 +1,19 @@
+{
+  "baseAtk": 412,
+  "mainStat": {
+    "type": "HP(%)",
+    "value": 72.2
+  },
+  "passive": {
+    "name": "혼을 부르고 별을 소환해",
+    "description": "전체 속성 피해 보너스가 {allElementDmgBonus}% 증가된다. 자신이 등장 캐릭터인 상태에서 변주 스킬을 발동하거나 혹은 실드를 획득할 시, 1스택의 「봉천」과 1스택의 「포용」을 획득한다. 해당 효과는 0.5초마다 실드 획득을 통해 1회 발생할 수 있고, 최대 6스택까지 중첩이 가능하며, 7초간 지속된다.\n다른 캐릭터로 전환하면 「봉천」과 「포용」이 즉시 종료된다.\n봉천: 크리티컬 피해가 {sealHeavenPerStack}% 증가되고, 최대 {sealHeavenMax}%까지 증가된다. 「봉천」이 6스택에 도달 시, 강공격 피해의 크리티컬이 {heavyAtkCritBonus}% 증가된다.\n포용: 강공격 발동 시 최대 2스택의 「포용」을 소모하고, 1스택의 「포용」을 소모할 때마다 강공격 피해는 목표의 {embracePerStack}% 방어력을 무시하고, 최대 {embraceMax}%까지 무시할 수 있으며, 2초간 지속된다",
+    "valuesByRefinement": {
+      "allElementDmgBonus": [12, 15, 18, 21, 24],
+      "sealHeavenPerStack": [4, 5, 6, 7, 8],
+      "sealHeavenMax": [24, 30, 36, 42, 48],
+      "heavyAtkCritBonus": [12, 15, 18, 21, 24],
+      "embracePerStack": [15, 17.5, 20, 22.5, 25],
+      "embraceMax": [30, 35, 40, 45, 50]
+    }
+  }
+}

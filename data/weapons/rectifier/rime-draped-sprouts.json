@@ -1,0 +1,16 @@
+{
+  "baseAtk": 500,
+  "mainStat": {
+    "type": "크리티컬 피해",
+    "value": 72
+  },
+  "passive": {
+    "name": "그림 외의 경지",
+    "description": "공격력이 {atkBonus}% 증가된다. 공명 스킬 발동 시 획득 효과: 자신이 출전 상태일 경우 일반 공격 피해 보너스가 {onFieldDmgBonus}% 증가되며, 해당 효과가 최대 3스택 중첩이 가능하고, 6초간 지속된다. 반주 스킬 발동 시 이미 3스택의 효과가 누적된 경우, 모든 스택을 소모하여 자신이 출전 상태가 아닐 시의 일반 공격 피해 보너스를 {offFieldDmgBonus}% 증가시키며, 27초간 지속된다.",
+    "valuesByRefinement": {
+      "atkBonus": [12, 15, 18, 21, 24],
+      "onFieldDmgBonus": [12, 15, 18, 21, 24],
+      "offFieldDmgBonus": [52, 65, 78, 91, 104]
+    }
+  }
+}

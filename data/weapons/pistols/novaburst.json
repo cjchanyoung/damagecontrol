@@ -1,0 +1,14 @@
+{
+  "baseAtk": 412,
+  "mainStat": {
+    "type": "공격력(%)",
+    "value": 30.3
+  },
+  "passive": {
+    "name": "천변만화",
+    "description": "캐릭터가 돌진하거나 회피할 때, 공격력이 {atkBonus}% 증가하고, 8초간 지속되며, 최대 3스택 중첩이 가능하다",
+    "valuesByRefinement": {
+      "atkBonus": [4, 5, 6, 7, 8]
+    }
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "baseAtk": 300,
+  "mainStat": {
+    "type": "공격력(%)",
+    "value": 30.4
+  },
+  "passive": {
+    "name": "자유의 선율",
+    "description": "변주 스킬 발동 시 협주 에너지 {concertoEnergyRestore}pt를 회복하며, 반주 스킬 발동 시 공명 에너지 {resonanceEnergyRestore}pt를 회복한다",
+    "valuesByRefinement": {
+      "concertoEnergyRestore": [4, 5, 6, 7, 8],
+      "resonanceEnergyRestore": [4, 5, 6, 7, 8]
+    }
+  }
+}

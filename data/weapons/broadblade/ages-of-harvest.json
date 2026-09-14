@@ -1,0 +1,15 @@
+{
+  "baseAtk": 587,
+  "mainStat": {
+    "type": "크리티컬",
+    "value": 24.3
+  },
+  "passive": {
+    "name": "신의 가호",
+    "description": "전체 속성 피해 보너스가 {allElementDmgBonus}% 증가한다. 변주 스킬 발동 시, 자신이 「가호」를 획득하게 되고, 공명 스킬 피해 보너스를 {skillDmgBonus}% 증가시키며, 12초간 지속된다. 공명 스킬 발동 시, 자신이 「축복」을 획득하게 되고, 공명 스킬 피해 보너스를 {skillDmgBonus}% 증가시키며, 12초간 지속된다",
+    "valuesByRefinement": {
+      "allElementDmgBonus": [12, 15, 18, 21, 24],
+      "skillDmgBonus": [24, 30, 36, 42, 48]
+    }
+  }
+}

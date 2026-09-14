@@ -1,0 +1,15 @@
+{
+  "baseAtk": 587,
+  "mainStat": {
+    "type": "크리티컬 피해",
+    "value": 48.6
+  },
+  "passive": {
+    "name": "용맹무쌍",
+    "description": "전체 속성 피해 보너스 {allElementDmgBonus}% 증가한다. 변주 스킬 또는 공명 해방을 발동할 때마다, 자신의 강공격 피해 보너스가 {heavyAtkDmgBonus}% 증가하고, 2스택 중첩이 가능하며, 14초간 지속된다",
+    "valuesByRefinement": {
+      "allElementDmgBonus": [12, 15, 18, 21, 24],
+      "heavyAtkDmgBonus": [24, 30, 36, 42, 48]
+    }
+  }
+}

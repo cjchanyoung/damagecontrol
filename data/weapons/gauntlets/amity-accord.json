@@ -1,0 +1,14 @@
+{
+  "baseAtk": 337,
+  "mainStat": {
+    "type": "방어력(%)",
+    "value": 61.5
+  },
+  "passive": {
+    "name": "출정의 의식",
+    "description": "변주 스킬 발동 시, 자신의 공명 해방 피해 보너스가 {liberationDmgBonus}% 증가하며, 15초간 지속된다",
+    "valuesByRefinement": {
+      "liberationDmgBonus": [20, 25, 30, 35, 40]
+    }
+  }
+}

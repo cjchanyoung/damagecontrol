@@ -1,0 +1,16 @@
+{
+  "baseAtk": 412,
+  "mainStat": {
+    "type": "공명 효율",
+    "value": 77
+  },
+  "passive": {
+    "name": "웃음 바다",
+    "description": "크리티컬이 {critBonus}% 증가된다. 공명 해방 발동 후, 일반 공격 피해 보너스가 {afterLiberationBonus}% 증가되고, 10초간 지속된다. 일반 공격 피해를 입힐 시, 일반 공격 피해 보너스가 {onHitBonus}% 증가되고, 4초간 지속된다",
+    "valuesByRefinement": {
+      "critBonus": [8, 10, 12, 14, 16],
+      "afterLiberationBonus": [24, 30, 36, 42, 48],
+      "onHitBonus": [24, 30, 36, 42, 48]
+    }
+  }
+}

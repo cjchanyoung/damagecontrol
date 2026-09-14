@@ -1,0 +1,15 @@
+{
+  "baseAtk": 587,
+  "mainStat": {
+    "type": "공명 효율",
+    "value": 38.8
+  },
+  "passive": {
+    "name": "선지자",
+    "description": "공격력이 {atkBonus}% 증가된다. 「조화 밀집 · 간섭」 상태에 있는 적군에게 피해를 입힌 후, 공명 스킬 피해 보너스가 {skillDmgBonus}% 증가되고, 3초간 지속된다. 중복 발생 시, 지속 시간이 리셋된다",
+    "valuesByRefinement": {
+      "atkBonus": [12, 15, 18, 21, 24],
+      "skillDmgBonus": [24, 27, 30, 33, 36]
+    }
+  }
+}

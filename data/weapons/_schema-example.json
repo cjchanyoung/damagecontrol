@@ -1,0 +1,18 @@
+{
+  "_note": "이 파일은 예시 형식일 뿐 실제 무기 데이터가 아닙니다. 진짜 무기 파일은 data/weapons/<무기id>.json 이름으로 만들면 loadWeaponDetail()이 자동으로 불러옵니다. (예: '옥빛 구름'의 id는 sword-11 이므로 data/weapons/sword-11.json)",
+  "baseAtk": 0,
+  "mainStat": {
+    "type": "크리티컬",
+    "value": 0
+  },
+  "passive": {
+    "name": "패시브 이름",
+    "_note": "재련별로 바뀌는 수치가 여러 개면, 문장 안에 {값이름}처럼 이름을 붙인 placeholder를 각각 넣고 valuesByRefinement에 같은 이름의 키로 [재련1,2,3,4,5] 값을 넣으면 됨. 값이 하나뿐이면 키를 하나만 쓰면 됨.",
+    "description": "HP가 {hpBonus}% 증가한다. 이 무기 하나만 쓰면 {defIgnore}% 방어력을 무시하고, 다른 조건에서는 피해가 {dmgBoost}% 증가한다.",
+    "valuesByRefinement": {
+      "hpBonus": [0, 0, 0, 0, 0],
+      "defIgnore": [0, 0, 0, 0, 0],
+      "dmgBoost": [0, 0, 0, 0, 0]
+    }
+  }
+}

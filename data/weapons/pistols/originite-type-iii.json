@@ -1,0 +1,14 @@
+{
+  "baseAtk": 325,
+  "mainStat": {
+    "type": "공격력(%)",
+    "value": 24.3
+  },
+  "passive": {
+    "name": "성장의 속도",
+    "description": "회피 반격 발동 시, 자신의 HP가 {hpBonus}% 증가하며, 6초마다 1회 발생할 수 있다",
+    "valuesByRefinement": {
+      "hpBonus": [1.6, 2, 2.4, 2.8, 3.2]
+    }
+  }
+}

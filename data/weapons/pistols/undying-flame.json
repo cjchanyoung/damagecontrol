@@ -1,0 +1,14 @@
+{
+  "baseAtk": 412,
+  "mainStat": {
+    "type": "공격력(%)",
+    "value": 30.3
+  },
+  "passive": {
+    "name": "일편단심",
+    "description": "변주 스킬 발동 시, 자신의 공명 스킬 피해 보너스가 {skillDmgBonus}% 증가하며, 15초간 지속된다",
+    "valuesByRefinement": {
+      "skillDmgBonus": [20, 25, 30, 35, 40]
+    }
+  }
+}
