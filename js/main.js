@@ -156,10 +156,11 @@ const EXTRA_STAT_LABEL_TO_KEY = {
   '인멸 피해 보너스': 'elementDmgBonus',
 };
 
-// 에코 주옵션 이름(공격력/HP/방어력)은 실제로는 %증가라서, accumulateStat에 넘기기 전에 (%) 붙은 타입으로 바꿔줌
-const ECHO_MAIN_STAT_PERCENT_ALIAS = { '공격력': '공격력(%)', 'HP': 'HP(%)', '방어력': '방어력(%)' };
-function echoMainStatType(name) {
-  return ECHO_MAIN_STAT_PERCENT_ALIAS[name] || name;
+// 에코 주옵션/세트 효과의 '공격력'/'HP'/'방어력'은 실제로는 %증가라서, accumulateStat에 넘기기 전에
+// (%) 붙은 타입으로 바꿔줌
+const ECHO_PERCENT_STAT_ALIAS = { '공격력': '공격력(%)', 'HP': 'HP(%)', '방어력': '방어력(%)' };
+function resolveEchoStatType(name) {
+  return ECHO_PERCENT_STAT_ALIAS[name] || name;
 }
 
 // 무기 mainStat, 에코 부옵션 등 "라벨 + 수치" 형태의 보너스 하나를 base/percent/bonus/additive 중
@@ -208,13 +209,25 @@ function getMergedStats(slotId) {
     if (!echo) return;
     if (echo.mainStat && echo.cost) {
       const mainValue = (echoMainStatValuesByCost[echo.cost] || {})[echo.mainStat];
-      if (mainValue != null) accumulateStat(echoMainStatType(echo.mainStat), mainValue, percent, bonus, additive);
+      if (mainValue != null) accumulateStat(resolveEchoStatType(echo.mainStat), mainValue, percent, bonus, additive);
     }
     const secondary = echoSecondaryStatByCost[echo.cost];
     if (secondary) accumulateStat(secondary.type, secondary.value, percent, bonus, additive);
     (echo.subStats || []).forEach(sub => {
       if (sub && sub.name && sub.value != null) accumulateStat(sub.name, sub.value, percent, bonus, additive);
     });
+  });
+
+  // 에코 세트 효과: 같은 세트를 2개 이상 장착하면 2세트 효과가 바로 적용됨
+  // (3세트/5세트(+1세트) 효과는 발동 조건이 있어서 아직 미반영)
+  const setCounts = {};
+  echoList.forEach(echo => {
+    if (echo && echo.setId) setCounts[echo.setId] = (setCounts[echo.setId] || 0) + 1;
+  });
+  Object.keys(setCounts).forEach(setId => {
+    if (setCounts[setId] < 2) return;
+    const setBonus = echoSetTwoPieceBonus[setId];
+    if (setBonus) accumulateStat(resolveEchoStatType(setBonus.type), setBonus.value, percent, bonus, additive);
   });
 
   const stats = { ...additive };
