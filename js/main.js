@@ -200,6 +200,8 @@ function getMergedStats(slotId) {
     if (baseStats.hp != null) base.hp = (base.hp || 0) + baseStats.hp;
     if (baseStats.atk != null) base.atk = (base.atk || 0) + baseStats.atk;
     if (baseStats.def != null) base.def = (base.def || 0) + baseStats.def;
+    // 조화도 기믹이 있는 캐릭터는 조화도 파괴 증폭 기본값이 0이 아니라 10 — 캐릭터별로 재정의 가능
+    if (baseStats.concertoAmp != null) additive.concertoAmp = baseStats.concertoAmp;
   }
   if (weaponDetail && weaponDetail.baseAtk) {
     base.atk = (base.atk || 0) + weaponDetail.baseAtk;

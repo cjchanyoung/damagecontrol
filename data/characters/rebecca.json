@@ -2,6 +2,7 @@
   "baseStats": {
     "hp": 11600,
     "atk": 400,
-    "def": 1173
+    "def": 1173,
+    "concertoAmp": 10
   }
 }
