@@ -75,6 +75,8 @@ const COMMON_BASE_STATS = {
   energyRegen: 100,
   critRate: 5,
   critDmg: 150,
+  concertoAmp: 0,
+  dissonanceEfficiency: 100,
 };
 
 // 무기 목록(이름/타입/등급)은 아래 배열. 공격력·주옵션·패시브 같은 상세 수치는
