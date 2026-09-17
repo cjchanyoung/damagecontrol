@@ -103,20 +103,21 @@ const STAT_DETAIL_MAIN_FIELDS = [
 
 // "···" 버튼을 눌러야만 보이는 나머지 항목들
 const STAT_DETAIL_EXTRA_FIELDS = [
+  { label: '부조화 수치 누적 효율', key: 'dissonanceEfficiency', percent: true },
+  { label: '조화도 파괴 증폭', key: 'concertoAmp' },
   { label: '공명 스킬 피해 보너스', key: 'skillDmgBonus', percent: true },
   { label: '일반 공격 피해 보너스', key: 'normalAtkDmgBonus', percent: true },
   { label: '강공격 피해 보너스', key: 'heavyAtkDmgBonus', percent: true },
   { label: '공명 해방 피해 보너스', key: 'liberationDmgBonus', percent: true },
+  { label: '응결 피해 보너스', key: 'glacioDmgBonus', percent: true },
+  { label: '용융 피해 보너스', key: 'fusionDmgBonus', percent: true },
+  { label: '전도 피해 보너스', key: 'electroDmgBonus', percent: true },
+  { label: '기류 피해 보너스', key: 'aeroDmgBonus', percent: true },
+  { label: '회절 피해 보너스', key: 'spectroDmgBonus', percent: true },
+  { label: '인멸 피해 보너스', key: 'havocDmgBonus', percent: true },
+  { label: '에코 어빌리티 피해 보너스', key: 'echoAbilityDmgBonus', percent: true },
+  { label: '치료 효과 보너스', key: 'healBonus', percent: true },
 ];
-
-function getStatDetailExtraFields(character) {
-  const elementLabel = (character && character.element) ? character.element : '속성';
-  return [
-    ...STAT_DETAIL_EXTRA_FIELDS,
-    { label: `${elementLabel} 피해 보너스`, key: 'elementDmgBonus', percent: true },
-    { label: '치료 효과 보너스', key: 'healBonus', percent: true },
-  ];
-}
 
 // 스탯 라벨(한글) → 내부 키 매핑. 4가지로 나뉨:
 // - PERCENT_OF_BASE_TO_KEY: 'HP(%)'/'공격력(%)'/'방어력(%)' — 기본값(캐릭터+무기)에 곱해서 적용
@@ -147,13 +148,16 @@ const EXTRA_STAT_LABEL_TO_KEY = {
   '강공격 피해 보너스': 'heavyAtkDmgBonus',
   '공명 해방 피해 보너스': 'liberationDmgBonus',
   '치료 효과 보너스': 'healBonus',
-  // 에코 주옵션의 속성별 피해 보너스는 캐릭터 속성이 하나뿐이므로 전부 elementDmgBonus 하나로 합침
-  '용융 피해 보너스': 'elementDmgBonus',
-  '응결 피해 보너스': 'elementDmgBonus',
-  '전도 피해 보너스': 'elementDmgBonus',
-  '기류 피해 보너스': 'elementDmgBonus',
-  '회절 피해 보너스': 'elementDmgBonus',
-  '인멸 피해 보너스': 'elementDmgBonus',
+  '에코 어빌리티 피해 보너스': 'echoAbilityDmgBonus',
+  '부조화 수치 누적 효율': 'dissonanceEfficiency',
+  '조화도 파괴 증폭': 'concertoAmp',
+  // 속성별 피해 보너스는 이제 각자 다른 필드로 따로 집계함
+  '용융 피해 보너스': 'fusionDmgBonus',
+  '응결 피해 보너스': 'glacioDmgBonus',
+  '전도 피해 보너스': 'electroDmgBonus',
+  '기류 피해 보너스': 'aeroDmgBonus',
+  '회절 피해 보너스': 'spectroDmgBonus',
+  '인멸 피해 보너스': 'havocDmgBonus',
 };
 
 // 에코 주옵션/세트 효과의 '공격력'/'HP'/'방어력'은 실제로는 %증가라서, accumulateStat에 넘기기 전에
@@ -293,8 +297,7 @@ function openStatDetailMore(slotId) {
   const name = slotCharacter[slotId];
   if (!name) return;
 
-  const character = characters.find(c => c.name === name);
-  const rows = [...STAT_DETAIL_MAIN_FIELDS, ...getStatDetailExtraFields(character)];
+  const rows = [...STAT_DETAIL_MAIN_FIELDS, ...STAT_DETAIL_EXTRA_FIELDS];
   const stats = getMergedStats(slotId);
 
   document.getElementById('statDetailTitle').textContent = `${name} Lv. 90`;
