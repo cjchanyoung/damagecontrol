@@ -11,5 +11,22 @@
       "allElementDmgBonus": [12, 15, 18, 21, 24],
       "heavyAtkDmgBonus": [24, 30, 36, 42, 48]
     }
-  }
+  },
+  "_note_buffs": "위 passive는 화면에 보여주는 설명문, 아래 buffs는 계산에 쓰이는 데이터입니다. value가 배열이면 재련 1~5 순서로 읽습니다. buffs가 없는 무기는 기본 공격력/주옵션만 반영됩니다.",
+  "buffs": [
+    {
+      "id": "all-element",
+      "label": "청룡의 천장: 전체 속성 피해 증가",
+      "trigger": { "mode": "always" },
+      "effects": [{ "stat": "dmgBonus", "value": [12, 15, 18, 21, 24] }]
+    },
+    {
+      "id": "heavy",
+      "label": "청룡의 천장: 강공격 피해 (스택)",
+      "condition": "변주 스킬 또는 공명 해방 발동 시 14초, 최대 2스택",
+      "trigger": { "mode": "toggle", "default": true },
+      "stacks": { "max": 2, "default": 2 },
+      "effects": [{ "stat": "heavyAtkDmgBonus", "value": [24, 30, 36, 42, 48] }]
+    }
+  ]
 }

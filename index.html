@@ -171,11 +171,43 @@
 
         </div>
 
-        <!-- 캐릭터별 속성 상세정보 (기본 스펙 + 무기/에코/스킬 합산 결과) -->
+        <!-- 캐릭터별 속성 상세정보 + 버프 토글 (계산 전에도 항상 보이는 '설정' 영역) -->
         <div class="grid grid-cols-3 gap-4">
           <div id="spec-detail-1"></div>
           <div id="spec-detail-2"></div>
           <div id="spec-detail-3"></div>
+        </div>
+
+        <!-- 적 설정 (파티 전체 공용 — 방어력/저항 계수에 쓰임) -->
+        <div class="flex items-center gap-4 text-xs text-zinc-400">
+          <span class="text-zinc-500">적 설정</span>
+          <label class="flex items-center gap-1.5">
+            레벨
+            <input id="enemyLevelInput" type="number" min="1" max="200" oninput="setEnemySetting('level', this.value)"
+              class="w-16 bg-zinc-800 border border-zinc-700 rounded px-2 py-1 text-zinc-200 text-right focus:outline-none focus:border-teal-500">
+          </label>
+          <label class="flex items-center gap-1.5">
+            속성 저항
+            <input id="enemyResInput" type="number" step="1" oninput="setEnemySetting('res', this.value)"
+              class="w-16 bg-zinc-800 border border-zinc-700 rounded px-2 py-1 text-zinc-200 text-right focus:outline-none focus:border-teal-500">
+            %
+          </label>
+        </div>
+
+        <!-- 계산하기 — 이걸 눌러야 피해/로테이션 결과가 나옴 -->
+        <div class="flex flex-col items-center gap-1.5">
+          <button id="calcBtn" onclick="runDamageCalculation()"
+            class="px-8 py-2 rounded-lg bg-teal-600 hover:bg-teal-500 border border-teal-500 text-sm font-bold text-white transition-colors">
+            계산하기
+          </button>
+          <div id="calcHint" class="text-[11px] text-zinc-500"></div>
+        </div>
+
+        <!-- 계산 결과 (로테이션 분석 + 스킬별 피해) — 계산하기를 눌러야 채워짐 -->
+        <div class="grid grid-cols-3 gap-4">
+          <div id="result-detail-1"></div>
+          <div id="result-detail-2"></div>
+          <div id="result-detail-3"></div>
         </div>
 
       </div>
@@ -252,7 +284,29 @@
       </div>
     </div>
 
+    <!-- 파이차트 조각에 마우스를 올렸을 때 뜨는 툴팁 -->
+    <div id="damageTooltip" class="hidden fixed z-50 pointer-events-none px-2 py-1 rounded-md bg-zinc-800 border border-zinc-700 text-[11px] text-zinc-100 shadow-lg whitespace-nowrap"></div>
+
+    <!-- 스킬 피해 상세 모달 -->
+    <div id="damageDetailModal" onclick="if(event.target===this) closeDamageDetailModal()" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
+      <div class="bg-zinc-900 border border-zinc-800 rounded-xl w-full max-w-md max-h-[80vh] flex flex-col overflow-hidden p-5">
+
+        <div class="flex items-center justify-between mb-4">
+          <h2 id="damageDetailTitle" class="text-lg font-bold text-zinc-100">스킬 피해</h2>
+          <button onclick="closeDamageDetailModal()" class="text-zinc-500 hover:text-zinc-300 text-xl leading-none">
+            ×
+          </button>
+        </div>
+
+        <div id="damageDetailBody" class="overflow-y-auto scrollbar-none">
+          <!-- openDamageDetail()이 채움 -->
+        </div>
+
+      </div>
+    </div>
+
     <script src="js/data.js"></script>
+    <script src="js/damage.js"></script>
     <script src="js/main.js"></script>
 
   </body>

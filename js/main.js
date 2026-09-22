@@ -30,6 +30,21 @@ const slotEcho = {}; // 슬롯별 에코 5칸 정보. slotEcho[slotId][i] = { na
 let activeEchoSlot = null;
 let activeEchoIndex = null;
 
+// 슬롯별 버프 on/off + 스택 상태. slotBuffState[slotId][buffId] = { on, stacks }
+// 버프 목록 자체는 매번 데이터에서 새로 모으고(collectSlotBuffs), 여기엔 사용자가 만진 상태만 남음.
+const slotBuffState = {};
+const slotContextCache = {}; // 마지막으로 계산한 슬롯 컨텍스트 (피해 상세 모달에서 재사용)
+const slotDamageCache = {}; // 마지막으로 계산한 슬롯별 스킬 피해 결과
+
+// 적 설정은 슬롯이 아니라 파티 전체 공용
+const enemySettings = { level: 90, res: 20 };
+
+
+// 피해/로테이션 결과는 '계산하기'를 눌러야 나옴.
+// 설정을 건드리면 이전 결과는 바로 버리고(damageStale) 다시 누르게 함 — 낡은 숫자를 보여주지 않으려고.
+let damageComputed = false;
+let damageStale = false;
+
 async function loadCharacterDetail(id) {
   if (id in characterDetailCache) return characterDetailCache[id];
   let detail = null;
@@ -103,8 +118,8 @@ const STAT_DETAIL_MAIN_FIELDS = [
 
 // "···" 버튼을 눌러야만 보이는 나머지 항목들
 const STAT_DETAIL_EXTRA_FIELDS = [
-  { label: '부조화 수치 누적 효율', key: 'dissonanceEfficiency', percent: true },
   { label: '조화도 파괴 증폭', key: 'concertoAmp' },
+  { label: '부조화 수치 누적 효율', key: 'dissonanceEfficiency', percent: true },
   { label: '공명 스킬 피해 보너스', key: 'skillDmgBonus', percent: true },
   { label: '일반 공격 피해 보너스', key: 'normalAtkDmgBonus', percent: true },
   { label: '강공격 피해 보너스', key: 'heavyAtkDmgBonus', percent: true },
@@ -149,8 +164,8 @@ const EXTRA_STAT_LABEL_TO_KEY = {
   '공명 해방 피해 보너스': 'liberationDmgBonus',
   '치료 효과 보너스': 'healBonus',
   '에코 어빌리티 피해 보너스': 'echoAbilityDmgBonus',
-  '부조화 수치 누적 효율': 'dissonanceEfficiency',
   '조화도 파괴 증폭': 'concertoAmp',
+  '부조화 수치 누적 효율': 'dissonanceEfficiency',
   // 속성별 피해 보너스는 이제 각자 다른 필드로 따로 집계함
   '용융 피해 보너스': 'fusionDmgBonus',
   '응결 피해 보너스': 'glacioDmgBonus',
@@ -186,7 +201,8 @@ function accumulateStat(type, value, percent, bonus, additive) {
 }
 
 // 최종 스탯 = (캐릭터 기본 + 무기 기본 공격력) × (1 + 무기/에코 %보너스 합) + 에코 깡스탯 부옵션
-function getMergedStats(slotId) {
+// effects: 버프에서 온 추가 효과 목록([{stat, value}]). js/damage.js의 applyEffect가 알맞은 버킷에 넣어줌.
+function getMergedStats(slotId, effects) {
   const baseStats = slotDetail[slotId] && slotDetail[slotId].baseStats;
   const weaponDetail = slotWeaponDetail[slotId];
   const echoList = slotEcho[slotId] || [];
@@ -236,6 +252,9 @@ function getMergedStats(slotId) {
     if (setBonus) accumulateStat(resolveEchoStatType(setBonus.type), setBonus.value, percent, bonus, additive);
   });
 
+  // 버프(무기 패시브 / 스킬 고정 노드 / 공명 체인 / 캐릭터 고유)에서 온 효과
+  (effects || []).forEach(effect => applyEffect(effect, percent, bonus, additive));
+
   const stats = { ...additive };
   ['hp', 'atk', 'def'].forEach(key => {
     if (base[key] !== undefined || bonus[key] !== undefined) {
@@ -245,6 +264,197 @@ function getMergedStats(slotId) {
 
   return stats;
 }
+
+// ── 슬롯 상태 읽기 / 버프 수집 ─────────────────────────────
+
+// 캐릭터 카드 안의 돌파·재련 버튼 중 지금 켜져 있는 값
+function getActiveStatButtonValue(slotId, type) {
+  const container = document.getElementById(slotId);
+  if (!container) return null;
+  const btn = container.querySelector(`.stat-btn[onclick*="'${type}'"].bg-teal-600`);
+  return btn ? btn.dataset.value : null;
+}
+
+// 스킬 5칸의 노드 on/off와 레벨. 배열 순서는 SKILL_TREE_ORDER와 같음.
+function readSkillColumns(slotId) {
+  const container = document.getElementById(slotId);
+  if (!container) return [];
+  return [...container.querySelectorAll('.skill-col')].map(col => {
+    const [topBtn, midBtn] = col.querySelectorAll('.skill-toggle');
+    const select = col.querySelector('select');
+    return {
+      top: topBtn.classList.contains('bg-teal-600'),
+      middle: midBtn.classList.contains('bg-teal-600'),
+      level: select ? parseInt(select.value, 10) : 1,
+    };
+  });
+}
+
+// '돌파' 버튼(0~6)을 공명 체인 단계로 씀
+function getSlotChainLevel(slotId) {
+  return parseInt(getActiveStatButtonValue(slotId, 'breakthrough'), 10) || 0;
+}
+
+function getSlotRefinement(slotId) {
+  return parseInt(getActiveStatButtonValue(slotId, 'refinement'), 10) || 1;
+}
+
+// 이 슬롯에 걸릴 수 있는 버프를 전부 모음 (켜졌는지는 아직 안 따짐)
+function collectSlotBuffs(slotId) {
+  const detail = slotDetail[slotId];
+  const out = [];
+  if (!detail) return out;
+
+  // 1. 스킬 트리 고정 노드 — 노드를 켜야만 목록에 들어옴. nodes[0]=가운데 버튼, nodes[1]=맨 위 버튼
+  const columns = readSkillColumns(slotId);
+  SKILL_TREE_ORDER.forEach((tree, i) => {
+    const group = (detail.skills || {})[tree];
+    if (!group || !group.nodes) return;
+    const col = columns[i] || {};
+    const nodeActive = [col.middle, col.top];
+    group.nodes.forEach((node, ni) => {
+      if (!nodeActive[ni]) return;
+      const descriptor = node.buff || { trigger: { mode: 'always' }, effects: node.effects || [] };
+      const label = node.buff ? null : `${SKILL_GROUP_LABEL[tree]} 노드: ${node.name}`;
+      out.push(normalizeBuff(descriptor, `node:${tree}:${ni}`, label));
+    });
+  });
+
+  // 2. 캐릭터 고유 버프 (공명 회로 패시브 등)
+  (detail.buffs || []).forEach((b, i) => out.push(normalizeBuff(b, `char:${b.id || i}`)));
+
+  // 3. 공명 체인 — 선택한 단계 이하만
+  const chainLevel = getSlotChainLevel(slotId);
+  (detail.chain || []).forEach((c, i) => {
+    if (i + 1 > chainLevel) return;
+    (c.buffs || []).forEach((b, bi) => out.push(normalizeBuff(b, `chain:${i + 1}:${bi}`)));
+  });
+
+  // 4. 무기 패시브 — 값이 배열이면 재련(1~5)에 맞는 인덱스를 씀
+  const weaponDetail = slotWeaponDetail[slotId];
+  const refinement = getSlotRefinement(slotId);
+  ((weaponDetail && weaponDetail.buffs) || []).forEach((b, i) =>
+    out.push(normalizeBuff(b, `weapon:${b.id || i}`, null, { index: refinement - 1 })));
+
+  return out;
+}
+
+// 켜져 있는 버프만 골라서 효과 목록으로 펼침.
+// scope가 있는 효과는 스탯에 합칠 수 없어서(특정 스킬 전용) 따로 분리함.
+function getSlotEffects(slotId) {
+  const buffs = collectSlotBuffs(slotId);
+  const state = slotBuffState[slotId] || (slotBuffState[slotId] = {});
+  const global = [];
+  const scoped = [];
+  const team = [];
+
+  buffs.forEach(buff => {
+    if (!state[buff.id]) state[buff.id] = { on: buff.defaultOn, stacks: buff.defaultStacks };
+    const st = state[buff.id];
+    if (st.stacks > buff.maxStacks) st.stacks = buff.maxStacks;
+    if (buff.toggleable && !st.on) return;
+
+    const multiplier = buff.maxStacks > 1 ? (st.stacks || 0) : 1;
+    buff.effects.forEach(e => {
+      const resolved = { stat: e.stat, value: e.value * multiplier, scope: e.scope };
+      (e.scope ? scoped : global).push(resolved);
+      if (buff.target === 'team') team.push(resolved);
+    });
+  });
+
+  return { buffs, state, global, scoped, team };
+}
+
+// 데미지 계산에 필요한 걸 전부 담은 컨텍스트. 상세 데이터가 아직 없으면 null.
+function buildSlotContext(slotId) {
+  const detail = slotDetail[slotId];
+  if (!detail) return null;
+
+  const own = getSlotEffects(slotId);
+  // 다른 슬롯이 파티 전체에 거는 버프(target: 'team')도 받아옴
+  const fromOthers = totalSlots
+    .filter(id => id !== slotId && slotDetail[id])
+    .reduce((acc, id) => acc.concat(getSlotEffects(id).team), []);
+
+  const columns = readSkillColumns(slotId);
+  const skillLevels = {};
+  SKILL_TREE_ORDER.forEach((tree, i) => { skillLevels[tree] = (columns[i] || {}).level || 1; });
+
+  const character = characters.find(c => c.name === slotCharacter[slotId]);
+
+  return {
+    detail,
+    buffs: own.buffs,
+    buffState: own.state,
+    stats: getMergedStats(slotId, own.global.concat(fromOthers.filter(e => !e.scope))),
+    scoped: own.scoped.concat(fromOthers.filter(e => e.scope)),
+    enemy: enemySettings,
+    element: detail.element || (character && character.element) || null,
+    charLevel: DEFAULT_CHAR_LEVEL,
+    skillLevels,
+  };
+}
+
+function toggleSlotBuff(slotId, buffId, on) {
+  const state = slotBuffState[slotId] || (slotBuffState[slotId] = {});
+  state[buffId] = { ...(state[buffId] || {}), on };
+  refreshAllSlots();
+  markPartyDirty();
+}
+
+function setSlotBuffStacks(slotId, buffId, value) {
+  const state = slotBuffState[slotId] || (slotBuffState[slotId] = {});
+  const stacks = Math.max(0, parseInt(value, 10) || 0);
+  state[buffId] = { ...(state[buffId] || {}), stacks };
+  refreshAllSlots();
+  markPartyDirty();
+}
+
+function setEnemySetting(key, value) {
+  const n = parseFloat(value);
+  enemySettings[key] = isNaN(n) ? 0 : n;
+  refreshAllSlots();
+  markPartyDirty();
+}
+
+// 파티 버프 때문에 한 슬롯만 다시 그리면 안 됨 — 항상 3칸 전부 다시 계산.
+// 설정이 바뀐 것이므로 이전 피해 계산 결과는 여기서 버림.
+function refreshAllSlots() {
+  if (damageComputed) {
+    damageComputed = false;
+    damageStale = true;
+  }
+  redrawAllSlots();
+}
+
+// 계산 상태는 그대로 두고 화면만 다시 그림
+function redrawAllSlots() {
+  totalSlots.forEach(renderStatDetail);
+  renderCalcBar();
+}
+
+function runDamageCalculation() {
+  damageComputed = true;
+  damageStale = false;
+  redrawAllSlots();
+}
+
+function renderCalcBar() {
+  const btn = document.getElementById('calcBtn');
+  const hint = document.getElementById('calcHint');
+  if (!btn || !hint) return;
+
+  const hasCharacter = totalSlots.some(slotId => slotCharacter[slotId]);
+  btn.disabled = !hasCharacter;
+  btn.classList.toggle('opacity-40', !hasCharacter);
+  btn.classList.toggle('cursor-not-allowed', !hasCharacter);
+
+  hint.textContent = !hasCharacter ? '캐릭터를 먼저 선택하세요.'
+    : damageComputed ? ''
+    : damageStale ? '설정이 바뀌었습니다. 다시 계산해 주세요.'
+    : '설정을 마친 뒤 계산하기를 누르세요.';
+}
+
 
 // 패시브 설명에서 {이름} 형태 placeholder를 재련(1~5)에 맞는 실제 수치로 치환
 // valuesByRefinement가 배열이면(값이 하나뿐인 옛 형식) {value}만, 객체면({이름1: [...], 이름2: [...]}) 여러 개 지원
@@ -265,19 +475,204 @@ function formatStatValue(stats, field) {
   return field.percent ? `${v.toFixed(1)}%` : v.toLocaleString();
 }
 
+function escapeAttr(text) {
+  return String(text || '').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
+function formatDamage(value) {
+  return Math.round(value || 0).toLocaleString();
+}
+
+// 켜고 끌 수 있는 버프 목록. 항상 적용되는(trigger: always) 버프는 여기 안 나옴.
+function renderBuffCardHTML(slotId, ctx) {
+  const toggleable = ctx.buffs.filter(b => b.toggleable);
+  if (toggleable.length === 0) return '';
+
+  return `
+    <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-3 mt-2 first:mt-0">
+      <div class="text-xs font-bold text-zinc-300 mb-1.5">버프</div>
+      <div class="space-y-1">
+        ${toggleable.map(b => {
+          const st = ctx.buffState[b.id] || {};
+          return `
+          <label title="${escapeAttr(b.condition)}" class="flex items-center gap-1.5 text-[11px] text-zinc-300 cursor-pointer">
+            <input type="checkbox" ${st.on ? 'checked' : ''} onchange="toggleSlotBuff('${slotId}', '${b.id}', this.checked)"
+              class="accent-teal-500 w-3 h-3 shrink-0">
+            <span class="flex-1 min-w-0 truncate">${b.label}</span>
+            ${b.maxStacks > 1 ? `<input type="number" min="0" max="${b.maxStacks}" value="${st.stacks}"
+              onchange="setSlotBuffStacks('${slotId}', '${b.id}', this.value)"
+              class="w-9 shrink-0 bg-zinc-800 border border-zinc-700 rounded px-1 py-0.5 text-[10px] text-zinc-200 text-right focus:outline-none focus:border-teal-500">` : ''}
+          </label>`;
+        }).join('')}
+      </div>
+    </div>
+  `;
+}
+
+// 로테이션 한 바퀴를 계산해서 카드 두 장이 같은 결과를 나눠 쓰게 함
+function computeSlotRotation(ctx) {
+  const rotation = ctx.detail && ctx.detail.rotation;
+  if (!rotation) return null;
+
+  const entriesById = {};
+  flattenSkillEntries(ctx.detail).forEach(e => { entriesById[e.id] = e; });
+
+  const result = computeRotation(rotation, entriesById, ctx);
+  return {
+    rotation,
+    duration: rotation.duration || 0, // 사이클 시간은 캐릭터 데이터 값 고정 (화면에선 수정 불가)
+    rows: result.rows,
+    total: result.total,
+    types: result.types,
+  };
+}
+
+// 파이 조각 하나의 path. 12시 방향에서 시계방향으로 그림.
+function pieSlicePath(cx, cy, r, start, end) {
+  const point = a => [cx + r * Math.cos(a), cy + r * Math.sin(a)];
+  const [x1, y1] = point(start);
+  const [x2, y2] = point(end);
+  const largeArc = end - start > Math.PI ? 1 : 0;
+  return `M ${cx} ${cy} L ${x1.toFixed(2)} ${y1.toFixed(2)} A ${r} ${r} 0 ${largeArc} 1 ${x2.toFixed(2)} ${y2.toFixed(2)} Z`;
+}
+
+function renderDamagePieHTML(types) {
+  if (types.length === 0) return '';
+  const cx = 50, cy = 50, r = 46;
+  let angle = -Math.PI / 2;
+
+  const slices = types.map(t => {
+    const color = TYPE_COLOR[t.type] || TYPE_COLOR.etc;
+    const label = TYPE_LABEL[t.type] || t.type;
+    const hover = `onmousemove="showDamageTooltip(event, '${label}', '${(t.ratio * 100).toFixed(1)}%', '${formatDamage(t.sum)}')" onmouseleave="hideDamageTooltip()"`;
+    const style = 'class="transition-opacity hover:opacity-70"';
+
+    // 유형이 하나뿐이면(비율 100%) 호가 degenerate 해서 원으로 그림
+    if (t.ratio >= 0.9999) {
+      return `<circle cx="${cx}" cy="${cy}" r="${r}" fill="${color}" ${style} ${hover}></circle>`;
+    }
+    const start = angle;
+    const end = angle + t.ratio * Math.PI * 2;
+    angle = end;
+    return `<path d="${pieSlicePath(cx, cy, r, start, end)}" fill="${color}" stroke="#18181b" stroke-width="1" ${style} ${hover}></path>`;
+  }).join('');
+
+  return `<svg viewBox="0 0 100 100" class="w-24 h-24 shrink-0">${slices}</svg>`;
+}
+
+function showDamageTooltip(evt, label, ratio, damage) {
+  const el = document.getElementById('damageTooltip');
+  if (!el) return;
+  el.innerHTML = `<span class="font-bold text-zinc-100">${label}</span>
+    <span class="text-zinc-400 tabular-nums">${ratio}</span>
+    <span class="text-zinc-600">·</span>
+    <span class="text-zinc-100 tabular-nums">${damage}</span>`;
+  el.classList.remove('hidden');
+  el.style.left = (evt.clientX + 14) + 'px';
+  el.style.top = (evt.clientY + 14) + 'px';
+}
+
+function hideDamageTooltip() {
+  const el = document.getElementById('damageTooltip');
+  if (el) el.classList.add('hidden');
+}
+
+// 계산 결과 카드 — 총 딜량 / 사이클 시간 / DPS + 피해 유형 파이차트
+function renderRotationCardHTML(ctx, data) {
+  const dps = data.duration > 0 ? data.total / data.duration : 0;
+  const summary = [
+    ['총 딜량', formatDamage(data.total)],
+    ['사이클', `${data.duration}초`],
+    ['DPS', formatDamage(dps)],
+  ];
+
+  return `
+    <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-3 mt-2 first:mt-0">
+      <div class="text-xs font-bold text-zinc-300 mb-2">로테이션 · ${data.rotation.name || '기본 사이클'}</div>
+
+      <div class="grid grid-cols-3 gap-1.5 mb-3">
+        ${summary.map(([label, value]) => `
+          <div class="bg-zinc-800/60 border border-zinc-700 rounded-lg p-1.5 text-center">
+            <div class="text-[10px] text-zinc-500">${label}</div>
+            <div class="text-xs font-bold text-zinc-100 tabular-nums">${value}</div>
+          </div>
+        `).join('')}
+      </div>
+
+      <div class="text-[10px] text-zinc-500 mb-1.5">피해 유형 비율</div>
+      <div class="flex items-center gap-3">
+        ${renderDamagePieHTML(data.types)}
+        <div class="flex-1 min-w-0 space-y-1">
+          ${data.types.map(t => `
+            <div class="flex items-center gap-1.5 text-[11px]">
+              <span class="w-2 h-2 rounded-full shrink-0" style="background:${TYPE_COLOR[t.type] || TYPE_COLOR.etc}"></span>
+              <span class="flex-1 min-w-0 truncate text-zinc-400">${TYPE_LABEL[t.type] || t.type}</span>
+              <span class="shrink-0 text-zinc-200 tabular-nums">${(t.ratio * 100).toFixed(1)}%</span>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+// 피해량 보기 카드 — 로테이션 스텝별 내역. 행을 누르면 계산 과정이 모달로 펼쳐짐.
+function renderRotationStepsCardHTML(slotId, ctx, data) {
+  slotDamageCache[slotId] = data.rows;
+
+  const rows = data.rows.map((row, i) => {
+    const note = row.note ? `<div class="text-[10px] text-zinc-600 mt-1.5 first:mt-0">${row.note}</div>` : '';
+
+    if (row.pending) {
+      return `${note}<div class="text-[11px] py-0.5 text-zinc-600 italic">미구현 — 딜량에 안 들어감</div>`;
+    }
+    if (row.missing) {
+      return `${note}<div class="text-[11px] py-0.5 text-rose-400">스킬 id를 찾을 수 없음: ${row.label}</div>`;
+    }
+
+    const type = (row.entry.damageType || [])[0] || 'etc';
+    return `${note}
+      <button type="button" onclick="openDamageDetail('${slotId}', ${i})"
+        class="w-full flex items-center gap-1.5 text-[11px] py-0.5 hover:bg-zinc-800/60 rounded px-1 -mx-1 transition-colors">
+        <span class="w-2 h-2 rounded-full shrink-0" style="background:${TYPE_COLOR[type] || TYPE_COLOR.etc}"></span>
+        <span class="flex-1 min-w-0 truncate text-left text-zinc-400">${row.entry.name}</span>
+        <span class="shrink-0 text-zinc-600">×${row.count}</span>
+        <span class="shrink-0 text-zinc-200 tabular-nums">${formatDamage(row.sum)}</span>
+      </button>`;
+  }).join('');
+
+  return `
+    <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-3 mt-2 first:mt-0">
+      <div class="flex items-baseline justify-between mb-1">
+        <div class="text-xs font-bold text-zinc-300">피해량 보기</div>
+        <div class="text-[10px] text-zinc-500">적 Lv.${ctx.enemy.level} · 저항 ${ctx.enemy.res}%</div>
+      </div>
+      <div>${rows}</div>
+    </div>
+  `;
+}
+
 function renderStatDetail(slotId) {
+  // 스펙/버프는 캐릭터 설정 바로 아래(spec-detail-N), 계산 결과는 계산하기 버튼 아래(result-detail-N)
   const container = document.getElementById(slotId.replace('spec-slot-', 'spec-detail-'));
+  const resultContainer = document.getElementById(slotId.replace('spec-slot-', 'result-detail-'));
   if (!container) return;
 
   const name = slotCharacter[slotId];
   if (!name) {
     container.innerHTML = '';
+    if (resultContainer) resultContainer.innerHTML = '';
+    delete slotContextCache[slotId];
+    delete slotDamageCache[slotId];
     return;
   }
 
-  const stats = getMergedStats(slotId);
+  // 상세 데이터(스킬)가 아직 안 왔으면 버프/피해 없이 스탯만 보여줌
+  const ctx = buildSlotContext(slotId);
+  slotContextCache[slotId] = ctx;
+  const stats = ctx ? ctx.stats : getMergedStats(slotId);
 
-  container.innerHTML = `
+  const statCard = `
     <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-3">
       <div class="text-sm font-bold text-zinc-100 mb-2">${name} Lv. 90</div>
       <div class="space-y-1">
@@ -293,6 +688,66 @@ function renderStatDetail(slotId) {
       </div>
     </div>
   `;
+
+  // 버프 토글은 '설정'이라 항상 보여주고, 피해/로테이션 결과는 계산하기를 눌렀을 때만 그림
+  container.innerHTML = ctx ? statCard + renderBuffCardHTML(slotId, ctx) : statCard;
+
+  if (resultContainer) {
+    const rotationData = (ctx && damageComputed) ? computeSlotRotation(ctx) : null;
+    resultContainer.innerHTML = rotationData
+      ? renderRotationCardHTML(ctx, rotationData) + renderRotationStepsCardHTML(slotId, ctx, rotationData)
+      : '';
+  }
+}
+
+// 스킬 한 줄의 계산 과정을 그대로 펼쳐서 보여줌 — 데이터가 틀렸을 때 어디서 틀렸는지 찾는 용도
+function openDamageDetail(slotId, index) {
+  const row = (slotDamageCache[slotId] || [])[index];
+  const ctx = slotContextCache[slotId];
+  if (!row || !ctx) return;
+
+  const b = row.dmg.breakdown;
+  const element = (!row.entry.element || row.entry.element === 'inherit') ? ctx.element : row.entry.element;
+  const parts = (row.entry.parts || [])
+    .map(p => `${(p.mv || 0).toFixed(2)}%${p.hits > 1 ? ` × ${p.hits}` : ''}`)
+    .join(' + ');
+
+  const lines = [
+    // 위 3칸은 1회 피해라서, 로테이션에서 몇 번 쓰는지와 그 합계를 같이 보여줌
+    ['로테이션', `×${row.count} → 합계 ${formatDamage(row.sum)}`],
+    ['속성 / 판정', `${element} / ${(row.entry.damageType || []).map(t => TYPE_LABEL[t] || t).join(', ')}`],
+    ['스킬 레벨', `${(ctx.skillLevels || {})[row.entry.tree] || '-'}`],
+    ['계수', `${parts} = ${b.baseMv.toFixed(2)}%${b.mvFlat ? ` + 가산 ${b.mvFlat.toFixed(0)}%` : ''}${b.mvBoost !== 1 ? ` × ${b.mvBoost.toFixed(3)}` : ''} → ${b.mv.toFixed(2)}%`],
+    ['공격력', b.atk.toFixed(1)],
+    ['피해 증가', `1 + ${b.dmgIncSum.toFixed(1)}% = ${b.dmgInc.toFixed(3)}`],
+    ['피해 부스트', b.dmgBoost.toFixed(3)],
+    ['크리티컬', `${b.critRate.toFixed(1)}% / ${b.critDmg.toFixed(1)}% → 기대 배율 ${b.critAvg.toFixed(3)}`],
+    ['방어력', `적 방어력 ${b.enemyDef.toFixed(0)} → ${b.defTerm.toFixed(3)}`],
+    ['저항', b.resTerm.toFixed(3)],
+  ];
+
+  document.getElementById('damageDetailTitle').textContent = row.entry.name;
+  document.getElementById('damageDetailBody').innerHTML = `
+    <div class="grid grid-cols-3 gap-2 mb-3">
+      ${[['비크리', row.dmg.nonCrit], ['크리', row.dmg.crit], ['기대값', row.dmg.avg]].map(([label, v]) => `
+        <div class="bg-zinc-800/60 border border-zinc-700 rounded-lg p-2 text-center">
+          <div class="text-[10px] text-zinc-500">${label}</div>
+          <div class="text-sm font-bold text-zinc-100 tabular-nums">${formatDamage(v)}</div>
+        </div>
+      `).join('')}
+    </div>
+    ${lines.map(([label, value]) => `
+      <div class="flex justify-between items-start gap-3 text-xs py-1.5 border-b border-zinc-800 last:border-b-0">
+        <span class="shrink-0 text-zinc-400">${label}</span>
+        <span class="text-right text-zinc-200">${value}</span>
+      </div>
+    `).join('')}
+  `;
+  document.getElementById('damageDetailModal').classList.remove('hidden');
+}
+
+function closeDamageDetailModal() {
+  document.getElementById('damageDetailModal').classList.add('hidden');
 }
 
 function openStatDetailMore(slotId) {
@@ -300,7 +755,8 @@ function openStatDetailMore(slotId) {
   if (!name) return;
 
   const rows = [...STAT_DETAIL_MAIN_FIELDS, ...STAT_DETAIL_EXTRA_FIELDS];
-  const stats = getMergedStats(slotId);
+  const ctx = slotContextCache[slotId];
+  const stats = ctx ? ctx.stats : getMergedStats(slotId);
 
   document.getElementById('statDetailTitle').textContent = `${name} Lv. 90`;
   document.getElementById('statDetailBody').innerHTML = rows.map(f => `
@@ -325,6 +781,7 @@ function selectCharacter(name) {
 
   slotCharacter[activeSlot] = name;
   selectedNames.add(name);
+  slotBuffState[activeSlot] = {}; // 캐릭터가 바뀌면 이전 버프 토글 상태는 의미가 없음
 
   const character = characters.find(c => c.name === name);
   const container = document.getElementById(activeSlot);
@@ -376,7 +833,7 @@ function selectCharacter(name) {
             <div class="w-px flex-1 bg-zinc-600"></div>
             <button type="button" onclick="toggleSkillNode(this, 'middle')" class="skill-toggle w-full aspect-square rounded-full bg-zinc-800 border border-zinc-700 hover:border-teal-500 transition-colors"></button>
             <div class="w-px flex-1 bg-zinc-600"></div>
-            <select onchange="markPartyDirty()" class="w-full aspect-square appearance-none text-center bg-zinc-800 border border-zinc-700 rounded-full text-[9px] text-zinc-200 focus:outline-none focus:border-teal-500">
+            <select onchange="refreshAllSlots(); markPartyDirty()" class="w-full aspect-square appearance-none text-center bg-zinc-800 border border-zinc-700 rounded-full text-[9px] text-zinc-200 focus:outline-none focus:border-teal-500">
               ${Array.from({ length: 10 }, (_, i) => i + 1).map(lv => `<option value="${lv}">${lv}</option>`).join('')}
             </select>
           </div>
@@ -396,11 +853,11 @@ function selectCharacter(name) {
   const slotId = activeSlot;
   loadCharacterDetail(character.id).then(detail => {
     slotDetail[slotId] = detail;
-    renderStatDetail(slotId); // 로드가 끝나면 기본 스탯 수치로 다시 그림
+    refreshAllSlots(); // 로드가 끝나면 스킬/버프까지 반영해서 다시 그림
   });
 
   closeCharacterPicker(); // 한 명 선택하면 바로 닫힘 (연속 선택 안 함)
-  renderStatDetail(slotId);
+  refreshAllSlots();
   markPartyDirty();
 }
 
@@ -410,14 +867,14 @@ function selectWeapon(select, slotId) {
   markPartyDirty();
   if (!weaponId) {
     slotWeaponDetail[slotId] = null;
-    renderStatDetail(slotId);
+    refreshAllSlots();
     return;
   }
 
   // 무기별 상세 데이터(효과 등)는 준비되는 대로 이 슬롯에 채워짐
   loadWeaponDetail(weaponId).then(detail => {
     slotWeaponDetail[slotId] = detail;
-    renderStatDetail(slotId); // 로드가 끝나면 무기 보너스 반영해서 다시 그림
+    refreshAllSlots(); // 로드가 끝나면 무기 보너스 반영해서 다시 그림
   });
 }
 
@@ -459,7 +916,7 @@ function saveEchoEditor() {
   if (activeEchoSlot === null) return;
   slotEcho[activeEchoSlot][activeEchoIndex] = echoEditorDraft;
   renderEchoSlots(activeEchoSlot);
-  renderStatDetail(activeEchoSlot); // 에코 부옵션이 스탯에 바로 반영되게
+  refreshAllSlots(); // 에코 부옵션이 스탯/피해에 바로 반영되게
   closeEchoEditor();
   markPartyDirty();
 }
@@ -468,7 +925,7 @@ function clearEchoEditor() {
   if (activeEchoSlot === null) return;
   slotEcho[activeEchoSlot][activeEchoIndex] = null;
   renderEchoSlots(activeEchoSlot);
-  renderStatDetail(activeEchoSlot);
+  refreshAllSlots();
   closeEchoEditor();
   markPartyDirty();
 }
@@ -614,6 +1071,7 @@ function toggleSkillNode(btn, role) {
   if (role === 'middle' && !isActive) {
     setSkillNodeActive(topBtn, false);
   }
+  refreshAllSlots(); // 노드 보너스가 스탯/피해에 바로 반영되게
   markPartyDirty();
 }
 
@@ -625,6 +1083,7 @@ function selectStatValue(btn, type) {
   });
   btn.classList.remove('bg-zinc-800', 'border-zinc-700', 'text-zinc-300');
   btn.classList.add('bg-teal-600', 'border-teal-500', 'text-white');
+  refreshAllSlots(); // 공명 체인/재련이 바뀌면 버프 목록도 달라짐
   markPartyDirty();
 }
 
@@ -683,33 +1142,18 @@ function captureSlotState(slotId) {
   const name = slotCharacter[slotId];
   if (!name) return null;
 
-  const container = document.getElementById(slotId);
   const character = characters.find(c => c.name === name);
-
-  const getActiveStatValue = (type) => {
-    const btn = container.querySelector(`.stat-btn[onclick*="'${type}'"].bg-teal-600`);
-    return btn ? btn.dataset.value : null;
-  };
-
-  const skills = [...container.querySelectorAll('.skill-col')].map(col => {
-    const [topBtn, midBtn] = col.querySelectorAll('.skill-toggle');
-    const select = col.querySelector('select');
-    return {
-      top: topBtn.classList.contains('bg-teal-600'),
-      middle: midBtn.classList.contains('bg-teal-600'),
-      level: select ? parseInt(select.value, 10) : 1,
-    };
-  });
 
   return {
     characterId: character ? character.id : null,
     characterName: name,
-    mode: getActiveStatValue('mode'),
-    breakthrough: getActiveStatValue('breakthrough'),
-    refinement: getActiveStatValue('refinement'),
+    mode: getActiveStatButtonValue(slotId, 'mode'),
+    breakthrough: getActiveStatButtonValue(slotId, 'breakthrough'),
+    refinement: getActiveStatButtonValue(slotId, 'refinement'),
     weaponId: slotWeapon[slotId] || null,
-    skills,
+    skills: readSkillColumns(slotId),
     echoes: slotEcho[slotId] || [null, null, null, null, null],
+    buffStates: slotBuffState[slotId] || {}, // 버프 토글/스택 — 이게 없으면 불러왔을 때 피해가 달라짐
   };
 }
 
@@ -759,7 +1203,7 @@ function confirmPartySave() {
   const name = ensureUniquePartyName(typedName || generatePartyDefaultName());
 
   const parties = loadParties();
-  parties.push({ name, characters: slotStates, savedAt: Date.now() });
+  parties.push({ name, characters: slotStates, enemy: { ...enemySettings }, savedAt: Date.now() });
   saveParties(parties);
 
   currentPartyName = name;
@@ -776,6 +1220,7 @@ function updateCurrentParty() {
   if (idx === -1) return;
 
   parties[idx].characters = totalSlots.map(captureSlotState).filter(Boolean);
+  parties[idx].enemy = { ...enemySettings };
   parties[idx].savedAt = Date.now();
   saveParties(parties);
 
@@ -871,6 +1316,10 @@ function applySlotState(slotId, state) {
 
   slotEcho[slotId] = state.echoes ? JSON.parse(JSON.stringify(state.echoes)) : [null, null, null, null, null];
   renderEchoSlots(slotId);
+
+  // 버프 토글 상태는 selectCharacter가 초기화한 뒤에 덮어써야 함
+  slotBuffState[slotId] = state.buffStates ? JSON.parse(JSON.stringify(state.buffStates)) : {};
+  renderStatDetail(slotId);
 }
 
 function loadParty(name) {
@@ -879,10 +1328,15 @@ function loadParty(name) {
 
   suppressDirtyTracking = true;
   resetCharacterSetup();
+  if (party.enemy) {
+    Object.assign(enemySettings, party.enemy);
+    renderEnemyPanel();
+  }
   party.characters.forEach((state, i) => {
     const slotId = totalSlots[i];
     if (slotId && state) applySlotState(slotId, state);
   });
+  refreshAllSlots();
   suppressDirtyTracking = false;
 
   currentPartyName = party.name;
@@ -899,6 +1353,9 @@ function resetCharacterSetup() {
     delete slotWeaponDetail[slotId];
     delete slotDetail[slotId];
     delete slotEcho[slotId];
+    delete slotBuffState[slotId];
+    delete slotContextCache[slotId];
+    delete slotDamageCache[slotId];
 
     document.getElementById(slotId).innerHTML = `
       <button onclick="openCharacterPicker('${slotId}')" class="w-full h-full flex items-center justify-center text-2xl text-zinc-600 hover:text-teal-400 border-2 border-dashed border-zinc-700 hover:border-teal-500 rounded-lg transition-colors">
@@ -911,12 +1368,25 @@ function resetCharacterSetup() {
   cancelPartySave();
   currentPartyName = null;
   isPartyDirty = false;
+  damageComputed = false;
+  damageStale = false;
   renderPartyStatusBar();
+  renderCalcBar();
+}
+
+// 적 설정 입력칸을 현재 enemySettings 값으로 맞춤 (파티를 불러올 때도 씀)
+function renderEnemyPanel() {
+  const levelInput = document.getElementById('enemyLevelInput');
+  const resInput = document.getElementById('enemyResInput');
+  if (levelInput) levelInput.value = enemySettings.level;
+  if (resInput) resInput.value = enemySettings.res;
 }
 
 renderCharacterList();
 renderPartyList();
 renderPartyStatusBar();
+renderEnemyPanel();
+renderCalcBar();
 
 // 모달은 배경 클릭으로도 닫히게 해뒀고(각 모달 div의 onclick), Esc는 여기서 한 번에 처리
 document.addEventListener('keydown', (e) => {
@@ -924,4 +1394,5 @@ document.addEventListener('keydown', (e) => {
   if (!document.getElementById('characterPickerModal').classList.contains('hidden')) closeCharacterPicker();
   if (!document.getElementById('echoEditorModal').classList.contains('hidden')) closeEchoEditor();
   if (!document.getElementById('statDetailModal').classList.contains('hidden')) closeStatDetailModal();
+  if (!document.getElementById('damageDetailModal').classList.contains('hidden')) closeDamageDetailModal();
 });

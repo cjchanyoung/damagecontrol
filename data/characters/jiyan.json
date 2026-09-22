@@ -1,7 +1,191 @@
 {
+  "element": "기류",
   "baseStats": {
     "hp": 10487,
     "atk": 437,
     "def": 1185
-  }
+  },
+
+  "skills": {
+    "normal": {
+      "name": "고독한 창",
+      "nodes": [
+        { "name": "크리티컬 증가", "effects": [{ "stat": "critRate", "value": 1.2 }] },
+        { "name": "크리티컬 증가", "effects": [{ "stat": "critRate", "value": 2.8 }] }
+      ],
+      "entries": [
+        { "id": "basic1", "name": "일반 공격 1단", "damageType": ["normal"], "parts": [{ "mv": 73.16 }] },
+        { "id": "basic2", "name": "일반 공격 2단", "damageType": ["normal"], "parts": [{ "mv": 43.73 }] },
+        { "id": "basic3", "name": "일반 공격 3단", "damageType": ["normal"], "parts": [{ "mv": 36.38, "hits": 5 }] },
+        { "id": "basic4", "name": "일반 공격 4단", "damageType": ["normal"], "parts": [{ "mv": 66.2, "hits": 2 }] },
+        { "id": "basic5", "name": "일반 공격 5단", "damageType": ["normal"], "parts": [{ "mv": 23.6, "hits": 7 }, { "mv": 153.45, "hits": 2 }] },
+        { "id": "heavy", "name": "강공격", "damageType": ["heavy"], "parts": [{ "mv": 22.2, "hits": 6 }] },
+        { "id": "heavy-ascent", "name": "강공격·용의 승천", "damageType": ["heavy"], "parts": [{ "mv": 105.96 }] },
+        { "id": "heavy-stealth", "name": "강공격·은신참", "damageType": ["heavy"], "parts": [{ "mv": 81.71 }] },
+        { "id": "plunge", "name": "공중 공격", "damageType": ["normal"], "_note": "공중 공격/회피 반격을 일반 공격 판정으로 넣어뒀습니다. 인게임 판정 확인 후 필요하면 heavy로 바꾸세요.", "parts": [{ "mv": 123.26 }] },
+        { "id": "plunge-dragonfall", "name": "공중 공격·청룡의 낙하", "damageType": ["normal"], "parts": [{ "mv": 79.52 }] },
+        { "id": "plunge-extra", "name": "공중 공격 추가 공격", "damageType": ["normal"], "parts": [{ "mv": 155.66 }] },
+        { "id": "dodge", "name": "회피 반격", "damageType": ["normal"], "parts": [{ "mv": 125.84, "hits": 2 }] }
+      ]
+    },
+
+    "skill": {
+      "name": "돌진의 창",
+      "nodes": [
+        { "name": "공격력 증가", "effects": [{ "stat": "atkPercent", "value": 1.8 }] },
+        { "name": "공격력 증가", "effects": [{ "stat": "atkPercent", "value": 4.2 }] }
+      ],
+      "entries": [
+        { "id": "skill-dash", "name": "돌진의 창", "damageType": ["skill"], "parts": [{ "mv": 106.36, "hits": 4 }], "concerto": 16, "cooldown": 7 }
+      ]
+    },
+
+    "liberation": {
+      "name": "승천하는 청룡·결정",
+      "nodes": [
+        { "name": "공격력 증가", "effects": [{ "stat": "atkPercent", "value": 1.8 }] },
+        { "name": "공격력 증가", "effects": [{ "stat": "atkPercent", "value": 4.2 }] }
+      ],
+      "entries": [
+        { "id": "lib-1", "name": "파진의 창 1단", "damageType": ["heavy"], "_note": "파진 상태의 강공격이라 공명 해방 피해 보너스가 아니라 강공격 피해 보너스를 받습니다. 레벨만 공명 해방 열에서 가져옵니다.", "parts": [{ "mv": 65.52, "hits": 8 }] },
+        { "id": "lib-2", "name": "파진의 창 2단", "damageType": ["heavy"], "parts": [{ "mv": 61.55, "hits": 8 }] },
+        { "id": "lib-3", "name": "파진의 창 3단", "damageType": ["heavy"], "parts": [{ "mv": 66.76, "hits": 8 }] }
+      ],
+      "energy": 125,
+      "concerto": 20,
+      "cooldown": 16
+    },
+
+    "intro": {
+      "name": "청룡의 습격",
+      "nodes": [
+        { "name": "크리티컬 증가", "effects": [{ "stat": "critRate", "value": 1.2 }] },
+        { "name": "크리티컬 증가", "effects": [{ "stat": "critRate", "value": 2.8 }] }
+      ],
+      "entries": [
+        { "id": "intro", "name": "청룡의 습격", "damageType": ["intro"], "parts": [{ "mv": 198.81 }], "concerto": 10 }
+      ]
+    },
+
+    "circuit": {
+      "name": "청룡파진",
+      "nodes": [
+        { "name": "수천평란", "buff": {
+          "label": "수천평란 (공격력 +10%)",
+          "condition": "변주 스킬 청룡의 습격 발동 후 15초",
+          "trigger": { "mode": "toggle", "default": true },
+          "effects": [{ "stat": "atkPercent", "value": 10 }]
+        }},
+        { "name": "온풍집류", "buff": {
+          "label": "온풍집류 (크리티컬 피해 +12%)",
+          "condition": "공격으로 목표 명중 시 8초",
+          "trigger": { "mode": "toggle", "default": true },
+          "effects": [{ "stat": "critDmg", "value": 12 }]
+        }}
+      ],
+      "entries": [
+        { "id": "forte", "name": "승천하는 청룡·처형", "damageType": ["heavy"], "parts": [{ "mv": 142.91, "hits": 2 }, { "mv": 428.73 }] }
+      ]
+    },
+
+    "outro": {
+      "name": "극기의 각오",
+      "entries": [
+        { "id": "outro", "name": "극기의 각오 협동 공격", "damageType": ["outro"], "_note": "8초간 1초마다 1회, 최대 2회 발동. 여기선 1회분 피해만 계산합니다(횟수는 나중에 로테이션에서).", "parts": [{ "mv": 313.4 }] }
+      ]
+    }
+  },
+
+  "_note_rotation": "기본 로테이션 1개. 나중에 사용자가 직접 짜는 로테이션이 생기면 이건 기본값으로만 남습니다.",
+  "rotation": {
+    "name": "기본 사이클",
+    "duration": 12,
+    "steps": [
+      { "pending": true, "note": "에코 (Q) — 메인 에코 계수/버프 추가 예정" },
+      { "note": "공명 해방 → 파진 상태 진입 (「파진치」가 차 있다고 가정)", "skillId": "forte" },
+      { "note": "파진 상태 평타 — 파진의 창 1·2·3단을 6번 반복", "repeat": 6, "skillIds": ["lib-1", "lib-2", "lib-3"] }
+    ]
+  },
+
+  "buffs": [
+    {
+      "id": "circuit-dash-boost",
+      "label": "청룡파진: 돌진의 창 피해 +20%",
+      "condition": "「파진치」 30pt 소모 시 또는 파진 상태",
+      "trigger": { "mode": "toggle", "default": true },
+      "effects": [{ "stat": "dmgBonus", "value": 20, "scope": { "skillIds": ["skill-dash"] } }]
+    }
+  ],
+
+  "chain": [
+    {
+      "name": "구원",
+      "description": "돌진의 창 사용 횟수 +1, 「파진치」 소모 15pt 감소",
+      "buffs": []
+    },
+    {
+      "name": "변통",
+      "description": "변주 스킬 발동 후 공격력 +28%, 15초",
+      "buffs": [{
+        "label": "C2 공격력 +28%",
+        "condition": "변주 스킬 청룡의 습격 발동 후 15초 (15초마다 1회)",
+        "trigger": { "mode": "toggle", "default": true },
+        "effects": [{ "stat": "atkPercent", "value": 28 }]
+      }]
+    },
+    {
+      "name": "통찰",
+      "description": "공명 스킬/해방/처형/변주 발동 시 크리티컬 +16%, 크리티컬 피해 +32%, 8초",
+      "buffs": [{
+        "label": "C3 크리 +16% / 크리피 +32%",
+        "condition": "돌진의 창·승천하는 청룡·결정/처형·청룡의 습격 발동 후 8초",
+        "trigger": { "mode": "toggle", "default": true },
+        "effects": [
+          { "stat": "critRate", "value": 16 },
+          { "stat": "critDmg", "value": 32 }
+        ]
+      }]
+    },
+    {
+      "name": "절묘",
+      "description": "공명 해방 결정/처형 발동 시 파티 전원 강공격 피해 보너스 +25%, 30초",
+      "buffs": [{
+        "label": "C4 파티 강공격 피해 +25%",
+        "condition": "승천하는 청룡·결정 또는 처형 발동 후 30초",
+        "target": "team",
+        "trigger": { "mode": "toggle", "default": true },
+        "effects": [{ "stat": "heavyAtkDmgBonus", "value": 25 }]
+      }]
+    },
+    {
+      "name": "과감",
+      "description": "반주 스킬 피해 배율 +120%. 명중 시 공격력 +3%, 최대 15스택",
+      "buffs": [
+        {
+          "label": "C5 반주 배율 +120%",
+          "condition": "조건 없음",
+          "trigger": { "mode": "always" },
+          "effects": [{ "stat": "mvFlat", "value": 120, "scope": { "skillIds": ["outro"] } }]
+        },
+        {
+          "label": "C5 공격력 +3% (스택)",
+          "condition": "공격으로 목표 명중 시 8초, 최대 15스택 (변주 스킬 발동 후 즉시 최대)",
+          "trigger": { "mode": "toggle", "default": true },
+          "stacks": { "max": 15, "default": 15 },
+          "effects": [{ "stat": "atkPercent", "value": 3 }]
+        }
+      ]
+    },
+    {
+      "name": "무적",
+      "description": "「예리한 기세」 1스택마다 처형의 피해 배율 +120%, 최대 2스택",
+      "buffs": [{
+        "label": "C6 처형 배율 +120% (스택)",
+        "condition": "강공격·청룡의 습격·돌진의 창 사용마다 1스택, 최대 2스택",
+        "trigger": { "mode": "toggle", "default": true },
+        "stacks": { "max": 2, "default": 2 },
+        "effects": [{ "stat": "mvFlat", "value": 120, "scope": { "skillIds": ["forte"] } }]
+      }]
+    }
+  ]
 }
