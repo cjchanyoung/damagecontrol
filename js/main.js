@@ -652,6 +652,53 @@ function renderRotationStepsCardHTML(slotId, ctx, data) {
   `;
 }
 
+// 로테이션이 아직 없는 캐릭터용 — 스킬별 1회 기대 피해만 나열한다.
+// (자동 생성된 캐릭터는 rotation이 비어 있어서 이걸로 숫자를 확인함)
+function renderSkillListCardHTML(slotId, ctx) {
+  const entries = flattenSkillEntries(ctx.detail);
+  if (entries.length === 0) {
+    return `
+      <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-3 mt-2 first:mt-0">
+        <div class="text-xs font-bold text-zinc-300 mb-1">피해</div>
+        <div class="text-[11px] text-zinc-500">이 캐릭터는 아직 스킬 데이터가 없습니다.</div>
+      </div>
+    `;
+  }
+
+  const rows = entries.map(entry => {
+    const dmg = computeEntryDamage(entry, ctx);
+    return { entry, dmg, count: 1, each: dmg.avg, sum: dmg.avg };
+  });
+  slotDamageCache[slotId] = rows;
+
+  let currentTree = null;
+  const list = rows.map((row, i) => {
+    const header = row.entry.tree !== currentTree
+      ? `<div class="text-[10px] text-zinc-600 mt-1.5 first:mt-0">${SKILL_GROUP_LABEL[row.entry.tree]} · ${row.entry.treeName}</div>`
+      : '';
+    currentTree = row.entry.tree;
+    const type = (row.entry.damageType || [])[0] || 'etc';
+    return `${header}
+      <button type="button" onclick="openDamageDetail('${slotId}', ${i})"
+        class="w-full flex items-center gap-1.5 text-[11px] py-0.5 hover:bg-zinc-800/60 rounded px-1 -mx-1 transition-colors">
+        <span class="w-2 h-2 rounded-full shrink-0" style="background:${TYPE_COLOR[type] || TYPE_COLOR.etc}"></span>
+        <span class="flex-1 min-w-0 truncate text-left text-zinc-400">${row.entry.name}</span>
+        <span class="shrink-0 text-zinc-200 tabular-nums">${formatDamage(row.dmg.avg)}</span>
+      </button>`;
+  }).join('');
+
+  return `
+    <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-3 mt-2 first:mt-0">
+      <div class="flex items-baseline justify-between mb-1">
+        <div class="text-xs font-bold text-zinc-300">스킬 피해 (1회)</div>
+        <div class="text-[10px] text-zinc-500">적 Lv.${ctx.enemy.level} · 저항 ${ctx.enemy.res}%</div>
+      </div>
+      <div class="text-[10px] text-amber-500/80 mb-1">로테이션 미설정 — 버프도 아직 비어 있어 기본 스펙 기준입니다.</div>
+      <div>${list}</div>
+    </div>
+  `;
+}
+
 function renderStatDetail(slotId) {
   // 스펙/버프는 캐릭터 설정 바로 아래(spec-detail-N), 계산 결과는 계산하기 버튼 아래(result-detail-N)
   const container = document.getElementById(slotId.replace('spec-slot-', 'spec-detail-'));
@@ -693,10 +740,14 @@ function renderStatDetail(slotId) {
   container.innerHTML = ctx ? statCard + renderBuffCardHTML(slotId, ctx) : statCard;
 
   if (resultContainer) {
-    const rotationData = (ctx && damageComputed) ? computeSlotRotation(ctx) : null;
-    resultContainer.innerHTML = rotationData
-      ? renderRotationCardHTML(ctx, rotationData) + renderRotationStepsCardHTML(slotId, ctx, rotationData)
-      : '';
+    if (!ctx || !damageComputed) {
+      resultContainer.innerHTML = '';
+    } else {
+      const rotationData = computeSlotRotation(ctx);
+      resultContainer.innerHTML = rotationData
+        ? renderRotationCardHTML(ctx, rotationData) + renderRotationStepsCardHTML(slotId, ctx, rotationData)
+        : renderSkillListCardHTML(slotId, ctx);
+    }
   }
 }
 
@@ -708,8 +759,13 @@ function openDamageDetail(slotId, index) {
 
   const b = row.dmg.breakdown;
   const element = (!row.entry.element || row.entry.element === 'inherit') ? ctx.element : row.entry.element;
+  // mvByLevel로 들어온 계수는 스킬 레벨에 맞는 값을 꺼내서 보여줘야 함
+  const skillLevel = (ctx.skillLevels || {})[row.entry.tree];
   const parts = (row.entry.parts || [])
-    .map(p => `${(p.mv || 0).toFixed(2)}%${p.hits > 1 ? ` × ${p.hits}` : ''}`)
+    .map(p => {
+      const mv = Array.isArray(p.mvByLevel) ? p.mvByLevel[clampSkillLevel(skillLevel) - 1] : p.mv;
+      return `${(mv || 0).toFixed(2)}%${p.hits > 1 ? ` × ${p.hits}` : ''}`;
+    })
     .join(' + ');
 
   const lines = [

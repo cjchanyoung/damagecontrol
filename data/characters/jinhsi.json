@@ -1,7 +1,538 @@
 {
+  "_generated": "encore.moe api (2026-10-02) — 계수/판정/연결점/체인은 자동 생성. buffs와 rotation은 손으로 채워야 함.",
+  "element": "회절",
   "baseStats": {
     "hp": 10825,
     "atk": 412,
     "def": 1258
-  }
+  },
+  "skills": {
+    "normal": {
+      "name": "달빛의 서리",
+      "entries": [
+        {
+          "id": "normal-1",
+          "name": "1단 피해",
+          "damageType": [
+            "normal"
+          ],
+          "parts": [
+            {
+              "mvByLevel": [
+                33.43,
+                36.18,
+                38.92,
+                42.75,
+                45.5,
+                48.65,
+                53.03,
+                57.42,
+                61.81,
+                66.47
+              ]
+            }
+          ]
+        },
+        {
+          "id": "normal-2",
+          "name": "2단 피해",
+          "damageType": [
+            "normal"
+          ],
+          "parts": [
+            {
+              "mv": 38.99
+            },
+            {
+              "mv": 19.5,
+              "hits": 3
+            }
+          ]
+        },
+        {
+          "id": "normal-3",
+          "name": "3단 피해",
+          "damageType": [
+            "normal"
+          ],
+          "parts": [
+            {
+              "mv": 10.65,
+              "hits": 7
+            },
+            {
+              "mv": 31.94
+            }
+          ]
+        },
+        {
+          "id": "normal-4",
+          "name": "4단 피해",
+          "damageType": [
+            "normal"
+          ],
+          "parts": [
+            {
+              "mv": 63.09
+            },
+            {
+              "mv": 94.63
+            }
+          ]
+        },
+        {
+          "id": "normal-5",
+          "name": "강공격 피해",
+          "damageType": [
+            "heavy"
+          ],
+          "parts": [
+            {
+              "mv": 23.86,
+              "hits": 5
+            },
+            {
+              "mv": 35.79
+            },
+            {
+              "mv": 83.51
+            }
+          ]
+        },
+        {
+          "id": "normal-6",
+          "name": "공중 공격 피해",
+          "damageType": [
+            "normal"
+          ],
+          "parts": [
+            {
+              "mv": 12.33
+            },
+            {
+              "mv": 24.66
+            },
+            {
+              "mv": 86.29
+            }
+          ]
+        },
+        {
+          "id": "normal-7",
+          "name": "회피 반격 피해",
+          "damageType": [
+            "normal"
+          ],
+          "parts": [
+            {
+              "mv": 14.68,
+              "hits": 7
+            },
+            {
+              "mv": 44.02
+            }
+          ]
+        }
+      ],
+      "nodes": [
+        {
+          "name": "크리티컬 증가",
+          "effects": [
+            {
+              "stat": "critRate",
+              "value": 1.2
+            }
+          ]
+        },
+        {
+          "name": "크리티컬 증가",
+          "effects": [
+            {
+              "stat": "critRate",
+              "value": 2.8
+            }
+          ]
+        }
+      ]
+    },
+    "skill": {
+      "name": "달빛의 석양",
+      "entries": [
+        {
+          "id": "skill-1",
+          "name": "스킬 피해",
+          "damageType": [
+            "skill"
+          ],
+          "parts": [
+            {
+              "mv": 19.46,
+              "hits": 4
+            },
+            {
+              "mv": 77.84
+            }
+          ]
+        },
+        {
+          "id": "skill-2",
+          "name": "창공의 무지개 피해",
+          "damageType": [
+            "skill"
+          ],
+          "parts": [
+            {
+              "mv": 9.87,
+              "hits": 4
+            },
+            {
+              "mv": 29.59,
+              "hits": 4
+            },
+            {
+              "mv": 39.45
+            }
+          ]
+        }
+      ],
+      "nodes": [
+        {
+          "name": "공격력 증가",
+          "effects": [
+            {
+              "stat": "atkPercent",
+              "value": 1.8
+            }
+          ]
+        },
+        {
+          "name": "공격력 증가",
+          "effects": [
+            {
+              "stat": "atkPercent",
+              "value": 4.2
+            }
+          ]
+        }
+      ]
+    },
+    "liberation": {
+      "name": "만물의 정화",
+      "entries": [
+        {
+          "id": "liberation-1",
+          "name": "스킬 피해",
+          "damageType": [
+            "liberation"
+          ],
+          "parts": [
+            {
+              "mv": 499.81
+            },
+            {
+              "mv": 1166.22
+            }
+          ]
+        }
+      ],
+      "nodes": [
+        {
+          "name": "공격력 증가",
+          "effects": [
+            {
+              "stat": "atkPercent",
+              "value": 1.8
+            }
+          ]
+        },
+        {
+          "name": "공격력 증가",
+          "effects": [
+            {
+              "stat": "atkPercent",
+              "value": 4.2
+            }
+          ]
+        }
+      ]
+    },
+    "intro": {
+      "name": "반룡의 빛",
+      "entries": [
+        {
+          "id": "intro-1",
+          "name": "스킬 피해",
+          "damageType": [
+            "intro"
+          ],
+          "parts": [
+            {
+              "mvByLevel": [
+                80,
+                86.56,
+                93.12,
+                102.31,
+                108.87,
+                116.41,
+                126.91,
+                137.4,
+                147.9,
+                159.05
+              ]
+            }
+          ]
+        }
+      ],
+      "nodes": [
+        {
+          "name": "크리티컬 증가",
+          "effects": [
+            {
+              "stat": "critRate",
+              "value": 1.2
+            }
+          ]
+        },
+        {
+          "name": "크리티컬 증가",
+          "effects": [
+            {
+              "stat": "critRate",
+              "value": 2.8
+            }
+          ]
+        }
+      ]
+    },
+    "circuit": {
+      "name": "만물합일",
+      "entries": [
+        {
+          "id": "circuit-1",
+          "name": "하늘로 향해 · 일반 공격 1단 피해",
+          "damageType": [
+            "skill"
+          ],
+          "parts": [
+            {
+              "mvByLevel": [
+                44.58,
+                48.23,
+                51.89,
+                57,
+                60.66,
+                64.86,
+                70.71,
+                76.56,
+                82.41,
+                88.62
+              ]
+            }
+          ]
+        },
+        {
+          "id": "circuit-2",
+          "name": "하늘로 향해 · 일반 공격 2단 피해",
+          "damageType": [
+            "skill"
+          ],
+          "parts": [
+            {
+              "mv": 77.97
+            },
+            {
+              "mv": 25.99
+            },
+            {
+              "mv": 25.99
+            }
+          ]
+        },
+        {
+          "id": "circuit-3",
+          "name": "하늘로 향해 · 일반 공격 3단 피해",
+          "damageType": [
+            "skill"
+          ],
+          "parts": [
+            {
+              "mv": 99.44
+            },
+            {
+              "mv": 66.3
+            }
+          ]
+        },
+        {
+          "id": "circuit-4",
+          "name": "하늘로 향해 · 일반 공격 4단 피해",
+          "damageType": [
+            "skill"
+          ],
+          "parts": [
+            {
+              "mv": 18.67,
+              "hits": 6
+            },
+            {
+              "mv": 74.67
+            }
+          ]
+        },
+        {
+          "id": "circuit-5",
+          "name": "달을 품은 용녀 스킬 피해",
+          "damageType": [
+            "skill"
+          ],
+          "parts": [
+            {
+              "mv": 100.76
+            },
+            {
+              "mv": 75.57,
+              "hits": 2
+            },
+            {
+              "mv": 251.9
+            }
+          ]
+        },
+        {
+          "id": "circuit-6",
+          "name": "하늘로 향해 · 강공격 피해",
+          "damageType": [
+            "normal"
+          ],
+          "parts": [
+            {
+              "mv": 47.72
+            },
+            {
+              "mv": 111.34
+            }
+          ]
+        },
+        {
+          "id": "circuit-7",
+          "name": "승천하는 용 · 햇살 피해",
+          "damageType": [
+            "skill"
+          ],
+          "parts": [
+            {
+              "hits": 6,
+              "mvByLevel": [
+                10,
+                10.82,
+                11.64,
+                12.79,
+                13.61,
+                14.56,
+                15.87,
+                17.18,
+                18.49,
+                19.89
+              ]
+            }
+          ]
+        },
+        {
+          "id": "circuit-8",
+          "name": "하늘로 향해 · 회피 반격 피해",
+          "damageType": [
+            "normal"
+          ],
+          "parts": [
+            {
+              "mv": 43.89
+            },
+            {
+              "mv": 32.92,
+              "hits": 2
+            },
+            {
+              "mv": 109.71
+            }
+          ]
+        },
+        {
+          "id": "circuit-9",
+          "name": "승천하는 용 · 별빛 피해",
+          "damageType": [
+            "skill"
+          ],
+          "parts": [
+            {
+              "mvByLevel": [
+                175,
+                189.35,
+                203.7,
+                223.79,
+                238.14,
+                254.65,
+                277.61,
+                300.57,
+                323.53,
+                347.92
+              ]
+            }
+          ]
+        }
+      ],
+      "nodes": [
+        {
+          "name": "수호신의 빛",
+          "_todo": "효과를 buff로 옮겨야 함",
+          "_description": "금희의 회절 피해 보너스가 20% 증가한다"
+        },
+        {
+          "name": "정신",
+          "_todo": "효과를 buff로 옮겨야 함",
+          "_description": "변주 스킬 반룡의 빛 피해 배율이 50% 상승한다"
+        }
+      ]
+    },
+    "outro": {
+      "name": "시간의 통제",
+      "entries": []
+    }
+  },
+  "buffs": [],
+  "rotation": null,
+  "chain": [
+    {
+      "name": "승천하는 물결",
+      "description": "금희가 일반 공격 하늘로 향해 · 일반 공격, 공명 스킬 달을 품은 용녀 발동 시, 경칩 1스택을 획득하고, 4스택 중첩이 가능하며, 6초간 지속된다. 공명 스킬 승천하는 용 발동 시, 경칩의 모든 스택을 소진하며, 1스택씩 소모할 때마다 공명 스킬 승천하는 용이 입힌 피해가 20% 증가한다",
+      "buffs": []
+    },
+    {
+      "name": "그치는 눈송이",
+      "description": "금희의 비전투 상태 지속 시간이 4초를 초과할 경우, 「봄의 빛」 50pt를 회복하며, 4초마다 1회만 적용한다",
+      "buffs": []
+    },
+    {
+      "name": "운명적인 사도",
+      "description": "금희가 변주 스킬 반룡의 빛 발동 후, 「적선」 효과를 1스택 획득하며, 스택마다 공격력이 25% 증가한다. 2스택까지 중첩이 가능하며 20초간 지속된다",
+      "buffs": []
+    },
+    {
+      "name": "인간 세상의 수호자",
+      "description": "금희가 공명 해방 만물의 정화 또는 공명 스킬 승천하는 용 발동 시, 근처에 있는 파티 내 모든 캐릭터의 전체 속성 피해 보너스가 20% 증가하며, 20초간 지속된다",
+      "buffs": []
+    },
+    {
+      "name": "눈을 녹이는 햇살",
+      "description": "공명 해방 만물의 정화 피해 배율이 120% 상승한다",
+      "buffs": []
+    },
+    {
+      "name": "엄동설한 끝에 비추는 봄",
+      "description": "공명 스킬 승천하는 용 피해 배율이 45% 상승되며, 「봄의 빛」 소모 시 얻는 배율 증가 효과가 추가로 45% 상승된다",
+      "buffs": []
+    }
+  ],
+  "_innateSkills": [
+    ""
+  ]
 }

@@ -1,7 +1,511 @@
 {
+  "_generated": "encore.moe api (2026-10-02) — 계수/판정/연결점/체인은 자동 생성. buffs와 rotation은 손으로 채워야 함.",
+  "element": "전도",
   "baseStats": {
     "hp": 10500,
     "atk": 437,
     "def": 1185
-  }
+  },
+  "skills": {
+    "normal": {
+      "name": "사냥꾼의 검술·날카로운 이빨",
+      "entries": [
+        {
+          "id": "normal-1",
+          "name": "1단 피해",
+          "damageType": [
+            "normal"
+          ],
+          "parts": [
+            {
+              "hits": 2,
+              "mvByLevel": [
+                23,
+                24.89,
+                26.78,
+                29.42,
+                31.3,
+                33.47,
+                36.49,
+                39.51,
+                42.53,
+                45.73
+              ]
+            }
+          ]
+        },
+        {
+          "id": "normal-2",
+          "name": "2단 피해",
+          "damageType": [
+            "normal"
+          ],
+          "parts": [
+            {
+              "mvByLevel": [
+                50,
+                54.1,
+                58.2,
+                63.94,
+                68.04,
+                72.76,
+                79.32,
+                85.88,
+                92.44,
+                99.41
+              ]
+            }
+          ]
+        },
+        {
+          "id": "normal-3",
+          "name": "3단 피해",
+          "damageType": [
+            "normal"
+          ],
+          "parts": [
+            {
+              "mv": 85.18
+            },
+            {
+              "mv": 42.59,
+              "hits": 3
+            }
+          ]
+        },
+        {
+          "id": "normal-4",
+          "name": "4단 피해",
+          "damageType": [
+            "normal"
+          ],
+          "parts": [
+            {
+              "mv": 79.51,
+              "hits": 2
+            },
+            {
+              "mv": 106.01
+            }
+          ]
+        },
+        {
+          "id": "normal-5",
+          "name": "강공격 피해",
+          "damageType": [
+            "heavy"
+          ],
+          "parts": [
+            {
+              "hits": 5,
+              "mvByLevel": [
+                20.8,
+                22.51,
+                24.22,
+                26.6,
+                28.31,
+                30.27,
+                33,
+                35.73,
+                38.46,
+                41.36
+              ]
+            }
+          ]
+        },
+        {
+          "id": "normal-6",
+          "name": "공중 공격 피해",
+          "damageType": [
+            "normal"
+          ],
+          "parts": [
+            {
+              "mvByLevel": [
+                62,
+                67.09,
+                72.17,
+                79.29,
+                84.37,
+                90.22,
+                98.36,
+                106.49,
+                114.62,
+                123.27
+              ]
+            }
+          ]
+        },
+        {
+          "id": "normal-7",
+          "name": "회피 반격 피해",
+          "damageType": [
+            "normal"
+          ],
+          "parts": [
+            {
+              "mv": 66.48,
+              "hits": 3
+            },
+            {
+              "mv": 85.47
+            }
+          ]
+        }
+      ],
+      "nodes": [
+        {
+          "name": "공격력 증가",
+          "effects": [
+            {
+              "stat": "atkPercent",
+              "value": 4.2
+            }
+          ]
+        },
+        {
+          "name": "공격력 증가",
+          "effects": [
+            {
+              "stat": "atkPercent",
+              "value": 1.8
+            }
+          ]
+        }
+      ]
+    },
+    "skill": {
+      "name": "척살 명령",
+      "entries": [
+        {
+          "id": "skill-1",
+          "name": "척살 명령 1단 피해",
+          "damageType": [
+            "skill"
+          ],
+          "parts": [
+            {
+              "mv": 51.57,
+              "hits": 2
+            },
+            {
+              "mv": 68.76
+            }
+          ]
+        },
+        {
+          "id": "skill-2",
+          "name": "척살 명령 2단 피해",
+          "damageType": [
+            "skill"
+          ],
+          "parts": [
+            {
+              "mv": 77.36,
+              "hits": 2
+            },
+            {
+              "mv": 103.14
+            }
+          ]
+        },
+        {
+          "id": "skill-3",
+          "name": "척살 명령 3단 피해",
+          "damageType": [
+            "skill"
+          ],
+          "parts": [
+            {
+              "hits": 2,
+              "mvByLevel": [
+                108.08,
+                116.94,
+                125.8,
+                138.21,
+                147.07,
+                157.26,
+                171.44,
+                185.62,
+                199.8,
+                214.87
+              ]
+            }
+          ]
+        }
+      ],
+      "nodes": [
+        {
+          "name": "크리티컬 피해 증가",
+          "effects": [
+            {
+              "stat": "critDmg",
+              "value": 5.6
+            }
+          ]
+        },
+        {
+          "name": "크리티컬 피해 증가",
+          "effects": [
+            {
+              "stat": "critDmg",
+              "value": 2.4
+            }
+          ]
+        }
+      ]
+    },
+    "liberation": {
+      "name": "환영의 각인",
+      "entries": [
+        {
+          "id": "liberation-1",
+          "name": "스킬 피해",
+          "damageType": [
+            "liberation"
+          ],
+          "parts": [
+            {
+              "mvByLevel": [
+                300,
+                324.6,
+                349.2,
+                383.64,
+                408.24,
+                436.53,
+                475.89,
+                515.25,
+                554.61,
+                596.43
+              ]
+            }
+          ]
+        },
+        {
+          "id": "liberation-2",
+          "name": "강공격 피해",
+          "damageType": [
+            "liberation"
+          ],
+          "parts": [
+            {
+              "hits": 5,
+              "mvByLevel": [
+                31.2,
+                33.76,
+                36.32,
+                39.9,
+                42.46,
+                45.4,
+                49.5,
+                53.59,
+                57.68,
+                62.03
+              ]
+            }
+          ]
+        },
+        {
+          "id": "liberation-3",
+          "name": "회피 반격 피해",
+          "damageType": [
+            "liberation"
+          ],
+          "parts": [
+            {
+              "hits": 6,
+              "mvByLevel": [
+                28.67,
+                31.02,
+                33.37,
+                36.66,
+                39.01,
+                41.72,
+                45.48,
+                49.24,
+                53,
+                56.99
+              ]
+            }
+          ]
+        },
+        {
+          "id": "liberation-4",
+          "name": "「필요한 수단」 피해",
+          "damageType": [
+            "intro"
+          ],
+          "parts": [
+            {
+              "hits": 2,
+              "mvByLevel": [
+                100,
+                108.2,
+                116.4,
+                127.88,
+                136.08,
+                145.51,
+                158.63,
+                171.75,
+                184.87,
+                198.81
+              ]
+            }
+          ]
+        }
+      ],
+      "nodes": [
+        {
+          "name": "크리티컬 피해 증가",
+          "effects": [
+            {
+              "stat": "critDmg",
+              "value": 2.4
+            }
+          ]
+        },
+        {
+          "name": "크리티컬 피해 증가",
+          "effects": [
+            {
+              "stat": "critDmg",
+              "value": 5.6
+            }
+          ]
+        }
+      ]
+    },
+    "intro": {
+      "name": "전역 수배",
+      "entries": [
+        {
+          "id": "intro-1",
+          "name": "스킬 피해",
+          "damageType": [
+            "intro"
+          ],
+          "parts": [
+            {
+              "mv": 39.77,
+              "hits": 2
+            },
+            {
+              "mv": 59.65,
+              "hits": 2
+            }
+          ]
+        }
+      ],
+      "nodes": [
+        {
+          "name": "공격력 증가",
+          "effects": [
+            {
+              "stat": "atkPercent",
+              "value": 1.8
+            }
+          ]
+        },
+        {
+          "name": "공격력 증가",
+          "effects": [
+            {
+              "stat": "atkPercent",
+              "value": 4.2
+            }
+          ]
+        }
+      ]
+    },
+    "circuit": {
+      "name": "사냥 임무",
+      "entries": [
+        {
+          "id": "circuit-1",
+          "name": "「자애」피해",
+          "damageType": [
+            "heavy"
+          ],
+          "parts": [
+            {
+              "mv": 39.11,
+              "hits": 8
+            },
+            {
+              "mv": 78.22
+            }
+          ]
+        },
+        {
+          "id": "circuit-2",
+          "name": "「사형 선고」피해",
+          "damageType": [
+            "liberation"
+          ],
+          "parts": [
+            {
+              "mv": 97.77,
+              "hits": 8
+            },
+            {
+              "mv": 195.53
+            }
+          ]
+        }
+      ],
+      "nodes": [
+        {
+          "name": "핏빛의 각오",
+          "_todo": "효과를 buff로 옮겨야 함",
+          "_description": "강공격 「자애」 발동 시, 카카루의 공명 해방 피해 보너스가 10% 증가하며, 15초간 지속된다"
+        },
+        {
+          "name": "용감한 헌신",
+          "_todo": "효과를 buff로 옮겨야 함",
+          "_description": "강공격 「사형 선고」로 목표 명중 시, 카카루가 받는 피해가 15% 감소하며, 5초간 지속된다"
+        }
+      ]
+    },
+    "outro": {
+      "name": "그림자의 기습",
+      "entries": []
+    }
+  },
+  "buffs": [],
+  "rotation": null,
+  "chain": [
+    {
+      "name": "은밀한 담판",
+      "description": "공명 스킬 척살 명령이 목표에 명중 시, 추가로 10pt의 공명 에너지를 회복하며, 20초마다 1회 발동된다",
+      "buffs": []
+    },
+    {
+      "name": "제로섬 게임",
+      "description": "변주 스킬 전역 수배 또는 변주 스킬 「필요한 수단」 발동 후, 공명 스킬 피해 보너스가 30% 증가하며, 15초간 지속된다",
+      "buffs": []
+    },
+    {
+      "name": "강권 외교",
+      "description": "공명 해방 살육의 무장 상태가 지속되는 동안, 카카루의 전도 피해 보너스가 25% 증가한다",
+      "buffs": []
+    },
+    {
+      "name": "무리의 위협",
+      "description": "반주 스킬 그림자의 기습 발동 시, 파티 내의 캐릭터의 전도 피해 보너스가 20% 증가하며, 30초간 지속된다",
+      "buffs": []
+    },
+    {
+      "name": "위탁 협상",
+      "description": "변주 스킬 전역 수배 및 변주 스킬 「필요한 수단」의 피해가 50% 증가한다",
+      "buffs": []
+    },
+    {
+      "name": "마지막 기회",
+      "description": "강공격 「사형 선고」 발동 시, 카카루는 2개의 사냥의 그림자를 소환하여 협동 공격을 진행한다. 사냥의 그림자마다 카카루 100.00% 공격의 전도 피해를 주며, 이번 피해는 공명 해방 피해로 적용된다",
+      "buffs": []
+    }
+  ],
+  "_innateSkills": [
+    "요리의 달인"
+  ]
 }

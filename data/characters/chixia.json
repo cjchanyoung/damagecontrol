@@ -1,7 +1,458 @@
 {
+  "_generated": "encore.moe api (2026-10-02) — 계수/판정/연결점/체인은 자동 생성. buffs와 rotation은 손으로 채워야 함.",
+  "element": "용융",
   "baseStats": {
     "hp": 9087,
     "atk": 300,
     "def": 953
-  }
+  },
+  "skills": {
+    "normal": {
+      "name": "펑펑",
+      "entries": [
+        {
+          "id": "normal-1",
+          "name": "3단 피해",
+          "damageType": [
+            "normal"
+          ],
+          "parts": [
+            {
+              "hits": 4,
+              "mvByLevel": [
+                16.88,
+                18.26,
+                19.65,
+                21.58,
+                22.97,
+                24.56,
+                26.77,
+                28.99,
+                31.2,
+                33.55
+              ]
+            }
+          ]
+        },
+        {
+          "id": "normal-2",
+          "name": "4단 피해",
+          "damageType": [
+            "normal"
+          ],
+          "parts": [
+            {
+              "mvByLevel": [
+                117,
+                126.6,
+                136.19,
+                149.62,
+                159.22,
+                170.25,
+                185.6,
+                200.95,
+                216.3,
+                232.61
+              ]
+            }
+          ]
+        },
+        {
+          "id": "normal-3",
+          "name": "강공격 피해",
+          "damageType": [
+            "heavy"
+          ],
+          "parts": [
+            {
+              "mvByLevel": [
+                18,
+                19.48,
+                20.96,
+                23.02,
+                24.5,
+                26.2,
+                28.56,
+                30.92,
+                33.28,
+                35.79
+              ]
+            }
+          ]
+        },
+        {
+          "id": "normal-4",
+          "name": "풀 차지 강공격 피해",
+          "damageType": [
+            "heavy"
+          ],
+          "parts": [
+            {
+              "mvByLevel": [
+                40.5,
+                43.83,
+                47.15,
+                51.8,
+                55.12,
+                58.94,
+                64.25,
+                69.56,
+                74.88,
+                80.52
+              ]
+            }
+          ]
+        },
+        {
+          "id": "normal-5",
+          "name": "공중 공격 피해",
+          "damageType": [
+            "normal"
+          ],
+          "parts": [
+            {
+              "mvByLevel": [
+                16.2,
+                17.53,
+                18.86,
+                20.72,
+                22.05,
+                23.58,
+                25.7,
+                27.83,
+                29.95,
+                32.21
+              ]
+            }
+          ]
+        },
+        {
+          "id": "normal-6",
+          "name": "1단 피해",
+          "damageType": [
+            "normal"
+          ],
+          "parts": [
+            {
+              "mvByLevel": [
+                33.3,
+                36.04,
+                38.77,
+                42.59,
+                45.32,
+                48.46,
+                52.83,
+                57.2,
+                61.57,
+                66.21
+              ]
+            }
+          ]
+        },
+        {
+          "id": "normal-7",
+          "name": "2단 피해",
+          "damageType": [
+            "normal"
+          ],
+          "parts": [
+            {
+              "hits": 2,
+              "mvByLevel": [
+                24.3,
+                26.3,
+                28.29,
+                31.08,
+                33.07,
+                35.36,
+                38.55,
+                41.74,
+                44.93,
+                48.32
+              ]
+            }
+          ]
+        },
+        {
+          "id": "normal-8",
+          "name": "회피 반격 피해",
+          "damageType": [
+            "normal"
+          ],
+          "parts": [
+            {
+              "mvByLevel": [
+                171,
+                185.03,
+                199.05,
+                218.68,
+                232.7,
+                248.83,
+                271.26,
+                293.7,
+                316.13,
+                339.97
+              ]
+            }
+          ]
+        }
+      ],
+      "nodes": [
+        {
+          "name": "용융 피해 보너스 증가",
+          "effects": [
+            {
+              "stat": "fusionDmgBonus",
+              "value": 1.8
+            }
+          ]
+        },
+        {
+          "name": "용융 피해 보너스 증가",
+          "effects": [
+            {
+              "stat": "fusionDmgBonus",
+              "value": 4.2
+            }
+          ]
+        }
+      ]
+    },
+    "skill": {
+      "name": "투쟁의 마음",
+      "entries": [
+        {
+          "id": "skill-1",
+          "name": "스킬 피해",
+          "damageType": [
+            "skill"
+          ],
+          "parts": [
+            {
+              "hits": 8,
+              "mvByLevel": [
+                16,
+                17.32,
+                18.63,
+                20.47,
+                21.78,
+                23.29,
+                25.39,
+                27.48,
+                29.58,
+                31.81
+              ]
+            }
+          ]
+        }
+      ],
+      "nodes": [
+        {
+          "name": "공격력 증가",
+          "effects": [
+            {
+              "stat": "atkPercent",
+              "value": 1.8
+            }
+          ]
+        },
+        {
+          "name": "공격력 증가",
+          "effects": [
+            {
+              "stat": "atkPercent",
+              "value": 4.2
+            }
+          ]
+        }
+      ]
+    },
+    "liberation": {
+      "name": "뜨거운 불길",
+      "entries": [
+        {
+          "id": "liberation-1",
+          "name": "스킬 피해",
+          "damageType": [
+            "liberation"
+          ],
+          "parts": [
+            {
+              "mv": 954.29
+            },
+            {
+              "mv": 57.84,
+              "hits": 11
+            }
+          ]
+        }
+      ],
+      "nodes": [
+        {
+          "name": "공격력 증가",
+          "effects": [
+            {
+              "stat": "atkPercent",
+              "value": 1.8
+            }
+          ]
+        },
+        {
+          "name": "공격력 증가",
+          "effects": [
+            {
+              "stat": "atkPercent",
+              "value": 4.2
+            }
+          ]
+        }
+      ]
+    },
+    "intro": {
+      "name": "당당히 등장",
+      "entries": [
+        {
+          "id": "intro-1",
+          "name": "스킬 피해",
+          "damageType": [
+            "intro"
+          ],
+          "parts": [
+            {
+              "mv": 49.21,
+              "hits": 2
+            },
+            {
+              "mv": 24.61,
+              "hits": 4
+            }
+          ]
+        }
+      ],
+      "nodes": [
+        {
+          "name": "용융 피해 보너스 증가",
+          "effects": [
+            {
+              "stat": "fusionDmgBonus",
+              "value": 1.8
+            }
+          ]
+        },
+        {
+          "name": "용융 피해 보너스 증가",
+          "effects": [
+            {
+              "stat": "fusionDmgBonus",
+              "value": 4.2
+            }
+          ]
+        }
+      ]
+    },
+    "circuit": {
+      "name": "영웅의 불길",
+      "entries": [
+        {
+          "id": "circuit-1",
+          "name": "열압탄 피해",
+          "damageType": [
+            "skill"
+          ],
+          "parts": [
+            {
+              "mvByLevel": [
+                10,
+                10.82,
+                11.64,
+                12.79,
+                13.61,
+                14.56,
+                15.87,
+                17.18,
+                18.49,
+                19.89
+              ]
+            }
+          ]
+        },
+        {
+          "id": "circuit-2",
+          "name": "폭격의 천둥소리 피해",
+          "damageType": [
+            "skill"
+          ],
+          "parts": [
+            {
+              "mvByLevel": [
+                220,
+                238.04,
+                256.08,
+                281.34,
+                299.38,
+                320.13,
+                348.99,
+                377.85,
+                406.72,
+                437.39
+              ]
+            }
+          ]
+        }
+      ],
+      "nodes": [
+        {
+          "name": "뜨거운 탄창",
+          "_todo": "효과를 buff로 옮겨야 함",
+          "_description": "「열압탄」의 최대 용량이 10발 증가하고, 공명 스킬 폭격의 천둥소리의 피해가 50% 증가된다"
+        },
+        {
+          "name": "극도로 매운맛",
+          "_todo": "효과를 buff로 옮겨야 함",
+          "_description": "공명 스킬 억압 지속 기간 동안, 「열압탄」을 발사해 명중할 때마다 공격력이 1% 증가되고, 10초간 지속되며, 최대 30스택 중첩이 가능하다"
+        }
+      ]
+    },
+    "outro": {
+      "name": "도약의 불빛",
+      "entries": []
+    }
+  },
+  "buffs": [],
+  "rotation": null,
+  "chain": [
+    {
+      "name": "극장의 영웅극",
+      "description": "공명 스킬 폭격의 천둥소리 발동 시, 반드시 크리티컬이 발동한다",
+      "buffs": []
+    },
+    {
+      "name": "도약의 불꽃",
+      "description": "공명 해방 뜨거운 불길 기간에 목표 1개 격파할 때마다 5pt 공명 에너지 회복, 매번 최대 20pt 회복 가능하다",
+      "buffs": []
+    },
+    {
+      "name": "불멸의 횃불",
+      "description": "공명 해방 뜨거운 불길은 HP가 50%보다 낮은 목표에 대한 피해가 40%증가한다",
+      "buffs": []
+    },
+    {
+      "name": "영웅의 필살기",
+      "description": "공명 해방 뜨거운 불길 발동 시, 치샤는 60발 「열압탄」을 획득하고 공명 스킬 투쟁의 마음의 쿨타임을 1회 즉시 리셋한다",
+      "buffs": []
+    },
+    {
+      "name": "승리의 불꽃 총알",
+      "description": "고유 스킬 극도로 매운맛이 스택 최대치까지 중첩 시 공격력이 추가로 30% 증가한다",
+      "buffs": []
+    },
+    {
+      "name": "종영의 컴백 쿠키영상",
+      "description": "공명 스킬 폭격의 천둥소리 발동 후, 파티 내의 캐릭터의 일반 공격 피해 보너스가 25% 증가하며, 15초간 지속된다",
+      "buffs": []
+    }
+  ],
+  "_innateSkills": [
+    "요리의 달인"
+  ]
 }

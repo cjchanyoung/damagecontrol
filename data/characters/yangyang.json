@@ -1,7 +1,446 @@
 {
+  "_generated": "encore.moe api (2026-10-02) — 계수/판정/연결점/체인은 자동 생성. buffs와 rotation은 손으로 채워야 함.",
+  "element": "기류",
   "baseStats": {
     "hp": 10200,
     "atk": 250,
     "def": 1099
-  }
+  },
+  "skills": {
+    "normal": {
+      "name": "날카로운 바람",
+      "entries": [
+        {
+          "id": "normal-1",
+          "name": "1단 피해",
+          "damageType": [
+            "normal"
+          ],
+          "parts": [
+            {
+              "mvByLevel": [
+                22.5,
+                24.34,
+                26.18,
+                28.77,
+                30.61,
+                32.73,
+                35.69,
+                38.64,
+                41.59,
+                44.73
+              ]
+            }
+          ]
+        },
+        {
+          "id": "normal-2",
+          "name": "2단 피해",
+          "damageType": [
+            "normal"
+          ],
+          "parts": [
+            {
+              "mvByLevel": [
+                30,
+                32.46,
+                34.92,
+                38.36,
+                40.82,
+                43.65,
+                47.58,
+                51.52,
+                55.46,
+                59.64
+              ]
+            }
+          ]
+        },
+        {
+          "id": "normal-3",
+          "name": "3단 피해",
+          "damageType": [
+            "normal"
+          ],
+          "parts": [
+            {
+              "hits": 2,
+              "mvByLevel": [
+                23.55,
+                25.48,
+                27.41,
+                30.11,
+                32.04,
+                34.26,
+                37.35,
+                40.44,
+                43.53,
+                46.81
+              ]
+            }
+          ]
+        },
+        {
+          "id": "normal-4",
+          "name": "4단 피해",
+          "damageType": [
+            "normal"
+          ],
+          "parts": [
+            {
+              "mv": 59.36,
+              "hits": 2
+            },
+            {
+              "mv": 79.14
+            }
+          ]
+        },
+        {
+          "id": "normal-5",
+          "name": "강공격 피해",
+          "damageType": [
+            "heavy"
+          ],
+          "parts": [
+            {
+              "hits": 3,
+              "mvByLevel": [
+                10,
+                10.82,
+                11.64,
+                12.78,
+                13.6,
+                14.55,
+                15.86,
+                17.17,
+                18.48,
+                19.88
+              ]
+            }
+          ]
+        },
+        {
+          "id": "normal-6",
+          "name": "공중 공격 피해",
+          "damageType": [
+            "normal"
+          ],
+          "parts": [
+            {
+              "mvByLevel": [
+                46.5,
+                50.31,
+                54.12,
+                59.46,
+                63.27,
+                67.66,
+                73.76,
+                79.86,
+                85.96,
+                92.44
+              ]
+            }
+          ]
+        },
+        {
+          "id": "normal-7",
+          "name": "바람의 찬송 피해",
+          "damageType": [
+            "heavy"
+          ],
+          "parts": [
+            {
+              "mvByLevel": [
+                53.62,
+                58.02,
+                62.41,
+                68.57,
+                72.97,
+                78.02,
+                85.06,
+                92.1,
+                99.13,
+                106.61
+              ]
+            }
+          ]
+        },
+        {
+          "id": "normal-8",
+          "name": "회피 반격 피해",
+          "damageType": [
+            "heavy"
+          ],
+          "parts": [
+            {
+              "hits": 2,
+              "mvByLevel": [
+                43.8,
+                47.39,
+                50.98,
+                56.01,
+                59.6,
+                63.73,
+                69.47,
+                75.22,
+                80.97,
+                87.07
+              ]
+            }
+          ]
+        }
+      ],
+      "nodes": [
+        {
+          "name": "공격력 증가",
+          "effects": [
+            {
+              "stat": "atkPercent",
+              "value": 1.8
+            }
+          ]
+        },
+        {
+          "name": "공격력 증가",
+          "effects": [
+            {
+              "stat": "atkPercent",
+              "value": 4.2
+            }
+          ]
+        }
+      ]
+    },
+    "skill": {
+      "name": "바람의 영역",
+      "entries": [
+        {
+          "id": "skill-1",
+          "name": "스킬 피해",
+          "damageType": [
+            "skill"
+          ],
+          "parts": [
+            {
+              "mv": 34.53,
+              "hits": 4
+            },
+            {
+              "mv": 207.19
+            }
+          ]
+        }
+      ],
+      "nodes": [
+        {
+          "name": "기류 피해 보너스 증가",
+          "effects": [
+            {
+              "stat": "aeroDmgBonus",
+              "value": 1.8
+            }
+          ]
+        },
+        {
+          "name": "기류 피해 보너스 증가",
+          "effects": [
+            {
+              "stat": "aeroDmgBonus",
+              "value": 4.2
+            }
+          ]
+        }
+      ]
+    },
+    "liberation": {
+      "name": "북풍의 소용돌이",
+      "entries": [
+        {
+          "id": "liberation-1",
+          "name": "스킬 피해",
+          "damageType": [
+            "liberation"
+          ],
+          "parts": [
+            {
+              "mv": 46.58,
+              "hits": 12
+            },
+            {
+              "mv": 372.7
+            }
+          ]
+        }
+      ],
+      "nodes": [
+        {
+          "name": "기류 피해 보너스 증가",
+          "effects": [
+            {
+              "stat": "aeroDmgBonus",
+              "value": 4.2
+            }
+          ]
+        },
+        {
+          "name": "기류 피해 보너스 증가",
+          "effects": [
+            {
+              "stat": "aeroDmgBonus",
+              "value": 1.8
+            }
+          ]
+        }
+      ]
+    },
+    "intro": {
+      "name": "다크 블루의 찬송",
+      "entries": [
+        {
+          "id": "intro-1",
+          "name": "스킬 피해",
+          "damageType": [
+            "intro"
+          ],
+          "parts": [
+            {
+              "hits": 2,
+              "mvByLevel": [
+                40,
+                43.28,
+                46.56,
+                51.15,
+                54.43,
+                58.2,
+                63.45,
+                68.7,
+                73.94,
+                79.52
+              ]
+            }
+          ]
+        }
+      ],
+      "nodes": [
+        {
+          "name": "공격력 증가",
+          "effects": [
+            {
+              "stat": "atkPercent",
+              "value": 4.2
+            }
+          ]
+        },
+        {
+          "name": "공격력 증가",
+          "effects": [
+            {
+              "stat": "atkPercent",
+              "value": 1.8
+            }
+          ]
+        }
+      ]
+    },
+    "circuit": {
+      "name": "복성재우",
+      "entries": [
+        {
+          "id": "circuit-1",
+          "name": "풍랑 피해",
+          "damageType": [
+            "heavy"
+          ],
+          "parts": [
+            {
+              "hits": 2,
+              "mvByLevel": [
+                19.12,
+                20.69,
+                22.26,
+                24.45,
+                26.02,
+                27.82,
+                30.33,
+                32.84,
+                35.35,
+                38.02
+              ]
+            }
+          ]
+        },
+        {
+          "id": "circuit-2",
+          "name": "날개의 뜻 피해",
+          "damageType": [
+            "normal"
+          ],
+          "parts": [
+            {
+              "mv": 21.73,
+              "hits": 5
+            },
+            {
+              "mv": 126.81,
+              "hits": 2
+            }
+          ]
+        }
+      ],
+      "nodes": [
+        {
+          "name": "바람의 해석",
+          "_todo": "효과를 buff로 옮겨야 함",
+          "_description": "공중 공격 날개의 뜻 발동 후, 스태미나를 30pt 회복한다"
+        },
+        {
+          "name": "근심",
+          "_todo": "효과를 buff로 옮겨야 함",
+          "_description": "변주 스킬 다크 블루의 찬송 발동 후, 양양의 기류 피해 보너스가 8% 증가하고 8초간 효과가 지속된다"
+        }
+      ]
+    },
+    "outro": {
+      "name": "숨결",
+      "entries": []
+    }
+  },
+  "buffs": [],
+  "rotation": null,
+  "chain": [
+    {
+      "name": "다크 블루의 세례",
+      "description": "변주 스킬 다크 블루의 찬송 발동 후, 양양의 기류 피해보너스를 추가로 15%만큼 증가하며, 8초간 지속된다",
+      "buffs": []
+    },
+    {
+      "name": "종달새의 여행",
+      "description": "강공격이 목표에 명중 시, 양양은 추가로 10pt의 공명 에너지를 회복하며, 20초마다 1회 발동된다",
+      "buffs": []
+    },
+    {
+      "name": "끊이지 않는 바람의 숨결",
+      "description": "공명 스킬 피해 보너스가 40% 증가하고, 바람 필드의 주변 목표에 대한 견인효과 증대하며, 견인 범위가 33% 증가한다",
+      "buffs": []
+    },
+    {
+      "name": "귀를 기울이면",
+      "description": "공중 공격 날개의 뜻 피해가 95% 증가한다",
+      "buffs": []
+    },
+    {
+      "name": "울려 퍼지는 바람",
+      "description": "공명 해방 북풍의 소용돌이로 인한 피해가 85% 증가한다",
+      "buffs": []
+    },
+    {
+      "name": "아름다움에게 바치는 찬가",
+      "description": "공중 공격 날개의 뜻 발동 후, 파티 내의 모든 캐릭터의 공격력이 20% 증가하며, 20초간 지속된다",
+      "buffs": []
+    }
+  ],
+  "_innateSkills": [
+    "요리의 달인"
+  ]
 }

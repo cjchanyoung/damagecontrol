@@ -1,7 +1,679 @@
 {
+  "_generated": "encore.moe api (2026-10-02) — 계수/판정/연결점/체인은 자동 생성. buffs와 rotation은 손으로 채워야 함.",
+  "element": "전도",
   "baseStats": {
     "hp": 8525,
     "atk": 225,
     "def": 1637
-  }
+  },
+  "skills": {
+    "normal": {
+      "name": "뇌황권",
+      "entries": [
+        {
+          "id": "normal-1",
+          "name": "1단 피해",
+          "damageType": [
+            "normal"
+          ],
+          "parts": [
+            {
+              "mvByLevel": [
+                24.7,
+                26.73,
+                28.76,
+                31.59,
+                33.62,
+                35.95,
+                39.19,
+                42.43,
+                45.67,
+                49.11
+              ]
+            }
+          ]
+        },
+        {
+          "id": "normal-2",
+          "name": "2단 피해",
+          "damageType": [
+            "normal"
+          ],
+          "parts": [
+            {
+              "hits": 2,
+              "mvByLevel": [
+                26.06,
+                28.2,
+                30.34,
+                33.33,
+                35.46,
+                37.92,
+                41.34,
+                44.76,
+                48.18,
+                51.81
+              ]
+            }
+          ]
+        },
+        {
+          "id": "normal-3",
+          "name": "3단 피해",
+          "damageType": [
+            "normal"
+          ],
+          "parts": [
+            {
+              "mv": 21.84,
+              "hits": 2
+            },
+            {
+              "mv": 32.76,
+              "hits": 2
+            }
+          ]
+        },
+        {
+          "id": "normal-4",
+          "name": "4단 피해",
+          "damageType": [
+            "normal"
+          ],
+          "parts": [
+            {
+              "hits": 2,
+              "mvByLevel": [
+                26.06,
+                28.2,
+                30.34,
+                33.33,
+                35.46,
+                37.92,
+                41.34,
+                44.76,
+                48.18,
+                51.81
+              ]
+            }
+          ]
+        },
+        {
+          "id": "normal-5",
+          "name": "5단 피해",
+          "damageType": [
+            "normal"
+          ],
+          "parts": [
+            {
+              "mv": 49.11,
+              "hits": 2
+            },
+            {
+              "mv": 65.48
+            }
+          ]
+        },
+        {
+          "id": "normal-6",
+          "name": "강공격 피해",
+          "damageType": [
+            "heavy"
+          ],
+          "parts": [
+            {
+              "mvByLevel": [
+                80,
+                86.56,
+                93.12,
+                102.31,
+                108.87,
+                116.41,
+                126.91,
+                137.4,
+                147.9,
+                159.05
+              ]
+            }
+          ]
+        },
+        {
+          "id": "normal-7",
+          "name": "공중 공격 피해",
+          "damageType": [
+            "normal"
+          ],
+          "parts": [
+            {
+              "mvByLevel": [
+                49.6,
+                53.67,
+                57.74,
+                63.43,
+                67.5,
+                72.18,
+                78.69,
+                85.19,
+                91.7,
+                98.61
+              ]
+            }
+          ]
+        },
+        {
+          "id": "normal-8",
+          "name": "회피 반격 피해",
+          "damageType": [
+            "normal"
+          ],
+          "parts": [
+            {
+              "hits": 2,
+              "mvByLevel": [
+                57.6,
+                62.33,
+                67.05,
+                73.66,
+                78.39,
+                83.82,
+                91.38,
+                98.93,
+                106.49,
+                114.52
+              ]
+            }
+          ]
+        }
+      ],
+      "nodes": [
+        {
+          "name": "전도 피해 보너스 증가",
+          "effects": [
+            {
+              "stat": "electroDmgBonus",
+              "value": 1.8
+            }
+          ]
+        },
+        {
+          "name": "전도 피해 보너스 증가",
+          "effects": [
+            {
+              "stat": "electroDmgBonus",
+              "value": 4.2
+            }
+          ]
+        }
+      ]
+    },
+    "skill": {
+      "name": "진동의 일격",
+      "entries": [
+        {
+          "id": "skill-1",
+          "name": "스킬 피해",
+          "damageType": [
+            "skill"
+          ],
+          "parts": [
+            {
+              "mvByLevel": [
+                12,
+                12.99,
+                13.97,
+                15.35,
+                16.33,
+                17.47,
+                19.04,
+                20.61,
+                22.19,
+                23.86
+              ]
+            }
+          ],
+          "scaling": "def"
+        },
+        {
+          "id": "skill-2",
+          "name": "뇌전의 쐐기 협동 공격 피해",
+          "damageType": [
+            "skill"
+          ],
+          "parts": [
+            {
+              "mvByLevel": [
+                4,
+                4.33,
+                4.66,
+                5.12,
+                5.45,
+                5.83,
+                6.35,
+                6.87,
+                7.4,
+                7.96
+              ]
+            }
+          ],
+          "scaling": "def"
+        },
+        {
+          "id": "skill-3",
+          "name": "뇌전의 쐐기 폭발 피해",
+          "damageType": [
+            "skill"
+          ],
+          "parts": [
+            {
+              "mvByLevel": [
+                30,
+                32.46,
+                34.92,
+                38.37,
+                40.83,
+                43.66,
+                47.59,
+                51.53,
+                55.47,
+                59.65
+              ]
+            }
+          ],
+          "scaling": "def"
+        },
+        {
+          "id": "skill-4",
+          "name": "계곡의 뇌전 피해",
+          "damageType": [
+            "skill"
+          ],
+          "parts": [
+            {
+              "mvByLevel": [
+                54.6,
+                59.07,
+                63.55,
+                69.82,
+                74.29,
+                79.44,
+                86.6,
+                93.76,
+                100.93,
+                108.54
+              ]
+            }
+          ],
+          "scaling": "def"
+        }
+      ],
+      "nodes": [
+        {
+          "name": "방어 증가",
+          "effects": [
+            {
+              "stat": "defPercent",
+              "value": 2.28
+            }
+          ]
+        },
+        {
+          "name": "방어 증가",
+          "effects": [
+            {
+              "stat": "defPercent",
+              "value": 5.32
+            }
+          ]
+        }
+      ]
+    },
+    "liberation": {
+      "name": "적토중명",
+      "entries": [
+        {
+          "id": "liberation-1",
+          "name": "스킬 피해",
+          "damageType": [
+            "liberation"
+          ],
+          "parts": [
+            {
+              "hits": 2,
+              "mvByLevel": [
+                88,
+                95.22,
+                102.44,
+                112.54,
+                119.76,
+                128.05,
+                139.6,
+                151.14,
+                162.69,
+                174.96
+              ]
+            }
+          ],
+          "scaling": "def"
+        }
+      ],
+      "nodes": [
+        {
+          "name": "방어 증가",
+          "effects": [
+            {
+              "stat": "defPercent",
+              "value": 2.28
+            }
+          ]
+        },
+        {
+          "name": "방어 증가",
+          "effects": [
+            {
+              "stat": "defPercent",
+              "value": 5.32
+            }
+          ]
+        }
+      ]
+    },
+    "intro": {
+      "name": "천둥의 울림",
+      "entries": [
+        {
+          "id": "intro-1",
+          "name": "스킬 피해",
+          "damageType": [
+            "intro"
+          ],
+          "parts": [
+            {
+              "mvByLevel": [
+                32,
+                34.63,
+                37.25,
+                40.93,
+                43.55,
+                46.57,
+                50.77,
+                54.96,
+                59.16,
+                63.62
+              ]
+            }
+          ],
+          "scaling": "def"
+        }
+      ],
+      "nodes": [
+        {
+          "name": "전도 피해 보너스 증가",
+          "effects": [
+            {
+              "stat": "electroDmgBonus",
+              "value": 1.8
+            }
+          ]
+        },
+        {
+          "name": "전도 피해 보너스 증가",
+          "effects": [
+            {
+              "stat": "electroDmgBonus",
+              "value": 4.2
+            }
+          ]
+        }
+      ]
+    },
+    "circuit": {
+      "name": "숨은 뇌전",
+      "entries": [
+        {
+          "id": "circuit-1",
+          "name": "신뢰 피해",
+          "damageType": [
+            "skill"
+          ],
+          "parts": [
+            {
+              "mvByLevel": [
+                20,
+                21.64,
+                23.28,
+                25.58,
+                27.22,
+                29.11,
+                31.73,
+                34.35,
+                36.98,
+                39.77
+              ]
+            }
+          ],
+          "scaling": "def"
+        },
+        {
+          "id": "circuit-2",
+          "name": "뇌전의 집행 일반 공격 1단 피해",
+          "damageType": [
+            "normal"
+          ],
+          "parts": [
+            {
+              "mvByLevel": [
+                12.35,
+                13.37,
+                14.38,
+                15.8,
+                16.81,
+                17.98,
+                19.6,
+                21.22,
+                22.84,
+                24.56
+              ]
+            }
+          ],
+          "scaling": "def"
+        },
+        {
+          "id": "circuit-3",
+          "name": "뇌전의 집행 일반 공격 2단 피해",
+          "damageType": [
+            "normal"
+          ],
+          "parts": [
+            {
+              "hits": 2,
+              "mvByLevel": [
+                13.03,
+                14.1,
+                15.17,
+                16.67,
+                17.73,
+                18.96,
+                20.67,
+                22.38,
+                24.09,
+                25.91
+              ]
+            }
+          ],
+          "scaling": "def"
+        },
+        {
+          "id": "circuit-4",
+          "name": "뇌전의 집행 일반 공격 3단 피해",
+          "damageType": [
+            "normal"
+          ],
+          "parts": [
+            {
+              "mv": 10.92,
+              "hits": 2
+            },
+            {
+              "mv": 16.38,
+              "hits": 2
+            }
+          ],
+          "scaling": "def"
+        },
+        {
+          "id": "circuit-5",
+          "name": "뇌전의 집행 일반 공격 4단 피해",
+          "damageType": [
+            "normal"
+          ],
+          "parts": [
+            {
+              "hits": 5,
+              "mvByLevel": [
+                5.77,
+                6.24,
+                6.71,
+                7.38,
+                7.85,
+                8.39,
+                9.15,
+                9.9,
+                10.66,
+                11.46
+              ]
+            }
+          ],
+          "scaling": "def"
+        },
+        {
+          "id": "circuit-6",
+          "name": "뇌전의 집행 일반 공격 5단 피해",
+          "damageType": [
+            "normal"
+          ],
+          "parts": [
+            {
+              "mv": 16.37,
+              "hits": 3
+            },
+            {
+              "mv": 32.74
+            }
+          ],
+          "scaling": "def"
+        },
+        {
+          "id": "circuit-7",
+          "name": "뇌전의 집행 강공격 피해",
+          "damageType": [
+            "heavy"
+          ],
+          "parts": [
+            {
+              "mvByLevel": [
+                15.6,
+                16.88,
+                18.16,
+                19.95,
+                21.23,
+                22.7,
+                24.75,
+                26.8,
+                28.84,
+                31.02
+              ]
+            }
+          ],
+          "scaling": "def"
+        },
+        {
+          "id": "circuit-8",
+          "name": "천둥 쫓기 피해",
+          "damageType": [
+            "heavy"
+          ],
+          "parts": [
+            {
+              "mv": 31.02
+            },
+            {
+              "mv": 20.68,
+              "hits": 2
+            }
+          ],
+          "scaling": "def"
+        },
+        {
+          "id": "circuit-9",
+          "name": "뇌전의 집행 회피 반격 피해",
+          "damageType": [
+            "normal"
+          ],
+          "parts": [
+            {
+              "mv": 43.27
+            },
+            {
+              "mv": 32.45,
+              "hits": 2
+            }
+          ],
+          "scaling": "def"
+        }
+      ],
+      "nodes": [
+        {
+          "name": "결전",
+          "_todo": "효과를 buff로 옮겨야 함",
+          "_description": "공명 스킬 신뢰의 피해 배율이 40% 상승하고 , 몬스터의 공진 수치를 감소시키는 능력이 향상된다"
+        },
+        {
+          "name": "빛의 제약",
+          "_todo": "효과를 buff로 옮겨야 함",
+          "_description": "공명 스킬 뇌전의 늪 및 공명 스킬 신뢰의 범위가 대폭 증가하며, 전투 상태 중 퇴장 시, 「예리한 뇌전」이 가득 차 있지 않은 경우, 연무는 자동으로 그 자리에 공명 스킬 뇌전의 쐐기 1개를 남긴다"
+        }
+      ]
+    },
+    "outro": {
+      "name": "번개의 팬텀",
+      "entries": []
+    }
+  },
+  "buffs": [],
+  "rotation": null,
+  "chain": [
+    {
+      "name": "차 한잔의 여유",
+      "description": "연무가 공명 회로 뇌전의 집행 상태일 시, 자신의 일반 공격 공격 속도가 20%, 강공격 공격 속도가 20% 증가한다",
+      "buffs": []
+    },
+    {
+      "name": "정직한 마음",
+      "description": "변주 스킬 천둥의 울림 발동 시, 연무는 15pt의 공명 에너지를 추가로 회복한다",
+      "buffs": []
+    },
+    {
+      "name": "정의의 화신",
+      "description": "공명 스킬 뇌전의 쐐기의 협동 공격이 목표에 명중 시, 연무 방어력 20%를 기반으로 피해가 추가로 증가한다",
+      "buffs": []
+    },
+    {
+      "name": "극기의 권법",
+      "description": "공명 해방 적토중명 발동 시, 파티 내 파티원은 자체 연무 방어력 200%의 실드를 획득하며, 10초간 지속된다",
+      "buffs": []
+    },
+    {
+      "name": "절대적인 보호",
+      "description": "공명 스킬 천둥의 쐐기가 있을 시, 연무의 공명 해방 피해 보너스가 50% 증가한다",
+      "buffs": []
+    },
+    {
+      "name": "평화를 위하여",
+      "description": "공명 스킬 천둥의 쐐기의 범위 내에 있는 전체 파티원의 방어력이 32% 증가하며 3초간 지속된다",
+      "buffs": []
+    }
+  ],
+  "_innateSkills": [
+    "요리의 달인"
+  ]
 }

@@ -1,7 +1,449 @@
 {
+  "_generated": "encore.moe api (2026-10-02) — 계수/판정/연결점/체인은 자동 생성. buffs와 rotation은 손으로 채워야 함.",
+  "element": "용융",
   "baseStats": {
     "hp": 10387,
     "atk": 462,
     "def": 1099
-  }
+  },
+  "skills": {
+    "normal": {
+      "name": "불사조의 힘",
+      "entries": [
+        {
+          "id": "normal-1",
+          "name": "일반 공격 1단 피해",
+          "damageType": [
+            "normal"
+          ],
+          "parts": [
+            {
+              "hits": 2,
+              "mvByLevel": [
+                14.84,
+                16.05,
+                17.27,
+                18.97,
+                20.19,
+                21.59,
+                23.53,
+                25.48,
+                27.43,
+                29.49
+              ]
+            }
+          ]
+        },
+        {
+          "id": "normal-2",
+          "name": "일반 공격 2단 피해",
+          "damageType": [
+            "normal"
+          ],
+          "parts": [
+            {
+              "hits": 2,
+              "mvByLevel": [
+                17.85,
+                19.32,
+                20.78,
+                22.83,
+                24.3,
+                25.98,
+                28.32,
+                30.66,
+                33,
+                35.49
+              ]
+            }
+          ]
+        },
+        {
+          "id": "normal-3",
+          "name": "일반 공격 3단 피해",
+          "damageType": [
+            "normal"
+          ],
+          "parts": [
+            {
+              "hits": 3,
+              "mvByLevel": [
+                18.34,
+                19.84,
+                21.34,
+                23.45,
+                24.95,
+                26.68,
+                29.08,
+                31.49,
+                33.89,
+                36.45
+              ]
+            }
+          ]
+        },
+        {
+          "id": "normal-4",
+          "name": "일반 공격 4단 피해",
+          "damageType": [
+            "normal"
+          ],
+          "parts": [
+            {
+              "mv": 50.7
+            },
+            {
+              "mv": 29.58,
+              "hits": 4
+            }
+          ]
+        },
+        {
+          "id": "normal-5",
+          "name": "공중 공격 1단 피해",
+          "damageType": [
+            "normal"
+          ],
+          "parts": [
+            {
+              "mvByLevel": [
+                30.86,
+                33.39,
+                35.92,
+                39.46,
+                41.99,
+                44.9,
+                48.95,
+                53,
+                57.05,
+                61.35
+              ]
+            }
+          ]
+        },
+        {
+          "id": "normal-6",
+          "name": "공중 공격 2단 피해",
+          "damageType": [
+            "normal"
+          ],
+          "parts": [
+            {
+              "hits": 2,
+              "mvByLevel": [
+                25.59,
+                27.69,
+                29.79,
+                32.72,
+                34.82,
+                37.23,
+                40.59,
+                43.95,
+                47.3,
+                50.87
+              ]
+            }
+          ]
+        },
+        {
+          "id": "normal-7",
+          "name": "공중 공격 3단 피해",
+          "damageType": [
+            "normal"
+          ],
+          "parts": [
+            {
+              "hits": 3,
+              "mvByLevel": [
+                22.13,
+                23.95,
+                25.76,
+                28.3,
+                30.12,
+                32.2,
+                35.11,
+                38.01,
+                40.91,
+                44
+              ]
+            }
+          ]
+        },
+        {
+          "id": "normal-8",
+          "name": "공중 공격 4단 피해",
+          "damageType": [
+            "normal"
+          ],
+          "parts": [
+            {
+              "mv": 38.03
+            },
+            {
+              "mv": 22.18,
+              "hits": 4
+            }
+          ]
+        }
+      ],
+      "nodes": [
+        {
+          "name": "크리티컬 증가",
+          "effects": [
+            {
+              "stat": "critRate",
+              "value": 1.2
+            }
+          ]
+        },
+        {
+          "name": "크리티컬 증가",
+          "effects": [
+            {
+              "stat": "critRate",
+              "value": 2.8
+            }
+          ]
+        }
+      ]
+    },
+    "skill": {
+      "name": "불멸의 깃털",
+      "entries": [
+        {
+          "id": "skill-1",
+          "name": "심안 · 액운 피해",
+          "damageType": [
+            "skill"
+          ],
+          "parts": [
+            {
+              "mv": 81.88,
+              "hits": 3
+            },
+            {
+              "mv": 163.76
+            }
+          ]
+        },
+        {
+          "id": "skill-2",
+          "name": "심안 · 정복 피해",
+          "damageType": [
+            "skill"
+          ],
+          "parts": [
+            {
+              "mv": 58.95,
+              "hits": 2
+            },
+            {
+              "mv": 82.52
+            },
+            {
+              "mv": 94.31
+            }
+          ]
+        },
+        {
+          "id": "skill-3",
+          "name": "심안 · 돌진 피해",
+          "damageType": [
+            "skill"
+          ],
+          "parts": [
+            {
+              "mv": 72.68
+            },
+            {
+              "mv": 109.02
+            }
+          ]
+        }
+      ],
+      "nodes": [
+        {
+          "name": "공격력 증가",
+          "effects": [
+            {
+              "stat": "atkPercent",
+              "value": 1.8
+            }
+          ]
+        },
+        {
+          "name": "공격력 증가",
+          "effects": [
+            {
+              "stat": "atkPercent",
+              "value": 4.2
+            }
+          ]
+        }
+      ]
+    },
+    "liberation": {
+      "name": "이화의 충성심",
+      "entries": [
+        {
+          "id": "liberation-1",
+          "name": "스킬 피해",
+          "damageType": [
+            "liberation"
+          ],
+          "parts": [
+            {
+              "mvByLevel": [
+                610,
+                660.02,
+                710.04,
+                780.07,
+                830.09,
+                887.62,
+                967.65,
+                1047.68,
+                1127.71,
+                1212.75
+              ]
+            }
+          ]
+        }
+      ],
+      "nodes": [
+        {
+          "name": "공격력 증가",
+          "effects": [
+            {
+              "stat": "atkPercent",
+              "value": 1.8
+            }
+          ]
+        },
+        {
+          "name": "공격력 증가",
+          "effects": [
+            {
+              "stat": "atkPercent",
+              "value": 4.2
+            }
+          ]
+        }
+      ]
+    },
+    "intro": {
+      "name": "정의의 심판",
+      "entries": [
+        {
+          "id": "intro-1",
+          "name": "스킬 피해",
+          "damageType": [
+            "intro"
+          ],
+          "parts": [
+            {
+              "mv": 44.5
+            },
+            {
+              "mv": 25.96,
+              "hits": 4
+            }
+          ]
+        }
+      ],
+      "nodes": [
+        {
+          "name": "크리티컬 증가",
+          "effects": [
+            {
+              "stat": "critRate",
+              "value": 1.2
+            }
+          ]
+        },
+        {
+          "name": "크리티컬 증가",
+          "effects": [
+            {
+              "stat": "critRate",
+              "value": 2.8
+            }
+          ]
+        }
+      ]
+    },
+    "circuit": {
+      "name": "이화의 화신",
+      "entries": [
+        {
+          "id": "circuit-1",
+          "name": "이화의 화신 피해",
+          "damageType": [
+            "skill"
+          ],
+          "parts": [
+            {
+              "mv": 39.25,
+              "hits": 5
+            },
+            {
+              "mv": 457.85
+            }
+          ]
+        }
+      ],
+      "nodes": [
+        {
+          "name": "은밀한 모략",
+          "_todo": "효과를 buff로 옮겨야 함",
+          "_description": "일반 공격 심안 · 정복 또는 일반 공격 심안 · 돌진 발동 시 , 「이화」 1스택씩 보유할 때마다 장리의 용융 피해 보너스가 5% 증가된다"
+        },
+        {
+          "name": "태세 분쇄",
+          "_todo": "효과를 buff로 옮겨야 함",
+          "_description": "강공격 이화의 화신 또는 공명 해방 이화의 충성심 발동 시 장리의 용융 피해 보너스가 20% 증가하며, 공격으로 피해를 입힐 때 목표의 15% 방어력을 무시한다"
+        }
+      ]
+    },
+    "outro": {
+      "name": "끊이지 않는 전법",
+      "entries": []
+    }
+  },
+  "buffs": [],
+  "rotation": null,
+  "chain": [
+    {
+      "name": "숨겨진 진심",
+      "description": "공명 스킬 불멸의 깃털 또는 강공격 이화의 화신 발동 시, 장리의 경직 저항력이 증가하며, 가하는 피해가 10% 증가한다",
+      "buffs": []
+    },
+    {
+      "name": "바라는 소원",
+      "description": "「이화」 획득 시, 장리의 크리티컬이 25% 증가하며, 8초간 지속된다",
+      "buffs": []
+    },
+    {
+      "name": "풍문의 축적",
+      "description": "공명 해방 이화의 충성심으로 가하는 피해가 80% 증가한다",
+      "buffs": []
+    },
+    {
+      "name": "언어의 미학",
+      "description": "변주 스킬 발동 후, 파티 내 캐릭터 공격력이 20% 증가하며, 30초간 지속된다",
+      "buffs": []
+    },
+    {
+      "name": "해탈의 성취",
+      "description": "강공격 이화의 화신 배율이 50% 상승하고, 입히는 피해가 50% 증가한다",
+      "buffs": []
+    },
+    {
+      "name": "치밀한 계획",
+      "description": "공명 스킬 불멸의 깃털, 강공격 이화의 화신, 공명 해방 이화의 충성심으로 피해를 입힐 때 추가로 목표의 40% 방어력을 무시한다",
+      "buffs": []
+    }
+  ],
+  "_innateSkills": [
+    "요리의 달인"
+  ]
 }

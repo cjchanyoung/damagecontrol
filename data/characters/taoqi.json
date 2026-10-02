@@ -1,7 +1,500 @@
 {
+  "_generated": "encore.moe api (2026-10-02) — 계수/판정/연결점/체인은 자동 생성. buffs와 rotation은 손으로 채워야 함.",
+  "element": "인멸",
   "baseStats": {
     "hp": 8950,
     "atk": 225,
     "def": 1564
-  }
+  },
+  "skills": {
+    "normal": {
+      "name": "숨기는 칼날",
+      "entries": [
+        {
+          "id": "normal-1",
+          "name": "1단 피해",
+          "damageType": [
+            "normal"
+          ],
+          "parts": [
+            {
+              "mvByLevel": [
+                45.34,
+                49.06,
+                52.78,
+                57.99,
+                61.7,
+                65.98,
+                71.93,
+                77.88,
+                83.83,
+                90.15
+              ]
+            }
+          ],
+          "_todoDamageType": true
+        },
+        {
+          "id": "normal-2",
+          "name": "2단 피해",
+          "damageType": [
+            "normal"
+          ],
+          "parts": [
+            {
+              "mvByLevel": [
+                42.67,
+                46.17,
+                49.67,
+                54.57,
+                58.07,
+                62.09,
+                67.69,
+                73.29,
+                78.89,
+                84.84
+              ]
+            }
+          ]
+        },
+        {
+          "id": "normal-3",
+          "name": "3단 피해",
+          "damageType": [
+            "normal"
+          ],
+          "parts": [
+            {
+              "mvByLevel": [
+                56,
+                60.6,
+                65.19,
+                71.62,
+                76.21,
+                81.49,
+                88.84,
+                96.18,
+                103.53,
+                111.34
+              ]
+            }
+          ],
+          "_todoDamageType": true
+        },
+        {
+          "id": "normal-4",
+          "name": "4단 피해",
+          "damageType": [
+            "normal"
+          ],
+          "parts": [
+            {
+              "mvByLevel": [
+                136,
+                147.16,
+                158.31,
+                173.92,
+                185.07,
+                197.9,
+                215.74,
+                233.58,
+                251.43,
+                270.39
+              ]
+            }
+          ]
+        },
+        {
+          "id": "normal-5",
+          "name": "강공격 공격 피해",
+          "damageType": [
+            "normal"
+          ],
+          "parts": [
+            {
+              "mvByLevel": [
+                110.84,
+                119.93,
+                129.02,
+                141.75,
+                150.84,
+                161.29,
+                175.83,
+                190.37,
+                204.91,
+                220.37
+              ]
+            }
+          ],
+          "_todoDamageType": true
+        },
+        {
+          "id": "normal-6",
+          "name": "후발제인 피해",
+          "damageType": [
+            "normal"
+          ],
+          "parts": [
+            {
+              "mvByLevel": [
+                39.59,
+                42.84,
+                46.08,
+                50.63,
+                53.87,
+                57.61,
+                62.8,
+                67.99,
+                73.19,
+                78.7
+              ]
+            }
+          ],
+          "scaling": "def"
+        },
+        {
+          "id": "normal-7",
+          "name": "공중 공격 피해",
+          "damageType": [
+            "normal"
+          ],
+          "parts": [
+            {
+              "mvByLevel": [
+                62,
+                67.09,
+                72.17,
+                79.29,
+                84.37,
+                90.22,
+                98.36,
+                106.49,
+                114.62,
+                123.27
+              ]
+            }
+          ]
+        },
+        {
+          "id": "normal-8",
+          "name": "회피 반격 피해",
+          "damageType": [
+            "normal"
+          ],
+          "parts": [
+            {
+              "mvByLevel": [
+                125,
+                135.25,
+                145.5,
+                159.85,
+                170.1,
+                181.89,
+                198.29,
+                214.69,
+                231.09,
+                248.52
+              ]
+            }
+          ]
+        }
+      ],
+      "nodes": [
+        {
+          "name": "인멸 피해 보너스 증가",
+          "effects": [
+            {
+              "stat": "havocDmgBonus",
+              "value": 1.8
+            }
+          ]
+        },
+        {
+          "name": "인멸 피해 보너스 증가",
+          "effects": [
+            {
+              "stat": "havocDmgBonus",
+              "value": 4.2
+            }
+          ]
+        }
+      ]
+    },
+    "skill": {
+      "name": "난공불락",
+      "entries": [
+        {
+          "id": "skill-1",
+          "name": "스킬 피해",
+          "damageType": [
+            "skill"
+          ],
+          "parts": [
+            {
+              "mvByLevel": [
+                67.86,
+                73.43,
+                78.99,
+                86.78,
+                92.35,
+                98.75,
+                107.65,
+                116.55,
+                125.46,
+                134.92
+              ]
+            }
+          ],
+          "scaling": "def"
+        }
+      ],
+      "nodes": [
+        {
+          "name": "방어 증가",
+          "effects": [
+            {
+              "stat": "defPercent",
+              "value": 2.28
+            }
+          ]
+        },
+        {
+          "name": "방어 증가",
+          "effects": [
+            {
+              "stat": "defPercent",
+              "value": 5.32
+            }
+          ]
+        }
+      ]
+    },
+    "liberation": {
+      "name": "불굴의 의지",
+      "entries": [
+        {
+          "id": "liberation-1",
+          "name": "스킬 피해",
+          "damageType": [
+            "liberation"
+          ],
+          "parts": [
+            {
+              "mvByLevel": [
+                226.2,
+                244.75,
+                263.3,
+                289.27,
+                307.82,
+                329.15,
+                358.83,
+                388.5,
+                418.18,
+                449.71
+              ]
+            }
+          ],
+          "scaling": "def"
+        }
+      ],
+      "nodes": [
+        {
+          "name": "방어 증가",
+          "effects": [
+            {
+              "stat": "defPercent",
+              "value": 2.28
+            }
+          ]
+        },
+        {
+          "name": "방어 증가",
+          "effects": [
+            {
+              "stat": "defPercent",
+              "value": 5.32
+            }
+          ]
+        }
+      ]
+    },
+    "intro": {
+      "name": "협공 방어진",
+      "entries": [
+        {
+          "id": "intro-1",
+          "name": "스킬 피해",
+          "damageType": [
+            "intro"
+          ],
+          "parts": [
+            {
+              "mvByLevel": [
+                105,
+                113.61,
+                122.22,
+                134.28,
+                142.89,
+                152.79,
+                166.57,
+                180.34,
+                194.12,
+                208.76
+              ]
+            }
+          ]
+        }
+      ],
+      "nodes": [
+        {
+          "name": "인멸 피해 보너스 증가",
+          "effects": [
+            {
+              "stat": "havocDmgBonus",
+              "value": 1.8
+            }
+          ]
+        },
+        {
+          "name": "인멸 피해 보너스 증가",
+          "effects": [
+            {
+              "stat": "havocDmgBonus",
+              "value": 4.2
+            }
+          ]
+        }
+      ]
+    },
+    "circuit": {
+      "name": "공방전환",
+      "entries": [
+        {
+          "id": "circuit-1",
+          "name": "방어의 틈새 1단 피해",
+          "damageType": [
+            "normal"
+          ],
+          "parts": [
+            {
+              "mvByLevel": [
+                43.36,
+                46.92,
+                50.47,
+                55.45,
+                59,
+                63.09,
+                68.78,
+                74.47,
+                80.16,
+                86.2
+              ]
+            }
+          ],
+          "scaling": "def"
+        },
+        {
+          "id": "circuit-2",
+          "name": "방어의 틈새 2단 피해",
+          "damageType": [
+            "normal"
+          ],
+          "parts": [
+            {
+              "mvByLevel": [
+                55.8,
+                60.38,
+                64.95,
+                71.36,
+                75.93,
+                81.19,
+                88.51,
+                95.83,
+                103.16,
+                110.93
+              ]
+            }
+          ],
+          "scaling": "def"
+        },
+        {
+          "id": "circuit-3",
+          "name": "방어의 틈새 3단 피해",
+          "damageType": [
+            "normal"
+          ],
+          "parts": [
+            {
+              "mvByLevel": [
+                73.14,
+                79.14,
+                85.14,
+                93.53,
+                99.53,
+                106.43,
+                116.02,
+                125.62,
+                135.22,
+                145.41
+              ]
+            }
+          ],
+          "scaling": "def"
+        }
+      ],
+      "nodes": [
+        {
+          "name": "마음 보호",
+          "_todo": "효과를 buff로 옮겨야 함",
+          "_description": "공명 스킬 철벽의 실드가 지속되는 동안 캐릭터의 방어력이 15% 증가한다"
+        },
+        {
+          "name": "우뚝 솟은 산",
+          "_todo": "효과를 buff로 옮겨야 함",
+          "_description": "강공격 후발제인을 성공적으로 발동 시, 25 스태미나가 회복된다"
+        }
+      ]
+    },
+    "outro": {
+      "name": "위기의 일순",
+      "entries": []
+    }
+  },
+  "buffs": [],
+  "rotation": null,
+  "chain": [
+    {
+      "name": "여유로운 마음",
+      "description": "공명 회로 공방전환으로 획득한 실드량이 40% 증가된다",
+      "buffs": []
+    },
+    {
+      "name": "숨겨진 실력",
+      "description": "공명 해방 불굴의 의지의 크리티컬이 20%, 크리티컬 피해가 20% 증가한다",
+      "buffs": []
+    },
+    {
+      "name": "만물의 통찰",
+      "description": "공명 스킬 철벽의 실드의 지속 시간을 30초까지 연장한다",
+      "buffs": []
+    },
+    {
+      "name": "막중한 책임",
+      "description": "강공격 후발제인을 성공적으로 발동 시, 도기의 25% HP를 회복하는 동시에 방어력이 50% 증가한다. 5초간 지속되고 15초마다 1회 발동된다",
+      "buffs": []
+    },
+    {
+      "name": "고민해결사",
+      "description": "공명 회로 공방전환의 피해가 50% 증가하며, 공명 회로 공방전환이 목표에 명중 시 공명 에너지 20pt를 회복한다",
+      "buffs": []
+    },
+    {
+      "name": "수호의 성벽",
+      "description": "공명 스킬 철벽의 실드로 획득한 실드의 지속 기간 동안 도기의 일반 공격 및 강공격의 피해가 40% 증가한다",
+      "buffs": []
+    }
+  ],
+  "_innateSkills": [
+    "요리의 달인"
+  ]
 }

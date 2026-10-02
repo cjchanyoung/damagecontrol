@@ -1,7 +1,467 @@
 {
+  "_generated": "encore.moe api (2026-10-02) — 계수/판정/연결점/체인은 자동 생성. buffs와 rotation은 손으로 채워야 함.",
+  "element": "응결",
   "baseStats": {
     "hp": 9975,
     "atk": 262,
     "def": 1051
-  }
+  },
+  "skills": {
+    "normal": {
+      "name": "서리의 낙하",
+      "entries": [
+        {
+          "id": "normal-1",
+          "name": "1단 피해",
+          "damageType": [
+            "normal"
+          ],
+          "parts": [
+            {
+              "mvByLevel": [
+                23.83,
+                25.79,
+                27.74,
+                30.48,
+                32.43,
+                34.68,
+                37.8,
+                40.93,
+                44.05,
+                47.38
+              ]
+            }
+          ]
+        },
+        {
+          "id": "normal-2",
+          "name": "2단 피해",
+          "damageType": [
+            "normal"
+          ],
+          "parts": [
+            {
+              "mv": 31.91
+            },
+            {
+              "mv": 59.26
+            }
+          ]
+        },
+        {
+          "id": "normal-3",
+          "name": "3단 피해",
+          "damageType": [
+            "normal"
+          ],
+          "parts": [
+            {
+              "mv": 38.06
+            },
+            {
+              "mv": 46.52
+            }
+          ]
+        },
+        {
+          "id": "normal-4",
+          "name": "4단 피해",
+          "damageType": [
+            "normal"
+          ],
+          "parts": [
+            {
+              "mvByLevel": [
+                58.53,
+                63.33,
+                68.13,
+                74.84,
+                79.64,
+                85.16,
+                92.84,
+                100.52,
+                108.2,
+                116.35
+              ]
+            }
+          ]
+        },
+        {
+          "id": "normal-5",
+          "name": "강공격 · 추락하는 서리 피해",
+          "damageType": [
+            "heavy"
+          ],
+          "parts": [
+            {
+              "hits": 6,
+              "mvByLevel": [
+                7.27,
+                7.87,
+                8.46,
+                9.29,
+                9.89,
+                10.58,
+                11.53,
+                12.48,
+                13.43,
+                14.45
+              ]
+            }
+          ]
+        },
+        {
+          "id": "normal-6",
+          "name": "공중 공격 피해",
+          "damageType": [
+            "normal"
+          ],
+          "parts": [
+            {
+              "mvByLevel": [
+                62,
+                67.09,
+                72.17,
+                79.29,
+                84.37,
+                90.22,
+                98.36,
+                106.49,
+                114.62,
+                123.27
+              ]
+            }
+          ]
+        },
+        {
+          "id": "normal-7",
+          "name": "회피 반격 피해",
+          "damageType": [
+            "normal"
+          ],
+          "parts": [
+            {
+              "hits": 6,
+              "mvByLevel": [
+                14.53,
+                15.73,
+                16.92,
+                18.58,
+                19.78,
+                21.15,
+                23.05,
+                24.96,
+                26.86,
+                28.89
+              ]
+            }
+          ]
+        }
+      ],
+      "nodes": [
+        {
+          "name": "크리티컬 증가",
+          "effects": [
+            {
+              "stat": "critRate",
+              "value": 1.2
+            }
+          ]
+        },
+        {
+          "name": "크리티컬 증가",
+          "effects": [
+            {
+              "stat": "critRate",
+              "value": 2.8
+            }
+          ]
+        }
+      ]
+    },
+    "skill": {
+      "name": "상자 속 축복",
+      "entries": [
+        {
+          "id": "skill-1",
+          "name": "스킬 피해",
+          "damageType": [
+            "skill"
+          ],
+          "parts": [
+            {
+              "mvByLevel": [
+                78.7,
+                85.16,
+                91.61,
+                100.64,
+                107.1,
+                114.52,
+                124.84,
+                135.17,
+                145.49,
+                156.46
+              ]
+            }
+          ]
+        },
+        {
+          "id": "skill-2",
+          "name": "편종 피해",
+          "damageType": [
+            "skill"
+          ],
+          "parts": [
+            {
+              "mv": 41.05
+            },
+            {
+              "mv": 49.85,
+              "hits": 3
+            },
+            {
+              "mv": 102.62
+            }
+          ]
+        },
+        {
+          "id": "skill-3",
+          "name": "정(鼎) 피해",
+          "damageType": [
+            "skill"
+          ],
+          "parts": [
+            {
+              "mv": 28.57,
+              "hits": 6
+            },
+            {
+              "mv": 114.28
+            }
+          ]
+        },
+        {
+          "id": "skill-4",
+          "name": "여의 피해",
+          "damageType": [
+            "skill"
+          ],
+          "parts": [
+            {
+              "mv": 137
+            },
+            {
+              "mv": 167.45
+            }
+          ]
+        },
+        {
+          "id": "skill-5",
+          "name": "가면 피해",
+          "damageType": [
+            "skill"
+          ],
+          "parts": [
+            {
+              "mv": 11.46,
+              "hits": 9
+            },
+            {
+              "mv": 44.2
+            }
+          ]
+        }
+      ],
+      "nodes": [
+        {
+          "name": "공격력 증가",
+          "effects": [
+            {
+              "stat": "atkPercent",
+              "value": 1.8
+            }
+          ]
+        },
+        {
+          "name": "공격력 증가",
+          "effects": [
+            {
+              "stat": "atkPercent",
+              "value": 4.2
+            }
+          ]
+        }
+      ]
+    },
+    "liberation": {
+      "name": "여의점",
+      "entries": [
+        {
+          "id": "liberation-1",
+          "name": "스킬 피해",
+          "damageType": [
+            "liberation"
+          ],
+          "parts": [
+            {
+              "mvByLevel": [
+                164.58,
+                178.07,
+                191.57,
+                210.46,
+                223.95,
+                239.47,
+                261.06,
+                282.66,
+                304.25,
+                327.19
+              ]
+            }
+          ]
+        }
+      ],
+      "nodes": [
+        {
+          "name": "공격력 증가",
+          "effects": [
+            {
+              "stat": "atkPercent",
+              "value": 1.8
+            }
+          ]
+        },
+        {
+          "name": "공격력 증가",
+          "effects": [
+            {
+              "stat": "atkPercent",
+              "value": 4.2
+            }
+          ]
+        }
+      ]
+    },
+    "intro": {
+      "name": "마음의 상자",
+      "entries": [
+        {
+          "id": "intro-1",
+          "name": "스킬 피해",
+          "damageType": [
+            "intro"
+          ],
+          "parts": [
+            {
+              "mv": 89.47
+            },
+            {
+              "mv": 109.35
+            }
+          ]
+        }
+      ],
+      "nodes": [
+        {
+          "name": "크리티컬 증가",
+          "effects": [
+            {
+              "stat": "critRate",
+              "value": 1.2
+            }
+          ]
+        },
+        {
+          "name": "크리티컬 증가",
+          "effects": [
+            {
+              "stat": "critRate",
+              "value": 2.8
+            }
+          ]
+        }
+      ]
+    },
+    "circuit": {
+      "name": "시의 형상화",
+      "entries": [
+        {
+          "id": "circuit-1",
+          "name": "시의 형상화 스킬 피해",
+          "damageType": [
+            "skill"
+          ],
+          "parts": [
+            {
+              "hits": 10,
+              "mvByLevel": [
+                18.72,
+                20.26,
+                21.79,
+                23.94,
+                25.47,
+                27.24,
+                29.69,
+                32.15,
+                34.6,
+                37.21
+              ]
+            }
+          ]
+        }
+      ],
+      "nodes": [
+        {
+          "name": "편옥",
+          "_todo": "효과를 buff로 옮겨야 함",
+          "_description": "공명 스킬 보물의 은혜 발동 시, 근처 파티 내 모든 캐릭터의 HP를 회복한다. 회복량은 공명 스킬 상자 속 축복의 치료량의 30%에 해당한다"
+        },
+        {
+          "name": "구슬",
+          "_todo": "효과를 buff로 옮겨야 함",
+          "_description": "변주 스킬 마음의 상자 발동 시 유호의 응결 피해 보너스가 15% 증가하고 14초간 지속된다"
+        }
+      ]
+    },
+    "outro": {
+      "name": "감진",
+      "entries": []
+    }
+  },
+  "buffs": [],
+  "rotation": null,
+  "chain": [
+    {
+      "name": "항구에서의 휴식",
+      "description": "행운의 징조 발동 시, 유호는 10%의 확률로 피해와 공격에 면역되며 5초간 지속된다. 다른 캐릭터로 전환하면 효과는 즉시 종료된다",
+      "buffs": []
+    },
+    {
+      "name": "편안한 숙면",
+      "description": "대우(對偶), 연주(聯珠), 합설(合說)은 공명 회로 시의 형상화의 피해 증가 효과를 추가로 1회 발생시킨다",
+      "buffs": []
+    },
+    {
+      "name": "화염의 악몽",
+      "description": "유호의 공격력이 20% 증가한다",
+      "buffs": []
+    },
+    {
+      "name": "설야의 꿈나라",
+      "description": "공명 스킬 상자 속 축복을 발동할 때마다 20%의 확률로 쿨타임에 진입하지 않는다",
+      "buffs": []
+    },
+    {
+      "name": "만리의 수면",
+      "description": "변주 스킬 마음의 상자 발동 시 유호의 크리티컬이 15% 증가하고 14초간 지속된다",
+      "buffs": []
+    },
+    {
+      "name": "천년의 단잠",
+      "description": "공명 스킬 보물의 은혜 발동 시 1스택의 맑은 푸른빛 효과를 획득하고 최대 4스택 중첩이 가능하며 7초간 지속된다. 매 스택의 맑은 푸른빛은 유호의 크리티컬 피해를 15% 증가시킨다",
+      "buffs": []
+    }
+  ],
+  "_innateSkills": [
+    "요리의 달인"
+  ]
 }

@@ -1,7 +1,579 @@
 {
+  "_generated": "encore.moe api (2026-10-02) — 계수/판정/연결점/체인은 자동 생성. buffs와 rotation은 손으로 채워야 함.",
+  "element": "회절",
   "baseStats": {
     "hp": 10775,
     "atk": 437,
     "def": 1136
-  }
+  },
+  "skills": {
+    "normal": {
+      "name": "관례적 교섭",
+      "entries": [
+        {
+          "id": "normal-1",
+          "name": "1단 피해",
+          "damageType": [
+            "normal"
+          ],
+          "parts": [
+            {
+              "mvByLevel": [
+                29.6,
+                32.03,
+                34.46,
+                37.86,
+                40.28,
+                43.08,
+                46.96,
+                50.84,
+                54.73,
+                58.85
+              ]
+            }
+          ]
+        },
+        {
+          "id": "normal-2",
+          "name": "2단 피해",
+          "damageType": [
+            "normal"
+          ],
+          "parts": [
+            {
+              "mvByLevel": [
+                40,
+                43.28,
+                46.56,
+                51.16,
+                54.44,
+                58.21,
+                63.46,
+                68.7,
+                73.95,
+                79.53
+              ]
+            }
+          ]
+        },
+        {
+          "id": "normal-3",
+          "name": "3단 피해",
+          "damageType": [
+            "normal"
+          ],
+          "parts": [
+            {
+              "hits": 3,
+              "mvByLevel": [
+                21.34,
+                23.09,
+                24.84,
+                27.29,
+                29.04,
+                31.05,
+                33.85,
+                36.64,
+                39.44,
+                42.42
+              ]
+            }
+          ]
+        },
+        {
+          "id": "normal-4",
+          "name": "4단 피해",
+          "damageType": [
+            "normal"
+          ],
+          "parts": [
+            {
+              "hits": 4,
+              "mvByLevel": [
+                34,
+                36.79,
+                39.58,
+                43.48,
+                46.27,
+                49.48,
+                53.94,
+                58.4,
+                62.86,
+                67.6
+              ]
+            }
+          ]
+        },
+        {
+          "id": "normal-5",
+          "name": "핵심적 진전 피해",
+          "damageType": [
+            "normal"
+          ],
+          "parts": [
+            {
+              "mv": 61.5
+            },
+            {
+              "mv": 17.58,
+              "hits": 7
+            }
+          ]
+        },
+        {
+          "id": "normal-6",
+          "name": "강공격 피해",
+          "damageType": [
+            "heavy"
+          ],
+          "parts": [
+            {
+              "hits": 4,
+              "mvByLevel": [
+                20.66,
+                22.36,
+                24.05,
+                26.43,
+                28.12,
+                30.07,
+                32.78,
+                35.49,
+                38.2,
+                41.08
+              ]
+            }
+          ]
+        },
+        {
+          "id": "normal-7",
+          "name": "공중 공격 피해",
+          "damageType": [
+            "normal"
+          ],
+          "parts": [
+            {
+              "mvByLevel": [
+                52.8,
+                57.13,
+                61.46,
+                67.53,
+                71.86,
+                76.83,
+                83.76,
+                90.69,
+                97.62,
+                104.98
+              ]
+            }
+          ]
+        },
+        {
+          "id": "normal-8",
+          "name": "회피 반격 피해",
+          "damageType": [
+            "normal"
+          ],
+          "parts": [
+            {
+              "hits": 3,
+              "mvByLevel": [
+                37.34,
+                40.4,
+                43.46,
+                47.75,
+                50.81,
+                54.33,
+                59.23,
+                64.12,
+                69.02,
+                74.23
+              ]
+            }
+          ]
+        }
+      ],
+      "nodes": [
+        {
+          "name": "크리티컬 증가",
+          "effects": [
+            {
+              "stat": "critRate",
+              "value": 1.2
+            }
+          ]
+        },
+        {
+          "name": "크리티컬 증가",
+          "effects": [
+            {
+              "stat": "critRate",
+              "value": 2.8
+            }
+          ]
+        }
+      ]
+    },
+    "skill": {
+      "name": "잠 못 이루는 파수",
+      "entries": [
+        {
+          "id": "skill-1",
+          "name": "표준 방위 예방책 피해",
+          "damageType": [
+            "skill"
+          ],
+          "parts": [
+            {
+              "mvByLevel": [
+                32.16,
+                34.8,
+                37.44,
+                41.13,
+                43.77,
+                46.8,
+                51.02,
+                55.24,
+                59.46,
+                63.94
+              ]
+            }
+          ]
+        },
+        {
+          "id": "skill-2",
+          "name": "정확한 반격 피해",
+          "damageType": [
+            "skill"
+          ],
+          "parts": [
+            {
+              "mv": 61
+            },
+            {
+              "mv": 121.99
+            }
+          ]
+        },
+        {
+          "id": "skill-3",
+          "name": "집중 압박 피해",
+          "damageType": [
+            "skill"
+          ],
+          "parts": [
+            {
+              "mv": 86.19
+            },
+            {
+              "mv": 28.73
+            },
+            {
+              "mv": 172.37
+            }
+          ]
+        },
+        {
+          "id": "skill-4",
+          "name": "습격 반격 피해",
+          "damageType": [
+            "skill"
+          ],
+          "parts": [
+            {
+              "mv": 86.19
+            },
+            {
+              "mv": 28.73
+            },
+            {
+              "mv": 172.37
+            }
+          ]
+        }
+      ],
+      "nodes": [
+        {
+          "name": "공격력 증가",
+          "effects": [
+            {
+              "stat": "atkPercent",
+              "value": 1.8
+            }
+          ]
+        },
+        {
+          "name": "공격력 증가",
+          "effects": [
+            {
+              "stat": "atkPercent",
+              "value": 4.2
+            }
+          ]
+        }
+      ]
+    },
+    "liberation": {
+      "name": "명암 경계선이 바뀔 무렵",
+      "entries": [
+        {
+          "id": "liberation-1",
+          "name": "재연소 피해",
+          "damageType": [
+            "liberation"
+          ],
+          "parts": [
+            {
+              "mvByLevel": [
+                160.22,
+                173.35,
+                186.49,
+                204.88,
+                218.02,
+                233.13,
+                254.15,
+                275.17,
+                296.19,
+                318.52
+              ]
+            }
+          ]
+        },
+        {
+          "id": "liberation-2",
+          "name": "최후의 순간 피해",
+          "damageType": [
+            "liberation"
+          ],
+          "parts": [
+            {
+              "mv": 191.12
+            },
+            {
+              "mv": 1082.96
+            }
+          ]
+        }
+      ],
+      "nodes": [
+        {
+          "name": "공격력 증가",
+          "effects": [
+            {
+              "stat": "atkPercent",
+              "value": 1.8
+            }
+          ]
+        },
+        {
+          "name": "공격력 증가",
+          "effects": [
+            {
+              "stat": "atkPercent",
+              "value": 4.2
+            }
+          ]
+        }
+      ]
+    },
+    "intro": {
+      "name": "즉시 집행",
+      "entries": [
+        {
+          "id": "intro-1",
+          "name": "스킬 피해",
+          "damageType": [
+            "intro"
+          ],
+          "parts": [
+            {
+              "mv": 24.24,
+              "hits": 5
+            },
+            {
+              "mv": 80.8
+            }
+          ]
+        }
+      ],
+      "nodes": [
+        {
+          "name": "크리티컬 증가",
+          "effects": [
+            {
+              "stat": "critRate",
+              "value": 1.2
+            }
+          ]
+        },
+        {
+          "name": "크리티컬 증가",
+          "effects": [
+            {
+              "stat": "critRate",
+              "value": 2.8
+            }
+          ]
+        }
+      ]
+    },
+    "circuit": {
+      "name": "어둠이 밝을 무렵",
+      "entries": [
+        {
+          "id": "circuit-1",
+          "name": "중참 · 파효 피해",
+          "damageType": [
+            "normal"
+          ],
+          "parts": [
+            {
+              "mvByLevel": [
+                100,
+                108.2,
+                116.4,
+                127.88,
+                136.08,
+                145.51,
+                158.63,
+                171.75,
+                184.87,
+                198.81
+              ]
+            }
+          ],
+          "_todoDamageType": true
+        },
+        {
+          "id": "circuit-2",
+          "name": "중참 · 해오름 피해",
+          "damageType": [
+            "normal"
+          ],
+          "parts": [
+            {
+              "mvByLevel": [
+                213.3,
+                230.8,
+                248.29,
+                272.77,
+                290.26,
+                310.38,
+                338.36,
+                366.35,
+                394.33,
+                424.07
+              ]
+            }
+          ],
+          "_todoDamageType": true
+        },
+        {
+          "id": "circuit-3",
+          "name": "중참 · 온밤 피해",
+          "damageType": [
+            "normal"
+          ],
+          "parts": [
+            {
+              "mv": 135.2
+            },
+            {
+              "mv": 262.43
+            }
+          ],
+          "_todoDamageType": true
+        },
+        {
+          "id": "circuit-4",
+          "name": "중참 · 섬광 피해",
+          "damageType": [
+            "normal"
+          ],
+          "parts": [
+            {
+              "mvByLevel": [
+                213.3,
+                230.8,
+                248.29,
+                272.77,
+                290.26,
+                310.38,
+                338.36,
+                366.35,
+                394.33,
+                424.07
+              ]
+            }
+          ],
+          "_todoDamageType": true
+        }
+      ],
+      "nodes": [
+        {
+          "name": "빠른 응답",
+          "_todo": "효과를 buff로 옮겨야 함",
+          "_description": "변주 스킬 즉시 집행 발동 시, 회절 피해 보너스가 12% 증가되고 14초간 지속된다"
+        },
+        {
+          "name": "고통에 대한 저항",
+          "_todo": "효과를 buff로 옮겨야 함",
+          "_description": "준비 태세 기간 동안 받는 피해가 40% 감소된다"
+        }
+      ]
+    },
+    "outro": {
+      "name": "미래 목표",
+      "entries": [
+        {
+          "id": "outro-1",
+          "name": "미래 목표",
+          "damageType": [
+            "outro"
+          ],
+          "parts": [
+            {
+              "mv": 150
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "buffs": [],
+  "rotation": null,
+  "chain": [
+    {
+      "name": "아침 알람이 울릴 때",
+      "description": "집중 압박 혹은 습격 반격 발동 시, 회절 피해 보너스가 50% 증가되고, 14초간 지속된다.\n중참 · 온밤은 적의 공격에 의해 중단되지 않는다",
+      "buffs": []
+    },
+    {
+      "name": "차가운 빵과 음료",
+      "description": "크리티컬이 20% 증가한다.\n집중 압박, 습격 반격의 배율이 80% 상승된다",
+      "buffs": []
+    },
+    {
+      "name": "매일 반복되는 통근",
+      "description": "화염 형태에 있을 경우, 1pt의 「불빛」을 소모할 때마다 이번 공명 해방 최후의 순간의 마지막 1단 배율이 8% 상승하며, 최대 1200% 상승된다",
+      "buffs": []
+    },
+    {
+      "name": "고효율 에너지 절약 주의자",
+      "description": "변주 스킬 즉시 집행 발동 시, 파티 내 캐릭터의 공격력이 20% 증가하며, 30초간 지속된다",
+      "buffs": []
+    },
+    {
+      "name": "모든 일은 제때 처리",
+      "description": "공명 해방 재연소 배율이 120% 상승된다",
+      "buffs": []
+    },
+    {
+      "name": "급한 일? 퇴근!",
+      "description": "중참 · 파효, 중참 · 해오름, 중참 · 온밤, 중참 · 섬광의 배율이 40% 상승된다. 중참 · 온밤으로 목표 명중 시 소모된 「불빛」 1pt마다 추가로 배율 상승 효과를 40% 증가시킨다.\n화염 형태일 경우 다음과 같은 효과를 획득한다.\n· 「불빛」이 70pt 이하 시 즉시 70pt를 회복하며, 화염 형태 기간 동안 1회 발생할 수 있다.\n· 화염 형태 진입 후 8초 이내에 치명적인 피해를 입을 시 의식을 잃지 않고, 최소 1pt의 HP를 유지한다",
+      "buffs": []
+    }
+  ],
+  "_innateSkills": [
+    "요리의 달인"
+  ]
 }
