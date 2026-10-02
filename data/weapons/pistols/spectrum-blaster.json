@@ -12,5 +12,55 @@
       "normalAtkDmgBonus": [36, 45, 54, 63, 72],
       "allDmgBonus": [8, 10, 12, 14, 16]
     }
-  }
+  },
+  "buffs": [
+    {
+      "id": "atk",
+      "label": "공격력 증가",
+      "trigger": {
+        "mode": "always"
+      },
+      "effects": [
+        {
+          "stat": "atkPercent",
+          "value": [12, 15, 18, 21, 24]
+        }
+      ]
+    },
+    {
+      "id": "na",
+      "label": "변주·일반 공격 명중 시 일반 공격 피해 증가",
+      "condition": "4초",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "normalAtkDmgBonus",
+          "value": [36, 45, 54, 63, 72]
+        }
+      ]
+    },
+    {
+      "id": "party",
+      "label": "일반 공격 중 조화 이탈 추가: 파티 전체 피해 증가 (스택)",
+      "condition": "30초, 최대 3스택, 같은 이름 중첩 불가",
+      "target": "team",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "stacks": {
+        "max": 3,
+        "default": 3
+      },
+      "effects": [
+        {
+          "stat": "dmgBonus",
+          "value": [8, 10, 12, 14, 16]
+        }
+      ]
+    }
+  ]
 }

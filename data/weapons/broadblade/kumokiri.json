@@ -12,5 +12,55 @@
       "liberationDmgBonus": [8, 10, 12, 14, 16],
       "allElementDmgBonus": [24, 30, 36, 42, 48]
     }
-  }
+  },
+  "buffs": [
+    {
+      "id": "atk",
+      "label": "공격력 증가",
+      "trigger": {
+        "mode": "always"
+      },
+      "effects": [
+        {
+          "stat": "atkPercent",
+          "value": [12, 15, 18, 21, 24]
+        }
+      ]
+    },
+    {
+      "id": "lib-stack",
+      "label": "변주·이상 효과 시 공명 해방 피해 증가 (스택)",
+      "condition": "15초, 최대 3스택",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "stacks": {
+        "max": 3,
+        "default": 3
+      },
+      "effects": [
+        {
+          "stat": "liberationDmgBonus",
+          "value": [8, 10, 12, 14, 16]
+        }
+      ]
+    },
+    {
+      "id": "party",
+      "label": "최대 스택 중 이상 효과를 추가한 파티원: 전체 속성 피해 증가",
+      "condition": "15초, 같은 이름 중첩 불가",
+      "target": "team",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "dmgBonus",
+          "value": [24, 30, 36, 42, 48]
+        }
+      ]
+    }
+  ]
 }

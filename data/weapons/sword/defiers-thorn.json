@@ -12,5 +12,50 @@
       "defIgnore": [8, 10, 12, 14, 16],
       "dmgBoost": [20, 25, 30, 35, 40]
     }
-  }
+  },
+  "buffs": [
+    {
+      "id": "hp",
+      "label": "HP 증가",
+      "trigger": {
+        "mode": "always"
+      },
+      "effects": [
+        {
+          "stat": "hpPercent",
+          "value": [12, 15, 18, 21, 24]
+        }
+      ]
+    },
+    {
+      "id": "ignore",
+      "label": "변주·일반 공격 후 방어력 무시",
+      "condition": "15초",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "defIgnore",
+          "value": [8, 10, 12, 14, 16]
+        }
+      ]
+    },
+    {
+      "id": "erosion",
+      "label": "풍식 효과 적에게 피해 부스트",
+      "condition": "변주·일반 공격 후 15초",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "dmgBoost",
+          "value": [20, 25, 30, 35, 40]
+        }
+      ]
+    }
+  ]
 }

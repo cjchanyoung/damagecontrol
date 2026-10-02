@@ -10,5 +10,26 @@
     "valuesByRefinement": {
       "dmgBonus": [20, 31, 42, 53, 63]
     }
-  }
+  },
+  "buffs": [
+    {
+      "id": "na-heavy",
+      "label": "공명 스킬 후 일반/강공격 피해 증가",
+      "condition": "10초",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "normalAtkDmgBonus",
+          "value": [20, 31, 42, 53, 63]
+        },
+        {
+          "stat": "heavyAtkDmgBonus",
+          "value": [20, 31, 42, 53, 63]
+        }
+      ]
+    }
+  ]
 }

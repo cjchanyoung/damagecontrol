@@ -10,5 +10,20 @@
     "valuesByRefinement": {
       "skillDmgBonus": [12, 15, 18, 21, 24]
     }
-  }
+  },
+  "buffs": [
+    {
+      "id": "skill",
+      "label": "공명 스킬 피해 증가",
+      "trigger": {
+        "mode": "always"
+      },
+      "effects": [
+        {
+          "stat": "skillDmgBonus",
+          "value": [12, 15, 18, 21, 24]
+        }
+      ]
+    }
+  ]
 }

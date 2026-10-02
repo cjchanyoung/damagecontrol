@@ -10,5 +10,20 @@
     "valuesByRefinement": {
       "liberationDmgBonus": [12, 15, 18, 21, 24]
     }
-  }
+  },
+  "buffs": [
+    {
+      "id": "lib",
+      "label": "공명 해방 피해 증가",
+      "trigger": {
+        "mode": "always"
+      },
+      "effects": [
+        {
+          "stat": "liberationDmgBonus",
+          "value": [12, 15, 18, 21, 24]
+        }
+      ]
+    }
+  ]
 }

@@ -11,5 +11,22 @@
       "energyRestore": [6, 7, 8, 9, 10],
       "atkBonus": [10, 12.5, 15, 17.5, 20]
     }
-  }
+  },
+  "buffs": [
+    {
+      "id": "skill-atk",
+      "label": "공명 스킬 후 공격력 증가",
+      "condition": "공명 스킬 발동 후 16초 (20초마다 1회)",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "atkPercent",
+          "value": [10, 12.5, 15, 17.5, 20]
+        }
+      ]
+    }
+  ]
 }

@@ -2,7 +2,7 @@
   "baseAtk": 500,
   "mainStat": {
     "type": "크리티컬",
-    "value": 36.0
+    "value": 36
   },
   "passive": {
     "name": "뇌전의 증폭",
@@ -12,5 +12,53 @@
       "atkBonus": [12, 15, 18, 21, 24],
       "offFieldAtkBonus": [12, 15, 18, 21, 24]
     }
-  }
+  },
+  "buffs": [
+    {
+      "id": "all-element",
+      "label": "전체 속성 피해 증가",
+      "trigger": {
+        "mode": "always"
+      },
+      "effects": [
+        {
+          "stat": "dmgBonus",
+          "value": [12, 15, 18, 21, 24]
+        }
+      ]
+    },
+    {
+      "id": "atk-stack",
+      "label": "공명 스킬 피해 시 공격력 증가 (스택)",
+      "condition": "5초, 최대 2스택",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "stacks": {
+        "max": 2,
+        "default": 2
+      },
+      "effects": [
+        {
+          "stat": "atkPercent",
+          "value": [12, 15, 18, 21, 24]
+        }
+      ]
+    },
+    {
+      "id": "off-field",
+      "label": "미출전 시 공격력 추가 증가",
+      "trigger": {
+        "mode": "toggle",
+        "default": false
+      },
+      "effects": [
+        {
+          "stat": "atkPercent",
+          "value": [12, 15, 18, 21, 24]
+        }
+      ]
+    }
+  ]
 }

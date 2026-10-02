@@ -2,7 +2,7 @@
   "baseAtk": 500,
   "mainStat": {
     "type": "크리티컬",
-    "value": 36.0
+    "value": 36
   },
   "passive": {
     "name": "적막",
@@ -12,5 +12,51 @@
       "liberationDmgBonus": [36, 45, 54, 63, 72],
       "partyAtkBonus": [24, 30, 36, 42, 48]
     }
-  }
+  },
+  "buffs": [
+    {
+      "id": "atk",
+      "label": "공격력 증가",
+      "trigger": {
+        "mode": "always"
+      },
+      "effects": [
+        {
+          "stat": "atkPercent",
+          "value": [12, 15, 18, 21, 24]
+        }
+      ]
+    },
+    {
+      "id": "lib",
+      "label": "불꽃·조화 밀집 이탈 추가 후 공명 해방 피해 증가",
+      "condition": "5초",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "liberationDmgBonus",
+          "value": [36, 45, 54, 63, 72]
+        }
+      ]
+    },
+    {
+      "id": "party-atk",
+      "label": "효과 중 파티원이 불꽃·조화 이탈 추가: 공격력 증가",
+      "condition": "15초, 같은 이름 중첩 불가",
+      "target": "team",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "atkPercent",
+          "value": [24, 30, 36, 42, 48]
+        }
+      ]
+    }
+  ]
 }

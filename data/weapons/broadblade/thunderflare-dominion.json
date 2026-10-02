@@ -12,5 +12,57 @@
       "heavyAtkDmgBonus": [20, 25, 30, 35, 40],
       "defIgnore": [7.2, 8.4, 9.6, 10.8, 12]
     }
-  }
+  },
+  "buffs": [
+    {
+      "id": "atk",
+      "label": "공격력 증가",
+      "trigger": {
+        "mode": "always"
+      },
+      "effects": [
+        {
+          "stat": "atkPercent",
+          "value": [12, 15, 18, 21, 24]
+        }
+      ]
+    },
+    {
+      "id": "heavy",
+      "label": "변주·공명 스킬 후 강공격 피해 증가",
+      "condition": "15초",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "heavyAtkDmgBonus",
+          "value": [20, 25, 30, 35, 40]
+        }
+      ]
+    },
+    {
+      "id": "shield",
+      "label": "실드 획득 시 강공격 방어력 무시 (스택)",
+      "condition": "7초, 최대 5스택 — 실드를 얻는 캐릭터만",
+      "trigger": {
+        "mode": "toggle",
+        "default": false
+      },
+      "stacks": {
+        "max": 5,
+        "default": 5
+      },
+      "effects": [
+        {
+          "stat": "defIgnore",
+          "value": [7.2, 8.4, 9.6, 10.8, 12],
+          "scope": {
+            "damageTypes": ["heavy"]
+          }
+        }
+      ]
+    }
+  ]
 }

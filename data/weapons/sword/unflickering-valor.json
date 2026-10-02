@@ -12,5 +12,50 @@
       "afterLiberationBonus": [24, 30, 36, 42, 48],
       "onHitBonus": [24, 30, 36, 42, 48]
     }
-  }
+  },
+  "buffs": [
+    {
+      "id": "crit",
+      "label": "크리티컬 증가",
+      "trigger": {
+        "mode": "always"
+      },
+      "effects": [
+        {
+          "stat": "critRate",
+          "value": [8, 10, 12, 14, 16]
+        }
+      ]
+    },
+    {
+      "id": "lib",
+      "label": "공명 해방 후 일반 공격 피해 증가",
+      "condition": "10초",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "normalAtkDmgBonus",
+          "value": [24, 30, 36, 42, 48]
+        }
+      ]
+    },
+    {
+      "id": "hit",
+      "label": "일반 공격 피해 시 일반 공격 피해 증가",
+      "condition": "4초",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "normalAtkDmgBonus",
+          "value": [24, 30, 36, 42, 48]
+        }
+      ]
+    }
+  ]
 }

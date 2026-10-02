@@ -11,5 +11,26 @@
       "atkBonus": [8, 10, 12, 14, 16],
       "hpBonus": [10, 12.5, 15, 17.5, 20]
     }
-  }
+  },
+  "buffs": [
+    {
+      "id": "intro",
+      "label": "변주 후 공격력·HP 증가",
+      "condition": "15초",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "atkPercent",
+          "value": [8, 10, 12, 14, 16]
+        },
+        {
+          "stat": "hpPercent",
+          "value": [10, 12.5, 15, 17.5, 20]
+        }
+      ]
+    }
+  ]
 }

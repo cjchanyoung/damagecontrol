@@ -13,5 +13,64 @@
       "heavyAtkDmgBoost": [30, 37.5, 45, 52.5, 60],
       "defIgnore": [10, 12.5, 15, 17.5, 20]
     }
-  }
+  },
+  "buffs": [
+    {
+      "id": "atk",
+      "label": "공격력 증가",
+      "trigger": {
+        "mode": "always"
+      },
+      "effects": [
+        {
+          "stat": "atkPercent",
+          "value": [12, 15, 18, 21, 24]
+        }
+      ]
+    },
+    {
+      "id": "spectro",
+      "label": "공명 스킬 후 회절 피해 증가 (스택)",
+      "condition": "14초, 최대 2스택",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "stacks": {
+        "max": 2,
+        "default": 2
+      },
+      "effects": [
+        {
+          "stat": "spectroDmgBonus",
+          "value": [20, 25, 30, 35, 40]
+        }
+      ]
+    },
+    {
+      "id": "hack",
+      "label": "해킹·이탈 추가 시 강공격 부스트·방어력 무시",
+      "condition": "14초",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "dmgBoost",
+          "value": [30, 37.5, 45, 52.5, 60],
+          "scope": {
+            "damageTypes": ["heavy"]
+          }
+        },
+        {
+          "stat": "defIgnore",
+          "value": [10, 12.5, 15, 17.5, 20],
+          "scope": {
+            "damageTypes": ["heavy"]
+          }
+        }
+      ]
+    }
+  ]
 }

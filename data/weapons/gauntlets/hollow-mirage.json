@@ -10,5 +10,30 @@
     "valuesByRefinement": {
       "statPerStack": [3, 3.5, 4, 4.5, 5]
     }
-  }
+  },
+  "buffs": [
+    {
+      "id": "armor",
+      "label": "「철갑」: 공격력·방어력 증가 (스택)",
+      "condition": "공명 해방 시 3스택, 피격마다 1 감소",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "stacks": {
+        "max": 3,
+        "default": 3
+      },
+      "effects": [
+        {
+          "stat": "atkPercent",
+          "value": [3, 3.5, 4, 4.5, 5]
+        },
+        {
+          "stat": "defPercent",
+          "value": [3, 3.5, 4, 4.5, 5]
+        }
+      ]
+    }
+  ]
 }

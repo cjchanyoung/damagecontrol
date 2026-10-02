@@ -11,5 +11,26 @@
       "atkBonus": [6, 7.5, 9, 10.5, 12],
       "hpRestore": [5, 6.25, 7.5, 8.75, 10]
     }
-  }
+  },
+  "buffs": [
+    {
+      "id": "atk-stack",
+      "label": "피격 없이 5초마다 공격력 증가 (스택)",
+      "condition": "8초, 최대 2스택",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "stacks": {
+        "max": 2,
+        "default": 2
+      },
+      "effects": [
+        {
+          "stat": "atkPercent",
+          "value": [6, 7.5, 9, 10.5, 12]
+        }
+      ]
+    }
+  ]
 }

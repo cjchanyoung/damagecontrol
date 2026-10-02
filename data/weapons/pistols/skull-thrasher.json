@@ -2,7 +2,7 @@
   "baseAtk": 500,
   "mainStat": {
     "type": "크리티컬 피해",
-    "value": 72.0
+    "value": 72
   },
   "passive": {
     "name": "홀로 깨어난 자",
@@ -13,5 +13,66 @@
       "selfNormalAtkDmgBonus": [12, 15, 18, 21, 24],
       "partyAtkBonus": [24, 30, 36, 42, 48]
     }
-  }
+  },
+  "buffs": [
+    {
+      "id": "atk",
+      "label": "공격력 증가",
+      "trigger": {
+        "mode": "always"
+      },
+      "effects": [
+        {
+          "stat": "atkPercent",
+          "value": [12, 15, 18, 21, 24]
+        }
+      ]
+    },
+    {
+      "id": "intro",
+      "label": "변주 후 일반 공격 피해 증가",
+      "condition": "14초",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "normalAtkDmgBonus",
+          "value": [24, 30, 36, 42, 48]
+        }
+      ]
+    },
+    {
+      "id": "hack",
+      "label": "해킹·이탈 추가 시 일반 공격 피해 증가",
+      "condition": "14초",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "normalAtkDmgBonus",
+          "value": [12, 15, 18, 21, 24]
+        }
+      ]
+    },
+    {
+      "id": "party-atk",
+      "label": "해킹·이탈 추가 시 파티 공격력 증가",
+      "condition": "30초, 같은 이름 중첩 불가",
+      "target": "team",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "atkPercent",
+          "value": [24, 30, 36, 42, 48]
+        }
+      ]
+    }
+  ]
 }

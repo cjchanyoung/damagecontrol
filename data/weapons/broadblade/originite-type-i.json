@@ -10,5 +10,7 @@
     "valuesByRefinement": {
       "hpRestore": [3, 3.75, 4.5, 5.25, 6]
     }
-  }
+  },
+  "_note_buffs": "회복/에너지 효과만 있어 피해 계산에 쓰이는 버프 없음",
+  "buffs": []
 }

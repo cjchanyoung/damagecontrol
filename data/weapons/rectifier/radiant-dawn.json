@@ -10,5 +10,26 @@
     "valuesByRefinement": {
       "bonus": [9, 13.9, 18.9, 23.8, 28.8]
     }
-  }
+  },
+  "buffs": [
+    {
+      "id": "skill",
+      "label": "공명 스킬 후 공격력·일반 공격 피해 증가",
+      "condition": "10초",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "atkPercent",
+          "value": [9, 13.9, 18.9, 23.8, 28.8]
+        },
+        {
+          "stat": "normalAtkDmgBonus",
+          "value": [9, 13.9, 18.9, 23.8, 28.8]
+        }
+      ]
+    }
+  ]
 }

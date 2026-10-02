@@ -13,5 +13,46 @@
       "defIgnore": [10, 12.5, 15, 17.5, 20],
       "allyFrostDmgBoost": [20, 25, 30, 35, 40]
     }
-  }
+  },
+  "_note_buffs": "서리 효과 피해 부스트(allyFrostDmgBoost)는 이상 효과 피해가 아직 미구현이라 제외",
+  "buffs": [
+    {
+      "id": "atk",
+      "label": "공격력 증가",
+      "trigger": {
+        "mode": "always"
+      },
+      "effects": [
+        {
+          "stat": "atkPercent",
+          "value": [12, 15, 18, 21, 24]
+        }
+      ]
+    },
+    {
+      "id": "frost",
+      "label": "서리 효과 추가 시 응결 피해 부스트·공명 해방 방어력 무시",
+      "condition": "6초",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "dmgBoost",
+          "value": [28, 35, 42, 49, 56],
+          "scope": {
+            "elements": ["응결"]
+          }
+        },
+        {
+          "stat": "defIgnore",
+          "value": [10, 12.5, 15, 17.5, 20],
+          "scope": {
+            "damageTypes": ["liberation"]
+          }
+        }
+      ]
+    }
+  ]
 }

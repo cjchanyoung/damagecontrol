@@ -12,5 +12,56 @@
       "windDmgBonus": [11.2, 14, 16.8, 19.6, 22.4],
       "defIgnore": [10, 12.5, 15, 17.5, 20]
     }
-  }
+  },
+  "buffs": [
+    {
+      "id": "atk",
+      "label": "공격력 증가",
+      "trigger": {
+        "mode": "always"
+      },
+      "effects": [
+        {
+          "stat": "atkPercent",
+          "value": [12, 15, 18, 21, 24]
+        }
+      ]
+    },
+    {
+      "id": "aero-stack",
+      "label": "조화 밀집 이탈 추가 후 기류 피해 증가 (스택)",
+      "condition": "최대 5스택, 최대치 후 30초",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "stacks": {
+        "max": 5,
+        "default": 5
+      },
+      "effects": [
+        {
+          "stat": "aeroDmgBonus",
+          "value": [11.2, 14, 16.8, 19.6, 22.4]
+        }
+      ]
+    },
+    {
+      "id": "aero-ignore",
+      "label": "최대 스택 중 기류 피해 방어력 무시",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "defIgnore",
+          "value": [10, 12.5, 15, 17.5, 20],
+          "scope": {
+            "elements": ["기류"]
+          }
+        }
+      ]
+    }
+  ]
 }

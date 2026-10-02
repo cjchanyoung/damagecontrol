@@ -10,5 +10,22 @@
     "valuesByRefinement": {
       "liberationDmgBonus": [20, 25, 30, 35, 40]
     }
-  }
+  },
+  "buffs": [
+    {
+      "id": "lib",
+      "label": "변주 후 공명 해방 피해 증가",
+      "condition": "15초",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "liberationDmgBonus",
+          "value": [20, 25, 30, 35, 40]
+        }
+      ]
+    }
+  ]
 }

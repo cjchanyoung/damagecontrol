@@ -11,5 +11,36 @@
       "energyRegenBonus": [12.8, 16, 19.2, 22.4, 25.6],
       "swapAtkBonus": [10, 12.5, 15, 17.5, 20]
     }
-  }
+  },
+  "buffs": [
+    {
+      "id": "er",
+      "label": "공명 효율 증가",
+      "trigger": {
+        "mode": "always"
+      },
+      "effects": [
+        {
+          "stat": "energyRegen",
+          "value": [12.8, 16, 19.2, 22.4, 25.6]
+        }
+      ]
+    },
+    {
+      "id": "swap-atk",
+      "label": "반주 후 다음 캐릭터 공격력 증가",
+      "condition": "14초",
+      "target": "others",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "atkPercent",
+          "value": [10, 12.5, 15, 17.5, 20]
+        }
+      ]
+    }
+  ]
 }

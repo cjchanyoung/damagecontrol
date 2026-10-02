@@ -11,5 +11,39 @@
       "energyRegenBonus": [12.8, 16, 19.2, 22.4, 25.6],
       "atkBonus": [6, 7.5, 9, 10.5, 12]
     }
-  }
+  },
+  "buffs": [
+    {
+      "id": "er",
+      "label": "공명 효율 증가",
+      "trigger": {
+        "mode": "always"
+      },
+      "effects": [
+        {
+          "stat": "energyRegen",
+          "value": [12.8, 16, 19.2, 22.4, 25.6]
+        }
+      ]
+    },
+    {
+      "id": "atk-stack",
+      "label": "공명 스킬 후 공격력 증가 (스택)",
+      "condition": "10초, 최대 2스택",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "stacks": {
+        "max": 2,
+        "default": 2
+      },
+      "effects": [
+        {
+          "stat": "atkPercent",
+          "value": [6, 7.5, 9, 10.5, 12]
+        }
+      ]
+    }
+  ]
 }

@@ -11,5 +11,35 @@
       "atkBonus": [12, 15, 18, 21, 24],
       "allDmgBonus": [20, 22.5, 25, 27.5, 30]
     }
-  }
+  },
+  "buffs": [
+    {
+      "id": "atk",
+      "label": "공격력 증가",
+      "trigger": {
+        "mode": "always"
+      },
+      "effects": [
+        {
+          "stat": "atkPercent",
+          "value": [12, 15, 18, 21, 24]
+        }
+      ]
+    },
+    {
+      "id": "all",
+      "label": "조화도 파괴 스킬 후 전체 피해 증가",
+      "condition": "14초",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "dmgBonus",
+          "value": [20, 22.5, 25, 27.5, 30]
+        }
+      ]
+    }
+  ]
 }

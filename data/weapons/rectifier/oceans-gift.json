@@ -10,5 +10,26 @@
     "valuesByRefinement": {
       "spectroDmgBonus": [6, 7, 8, 9, 10]
     }
-  }
+  },
+  "buffs": [
+    {
+      "id": "spectro-stack",
+      "label": "광학 효과 적에게 피해 시 회절 피해 증가 (스택)",
+      "condition": "6초, 최대 4스택",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "stacks": {
+        "max": 4,
+        "default": 4
+      },
+      "effects": [
+        {
+          "stat": "spectroDmgBonus",
+          "value": [6, 7, 8, 9, 10]
+        }
+      ]
+    }
+  ]
 }

@@ -2,7 +2,7 @@
   "baseAtk": 500,
   "mainStat": {
     "type": "크리티컬 피해",
-    "value": 72.0
+    "value": 72
   },
   "passive": {
     "name": "바닷속에서",
@@ -12,5 +12,53 @@
       "stack1Bonus": [40, 50, 60, 70, 80],
       "voidResIgnore": [12, 15, 18, 21, 24]
     }
-  }
+  },
+  "buffs": [
+    {
+      "id": "atk",
+      "label": "공격력 증가",
+      "trigger": {
+        "mode": "always"
+      },
+      "effects": [
+        {
+          "stat": "atkPercent",
+          "value": [12, 15, 18, 21, 24]
+        }
+      ]
+    },
+    {
+      "id": "dream-1",
+      "label": "「부드러운 꿈」 1스택: 일반 공격 피해 증가",
+      "condition": "10초",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "normalAtkDmgBonus",
+          "value": [40, 50, 60, 70, 80]
+        }
+      ]
+    },
+    {
+      "id": "dream-2",
+      "label": "「부드러운 꿈」 2스택: 인멸 저항 무시",
+      "condition": "10초",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "resShred",
+          "value": [12, 15, 18, 21, 24],
+          "scope": {
+            "elements": ["인멸"]
+          }
+        }
+      ]
+    }
+  ]
 }

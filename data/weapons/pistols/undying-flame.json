@@ -10,5 +10,22 @@
     "valuesByRefinement": {
       "skillDmgBonus": [20, 25, 30, 35, 40]
     }
-  }
+  },
+  "buffs": [
+    {
+      "id": "skill",
+      "label": "변주 후 공명 스킬 피해 증가",
+      "condition": "15초",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "skillDmgBonus",
+          "value": [20, 25, 30, 35, 40]
+        }
+      ]
+    }
+  ]
 }

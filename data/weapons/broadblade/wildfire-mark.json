@@ -12,5 +12,51 @@
       "liberationDmgBonus": [24, 30, 36, 42, 48],
       "fusionDmgBonus": [24, 30, 36, 42, 48]
     }
-  }
+  },
+  "buffs": [
+    {
+      "id": "atk",
+      "label": "공격력 증가",
+      "trigger": {
+        "mode": "always"
+      },
+      "effects": [
+        {
+          "stat": "atkPercent",
+          "value": [12, 15, 18, 21, 24]
+        }
+      ]
+    },
+    {
+      "id": "lib",
+      "label": "변주·공명 해방 후 공명 해방 피해 증가",
+      "condition": "6초 (+4초 연장)",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "liberationDmgBonus",
+          "value": [24, 30, 36, 42, 48]
+        }
+      ]
+    },
+    {
+      "id": "party-fusion",
+      "label": "연장 성공 시 파티 용융 피해 증가",
+      "condition": "30초, 같은 이름 중첩 불가",
+      "target": "team",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "fusionDmgBonus",
+          "value": [24, 30, 36, 42, 48]
+        }
+      ]
+    }
+  ]
 }

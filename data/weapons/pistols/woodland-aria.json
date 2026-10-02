@@ -2,7 +2,7 @@
   "baseAtk": 500,
   "mainStat": {
     "type": "크리티컬",
-    "value": 36.0
+    "value": 36
   },
   "passive": {
     "name": "한여름의 찬송가",
@@ -12,5 +12,54 @@
       "windDmgBonus": [24, 30, 36, 42, 48],
       "windResReduce": [10, 11.5, 13, 14.5, 16]
     }
-  }
+  },
+  "buffs": [
+    {
+      "id": "atk",
+      "label": "공격력 증가",
+      "trigger": {
+        "mode": "always"
+      },
+      "effects": [
+        {
+          "stat": "atkPercent",
+          "value": [12, 15, 18, 21, 24]
+        }
+      ]
+    },
+    {
+      "id": "aero",
+      "label": "풍식 효과 추가 후 기류 피해 증가",
+      "condition": "10초",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "aeroDmgBonus",
+          "value": [24, 30, 36, 42, 48]
+        }
+      ]
+    },
+    {
+      "id": "aero-res",
+      "label": "풍식 적 명중: 기류 저항 감소",
+      "condition": "20초, 같은 이름 중첩 불가",
+      "target": "team",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "resShred",
+          "value": [10, 11.5, 13, 14.5, 16],
+          "scope": {
+            "elements": ["기류"]
+          }
+        }
+      ]
+    }
+  ]
 }

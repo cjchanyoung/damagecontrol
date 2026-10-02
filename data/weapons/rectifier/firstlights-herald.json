@@ -12,5 +12,36 @@
       "concertoRestore": [8, 10, 12, 14, 16],
       "partyAtkBonus": [20, 25, 30, 35, 40]
     }
-  }
+  },
+  "buffs": [
+    {
+      "id": "hp",
+      "label": "HP 증가",
+      "trigger": {
+        "mode": "always"
+      },
+      "effects": [
+        {
+          "stat": "hpPercent",
+          "value": [12, 15, 18, 21, 24]
+        }
+      ]
+    },
+    {
+      "id": "party-atk",
+      "label": "「물들은 하얀 눈」+「생생한 잔물결」: 파티 공격력 증가",
+      "condition": "6초, 같은 이름 중첩 불가",
+      "target": "team",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "atkPercent",
+          "value": [20, 25, 30, 35, 40]
+        }
+      ]
+    }
+  ]
 }

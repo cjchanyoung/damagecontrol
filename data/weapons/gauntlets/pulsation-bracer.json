@@ -11,5 +11,39 @@
       "atkBonus": [12, 15, 18, 21, 24],
       "normalAtkDmgBonus": [6, 6.7, 7.5, 8.2, 9]
     }
-  }
+  },
+  "buffs": [
+    {
+      "id": "atk",
+      "label": "공격력 증가",
+      "trigger": {
+        "mode": "always"
+      },
+      "effects": [
+        {
+          "stat": "atkPercent",
+          "value": [12, 15, 18, 21, 24]
+        }
+      ]
+    },
+    {
+      "id": "na-stack",
+      "label": "조화 밀집·간섭 적 타격 후 일반 공격 피해 증가 (스택)",
+      "condition": "3초, 최대 4스택",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "stacks": {
+        "max": 4,
+        "default": 4
+      },
+      "effects": [
+        {
+          "stat": "normalAtkDmgBonus",
+          "value": [6, 6.7, 7.5, 8.2, 9]
+        }
+      ]
+    }
+  ]
 }

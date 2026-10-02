@@ -11,5 +11,40 @@
       "atkPerStack": [2, 2.5, 3, 3.5, 4],
       "critBonus": [6, 7.5, 9, 10.5, 12]
     }
-  }
+  },
+  "buffs": [
+    {
+      "id": "ferocity",
+      "label": "「포악」: 공격력 증가 (스택)",
+      "condition": "3초, 최대 10스택",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "stacks": {
+        "max": 10,
+        "default": 10
+      },
+      "effects": [
+        {
+          "stat": "atkPercent",
+          "value": [2, 2.5, 3, 3.5, 4]
+        }
+      ]
+    },
+    {
+      "id": "ferocity-max",
+      "label": "「포악」 10스택: 크리티컬 증가",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "critRate",
+          "value": [6, 7.5, 9, 10.5, 12]
+        }
+      ]
+    }
+  ]
 }

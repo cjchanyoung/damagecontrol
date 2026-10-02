@@ -12,5 +12,54 @@
       "normalAtkDmgBonus": [10, 12.5, 15, 17.8, 20],
       "concertoDmgBonus": [40, 50, 60, 70, 80]
     }
-  }
+  },
+  "buffs": [
+    {
+      "id": "atk",
+      "label": "공격력 증가",
+      "trigger": {
+        "mode": "always"
+      },
+      "effects": [
+        {
+          "stat": "atkPercent",
+          "value": [12, 15, 18, 21, 24]
+        }
+      ]
+    },
+    {
+      "id": "na-stack",
+      "label": "일반 공격 피해 시 일반 공격 피해 증가 (스택)",
+      "condition": "14초, 최대 3스택",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "stacks": {
+        "max": 3,
+        "default": 3
+      },
+      "effects": [
+        {
+          "stat": "normalAtkDmgBonus",
+          "value": [10, 12.5, 15, 17.8, 20]
+        }
+      ]
+    },
+    {
+      "id": "concerto",
+      "label": "협주 에너지 소모 시 일반 공격 피해 증가",
+      "condition": "10초",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "normalAtkDmgBonus",
+          "value": [40, 50, 60, 70, 80]
+        }
+      ]
+    }
+  ]
 }

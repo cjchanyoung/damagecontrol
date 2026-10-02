@@ -12,5 +12,54 @@
       "onFieldDmgBonus": [12, 15, 18, 21, 24],
       "offFieldDmgBonus": [52, 65, 78, 91, 104]
     }
-  }
+  },
+  "buffs": [
+    {
+      "id": "atk",
+      "label": "공격력 증가",
+      "trigger": {
+        "mode": "always"
+      },
+      "effects": [
+        {
+          "stat": "atkPercent",
+          "value": [12, 15, 18, 21, 24]
+        }
+      ]
+    },
+    {
+      "id": "on-field",
+      "label": "공명 스킬 후 출전 중 일반 공격 피해 증가 (스택)",
+      "condition": "6초, 최대 3스택",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "stacks": {
+        "max": 3,
+        "default": 3
+      },
+      "effects": [
+        {
+          "stat": "normalAtkDmgBonus",
+          "value": [12, 15, 18, 21, 24]
+        }
+      ]
+    },
+    {
+      "id": "off-field",
+      "label": "반주 시 3스택 소모: 미출전 일반 공격 피해 증가",
+      "condition": "27초 — 미출전 협동 공격용",
+      "trigger": {
+        "mode": "toggle",
+        "default": false
+      },
+      "effects": [
+        {
+          "stat": "normalAtkDmgBonus",
+          "value": [52, 65, 78, 91, 104]
+        }
+      ]
+    }
+  ]
 }

@@ -10,5 +10,26 @@
     "valuesByRefinement": {
       "healBonus": [3, 3.5, 4, 4.5, 5]
     }
-  }
+  },
+  "buffs": [
+    {
+      "id": "heal-stack",
+      "label": "일반/강공격 피해 시 치료 효과 증가 (스택)",
+      "condition": "8초, 최대 3스택",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "stacks": {
+        "max": 3,
+        "default": 3
+      },
+      "effects": [
+        {
+          "stat": "healBonus",
+          "value": [3, 3.5, 4, 4.5, 5]
+        }
+      ]
+    }
+  ]
 }

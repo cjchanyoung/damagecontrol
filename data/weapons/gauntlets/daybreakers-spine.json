@@ -13,5 +13,60 @@
       "normalAtkDmgBoost": [20, 25, 30, 35, 40],
       "defIgnore": [10, 12.5, 15, 17.5, 20]
     }
-  }
+  },
+  "buffs": [
+    {
+      "id": "atk",
+      "label": "공격력 증가",
+      "trigger": {
+        "mode": "always"
+      },
+      "effects": [
+        {
+          "stat": "atkPercent",
+          "value": [12, 15, 18, 21, 24]
+        }
+      ]
+    },
+    {
+      "id": "spectro",
+      "label": "일반 공격 피해 후 회절 피해 증가",
+      "condition": "4초",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "spectroDmgBonus",
+          "value": [20, 25, 30, 35, 40]
+        }
+      ]
+    },
+    {
+      "id": "na",
+      "label": "조화 밀집·이탈 추가 후 일반 공격 부스트·방어력 무시",
+      "condition": "6초",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "dmgBoost",
+          "value": [20, 25, 30, 35, 40],
+          "scope": {
+            "damageTypes": ["normal"]
+          }
+        },
+        {
+          "stat": "defIgnore",
+          "value": [10, 12.5, 15, 17.5, 20],
+          "scope": {
+            "damageTypes": ["normal"]
+          }
+        }
+      ]
+    }
+  ]
 }

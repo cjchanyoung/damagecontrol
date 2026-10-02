@@ -10,5 +10,22 @@
     "valuesByRefinement": {
       "atkBonus": [8, 10, 12, 14, 16]
     }
-  }
+  },
+  "buffs": [
+    {
+      "id": "intro-atk",
+      "label": "변주 후 공격력 증가",
+      "condition": "변주 스킬 발동 후 10초",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "atkPercent",
+          "value": [8, 10, 12, 14, 16]
+        }
+      ]
+    }
+  ]
 }

@@ -11,5 +11,35 @@
       "allDmgBonus": [12, 15, 18, 21, 24],
       "liberationDmgBonus": [48, 60, 72, 84, 96]
     }
-  }
+  },
+  "buffs": [
+    {
+      "id": "all-element",
+      "label": "전체 속성 피해 증가",
+      "trigger": {
+        "mode": "always"
+      },
+      "effects": [
+        {
+          "stat": "dmgBonus",
+          "value": [12, 15, 18, 21, 24]
+        }
+      ]
+    },
+    {
+      "id": "lib",
+      "label": "공명 해방 후 공명 해방 피해 증가",
+      "condition": "8초 (공명 스킬로 5초씩 3회 연장)",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "liberationDmgBonus",
+          "value": [48, 60, 72, 84, 96]
+        }
+      ]
+    }
+  ]
 }

@@ -12,5 +12,36 @@
       "concertoEnergyRestore": [8, 10, 12, 14, 16],
       "critDmgBonus": [20, 25, 30, 35, 40]
     }
-  }
+  },
+  "buffs": [
+    {
+      "id": "def",
+      "label": "방어력 증가",
+      "trigger": {
+        "mode": "always"
+      },
+      "effects": [
+        {
+          "stat": "defPercent",
+          "value": [16, 20, 24, 28, 32]
+        }
+      ]
+    },
+    {
+      "id": "party-cd",
+      "label": "치료 시 파티 크리티컬 피해 증가",
+      "condition": "4초, 같은 이름 중첩 불가",
+      "target": "team",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "critDmg",
+          "value": [20, 25, 30, 35, 40]
+        }
+      ]
+    }
+  ]
 }

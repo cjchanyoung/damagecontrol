@@ -10,5 +10,20 @@
     "valuesByRefinement": {
       "atkBonus": [5, 6.25, 7.5, 8.75, 10]
     }
-  }
+  },
+  "buffs": [
+    {
+      "id": "atk",
+      "label": "공격력 증가",
+      "trigger": {
+        "mode": "always"
+      },
+      "effects": [
+        {
+          "stat": "atkPercent",
+          "value": [5, 6.25, 7.5, 8.75, 10]
+        }
+      ]
+    }
+  ]
 }

@@ -11,5 +11,26 @@
       "atkBonus": [8, 10, 12, 14, 16],
       "defBonus": [15, 18.75, 22.5, 26.25, 30]
     }
-  }
+  },
+  "buffs": [
+    {
+      "id": "intro",
+      "label": "변주 후 공격력·방어력 증가",
+      "condition": "변주 스킬 발동 후 15초",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "atkPercent",
+          "value": [8, 10, 12, 14, 16]
+        },
+        {
+          "stat": "defPercent",
+          "value": [15, 18.75, 22.5, 26.25, 30]
+        }
+      ]
+    }
+  ]
 }

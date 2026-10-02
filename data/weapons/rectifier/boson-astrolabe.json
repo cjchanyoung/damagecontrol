@@ -12,5 +12,39 @@
       "selfAtkBonus": [12, 13.5, 15, 16.5, 18],
       "normalAtkDmgBonus": [12, 13.5, 15, 16.5, 18]
     }
-  }
+  },
+  "buffs": [
+    {
+      "id": "atk",
+      "label": "공격력 증가",
+      "trigger": {
+        "mode": "always"
+      },
+      "effects": [
+        {
+          "stat": "atkPercent",
+          "value": [12, 15, 18, 21, 24]
+        }
+      ]
+    },
+    {
+      "id": "break",
+      "label": "조화도 파괴 스킬 후 공격력·일반 공격 피해 증가",
+      "condition": "14초",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "atkPercent",
+          "value": [12, 13.5, 15, 16.5, 18]
+        },
+        {
+          "stat": "normalAtkDmgBonus",
+          "value": [12, 13.5, 15, 16.5, 18]
+        }
+      ]
+    }
+  ]
 }

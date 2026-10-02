@@ -11,5 +11,7 @@
       "concertoEnergyRestore": [4, 5, 6, 7, 8],
       "resonanceEnergyRestore": [4, 5, 6, 7, 8]
     }
-  }
+  },
+  "_note_buffs": "회복/에너지 효과만 있어 피해 계산에 쓰이는 버프 없음",
+  "buffs": []
 }

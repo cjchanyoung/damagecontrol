@@ -10,5 +10,30 @@
     "valuesByRefinement": {
       "bonus": [2.2, 3.4, 4.7, 5.9, 7.2]
     }
-  }
+  },
+  "buffs": [
+    {
+      "id": "stack",
+      "label": "일반/강공격 피해 시 공격력·강공격 피해 증가 (스택)",
+      "condition": "7초, 최대 4스택",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "stacks": {
+        "max": 4,
+        "default": 4
+      },
+      "effects": [
+        {
+          "stat": "atkPercent",
+          "value": [2.2, 3.4, 4.7, 5.9, 7.2]
+        },
+        {
+          "stat": "heavyAtkDmgBonus",
+          "value": [2.2, 3.4, 4.7, 5.9, 7.2]
+        }
+      ]
+    }
+  ]
 }

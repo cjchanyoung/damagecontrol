@@ -12,5 +12,36 @@
       "concertoRestore": [8, 10, 12, 14, 16],
       "partyAtkBonus": [14, 17.5, 21, 24.5, 28]
     }
-  }
+  },
+  "buffs": [
+    {
+      "id": "hp",
+      "label": "HP 증가",
+      "trigger": {
+        "mode": "always"
+      },
+      "effects": [
+        {
+          "stat": "hpPercent",
+          "value": [12, 15, 18, 21, 24]
+        }
+      ]
+    },
+    {
+      "id": "party-atk",
+      "label": "공명 스킬 치료 시 파티 공격력 증가",
+      "condition": "30초, 같은 이름 중첩 불가",
+      "target": "team",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "atkPercent",
+          "value": [14, 17.5, 21, 24.5, 28]
+        }
+      ]
+    }
+  ]
 }

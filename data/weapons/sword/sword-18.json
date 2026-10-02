@@ -12,5 +12,22 @@
       "heavyAtkDmgBonus": [18, 22.5, 27, 31.5, 36],
       "hpRestore": [5, 6.25, 7.5, 8.75, 10]
     }
-  }
+  },
+  "buffs": [
+    {
+      "id": "low-hp",
+      "label": "HP 낮을 때 강공격 피해 증가",
+      "condition": "HP가 기준치 이하일 때",
+      "trigger": {
+        "mode": "toggle",
+        "default": false
+      },
+      "effects": [
+        {
+          "stat": "heavyAtkDmgBonus",
+          "value": [18, 22.5, 27, 31.5, 36]
+        }
+      ]
+    }
+  ]
 }

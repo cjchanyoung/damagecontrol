@@ -12,5 +12,51 @@
       "frostDmgBonus": [30, 37.5, 45, 52.5, 60],
       "partyAtkBonus": [24, 30, 36, 42, 48]
     }
-  }
+  },
+  "buffs": [
+    {
+      "id": "atk",
+      "label": "공격력 증가",
+      "trigger": {
+        "mode": "always"
+      },
+      "effects": [
+        {
+          "stat": "atkPercent",
+          "value": [12, 15, 18, 21, 24]
+        }
+      ]
+    },
+    {
+      "id": "glacio",
+      "label": "서리 효과 추가 후 응결 피해 증가",
+      "condition": "12초",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "glacioDmgBonus",
+          "value": [30, 37.5, 45, 52.5, 60]
+        }
+      ]
+    },
+    {
+      "id": "party-atk",
+      "label": "서리 효과 추가 후 파티 공격력 증가",
+      "condition": "30초, 같은 이름 중첩 불가",
+      "target": "team",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "atkPercent",
+          "value": [24, 30, 36, 42, 48]
+        }
+      ]
+    }
+  ]
 }

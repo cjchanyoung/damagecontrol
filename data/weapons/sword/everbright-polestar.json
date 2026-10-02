@@ -12,5 +12,46 @@
       "defIgnore": [32, 40, 48, 56, 64],
       "meltResIgnore": [10, 15, 20, 25, 30]
     }
-  }
+  },
+  "buffs": [
+    {
+      "id": "all-element",
+      "label": "전체 속성 피해 증가",
+      "trigger": {
+        "mode": "always"
+      },
+      "effects": [
+        {
+          "stat": "dmgBonus",
+          "value": [12, 15, 18, 21, 24]
+        }
+      ]
+    },
+    {
+      "id": "lib-ignore",
+      "label": "조화 파동 이탈·불꽃 추가 시 공명 해방 방어력·용융 저항 무시",
+      "condition": "8초",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "defIgnore",
+          "value": [32, 40, 48, 56, 64],
+          "scope": {
+            "damageTypes": ["liberation"]
+          }
+        },
+        {
+          "stat": "resShred",
+          "value": [10, 15, 20, 25, 30],
+          "scope": {
+            "damageTypes": ["liberation"],
+            "elements": ["용융"]
+          }
+        }
+      ]
+    }
+  ]
 }

@@ -14,5 +14,71 @@
       "maxDmgBoost": [24, 30, 36, 42, 48],
       "defIgnore": [8, 10, 12, 14, 16]
     }
-  }
+  },
+  "_note_buffs": "단일 공격 부스트 상한(maxDmgBoost)은 강공격/에코가 서로 다른 판정이라 각각 한 번만 적용돼 자동으로 지켜짐",
+  "buffs": [
+    {
+      "id": "atk",
+      "label": "공격력 증가",
+      "trigger": {
+        "mode": "always"
+      },
+      "effects": [
+        {
+          "stat": "atkPercent",
+          "value": [12, 15, 18, 21, 24]
+        }
+      ]
+    },
+    {
+      "id": "heavy",
+      "label": "에코 피해 후 강공격 피해 부스트",
+      "condition": "6초",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "dmgBoost",
+          "value": [24, 30, 36, 42, 48],
+          "scope": {
+            "damageTypes": ["heavy"]
+          }
+        }
+      ]
+    },
+    {
+      "id": "echo",
+      "label": "강공격 피해 후 에코 피해 부스트",
+      "condition": "6초",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "dmgBoost",
+          "value": [24, 30, 36, 42, 48],
+          "scope": {
+            "damageTypes": ["echo"]
+          }
+        }
+      ]
+    },
+    {
+      "id": "both",
+      "label": "두 효과 동시 보유: 방어력 무시",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "defIgnore",
+          "value": [8, 10, 12, 14, 16]
+        }
+      ]
+    }
+  ]
 }

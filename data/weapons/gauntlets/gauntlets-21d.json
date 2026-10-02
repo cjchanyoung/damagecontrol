@@ -12,5 +12,23 @@
       "counterDmgBonus": [50, 62.5, 75, 87.5, 100],
       "hpRestore": [5, 6.25, 7.5, 8.75, 10]
     }
-  }
+  },
+  "_note_buffs": "회피 반격 피해 증가는 회피 반격을 따로 구분하는 판정이 없어 제외",
+  "buffs": [
+    {
+      "id": "dodge",
+      "label": "회피/돌진 후 공격력 증가",
+      "condition": "8초",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "atkPercent",
+          "value": [8, 10, 12, 14, 16]
+        }
+      ]
+    }
+  ]
 }

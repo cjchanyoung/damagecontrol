@@ -11,5 +11,41 @@
       "skillDmgBonus": [10, 14, 18, 22, 26],
       "windDmgBoost": [10, 14, 18, 22, 26]
     }
-  }
+  },
+  "buffs": [
+    {
+      "id": "skill",
+      "label": "치료 시 공명 스킬 피해 증가",
+      "condition": "6초",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "skillDmgBonus",
+          "value": [10, 14, 18, 22, 26]
+        }
+      ]
+    },
+    {
+      "id": "party-aero",
+      "label": "방랑자·기류 허무맹랑: 파티 기류 피해 부스트",
+      "condition": "30초 — 방랑자(기류) 전용",
+      "target": "team",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "dmgBoost",
+          "value": [10, 14, 18, 22, 26],
+          "scope": {
+            "elements": ["기류"]
+          }
+        }
+      ]
+    }
+  ]
 }

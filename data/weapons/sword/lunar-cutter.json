@@ -10,5 +10,26 @@
     "valuesByRefinement": {
       "atkPerStack": [2, 2.5, 3, 3.5, 4]
     }
-  }
+  },
+  "buffs": [
+    {
+      "id": "oath",
+      "label": "「맹세」: 공격력 증가 (스택)",
+      "condition": "등장 시 6스택, 2초마다 1 감소",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "stacks": {
+        "max": 6,
+        "default": 6
+      },
+      "effects": [
+        {
+          "stat": "atkPercent",
+          "value": [2, 2.5, 3, 3.5, 4]
+        }
+      ]
+    }
+  ]
 }

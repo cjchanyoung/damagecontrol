@@ -15,5 +15,78 @@
       "embracePerStack": [15, 17.5, 20, 22.5, 25],
       "embraceMax": [30, 35, 40, 45, 50]
     }
-  }
+  },
+  "buffs": [
+    {
+      "id": "all-element",
+      "label": "전체 속성 피해 증가",
+      "trigger": {
+        "mode": "always"
+      },
+      "effects": [
+        {
+          "stat": "dmgBonus",
+          "value": [12, 15, 18, 21, 24]
+        }
+      ]
+    },
+    {
+      "id": "seal",
+      "label": "「봉천」: 크리티컬 피해 증가 (스택)",
+      "condition": "변주/실드 획득 시, 7초, 최대 6스택",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "stacks": {
+        "max": 6,
+        "default": 6
+      },
+      "effects": [
+        {
+          "stat": "critDmg",
+          "value": [4, 5, 6, 7, 8]
+        }
+      ]
+    },
+    {
+      "id": "seal-max",
+      "label": "「봉천」 6스택: 강공격 크리티컬 증가",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "critRate",
+          "value": [12, 15, 18, 21, 24],
+          "scope": {
+            "damageTypes": ["heavy"]
+          }
+        }
+      ]
+    },
+    {
+      "id": "embrace",
+      "label": "「포용」: 강공격 방어력 무시 (스택)",
+      "condition": "강공격 시 최대 2스택 소모",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "stacks": {
+        "max": 2,
+        "default": 2
+      },
+      "effects": [
+        {
+          "stat": "defIgnore",
+          "value": [15, 17.5, 20, 22.5, 25],
+          "scope": {
+            "damageTypes": ["heavy"]
+          }
+        }
+      ]
+    }
+  ]
 }

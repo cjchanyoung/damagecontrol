@@ -2,7 +2,7 @@
   "baseAtk": 500,
   "mainStat": {
     "type": "크리티컬",
-    "value": 36.0
+    "value": 36
   },
   "passive": {
     "name": "단결자의 찬가",
@@ -12,5 +12,44 @@
       "dmgBonus": [14, 17.5, 21, 24.5, 28],
       "opticDmgBoost": [30, 37.5, 45, 52.5, 60]
     }
-  }
+  },
+  "_note_buffs": "반주의 광학 효과 피해 부스트는 이상 효과 피해가 아직 미구현이라 제외",
+  "buffs": [
+    {
+      "id": "atk",
+      "label": "공격력 증가",
+      "trigger": {
+        "mode": "always"
+      },
+      "effects": [
+        {
+          "stat": "atkPercent",
+          "value": [12, 15, 18, 21, 24]
+        }
+      ]
+    },
+    {
+      "id": "na-heavy",
+      "label": "광학 효과 적에게 피해 시 일반/강공격 피해 증가 (스택)",
+      "condition": "6초, 최대 3스택",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "stacks": {
+        "max": 3,
+        "default": 3
+      },
+      "effects": [
+        {
+          "stat": "normalAtkDmgBonus",
+          "value": [14, 17.5, 21, 24.5, 28]
+        },
+        {
+          "stat": "heavyAtkDmgBonus",
+          "value": [14, 17.5, 21, 24.5, 28]
+        }
+      ]
+    }
+  ]
 }

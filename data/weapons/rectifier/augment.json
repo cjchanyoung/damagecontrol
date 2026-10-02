@@ -10,5 +10,22 @@
     "valuesByRefinement": {
       "atkBonus": [15, 23.25, 31.5, 39.75, 48]
     }
-  }
+  },
+  "buffs": [
+    {
+      "id": "lib-atk",
+      "label": "공명 해방 후 공격력 증가",
+      "condition": "15초",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "atkPercent",
+          "value": [15, 23.25, 31.5, 39.75, 48]
+        }
+      ]
+    }
+  ]
 }

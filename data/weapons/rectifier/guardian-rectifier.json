@@ -10,5 +10,24 @@
     "valuesByRefinement": {
       "dmgBonus": [12, 15, 18, 21, 24]
     }
-  }
+  },
+  "buffs": [
+    {
+      "id": "na-heavy",
+      "label": "일반 공격·강공격 피해 증가",
+      "trigger": {
+        "mode": "always"
+      },
+      "effects": [
+        {
+          "stat": "normalAtkDmgBonus",
+          "value": [12, 15, 18, 21, 24]
+        },
+        {
+          "stat": "heavyAtkDmgBonus",
+          "value": [12, 15, 18, 21, 24]
+        }
+      ]
+    }
+  ]
 }

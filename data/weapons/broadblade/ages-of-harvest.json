@@ -11,5 +11,50 @@
       "allElementDmgBonus": [12, 15, 18, 21, 24],
       "skillDmgBonus": [24, 30, 36, 42, 48]
     }
-  }
+  },
+  "buffs": [
+    {
+      "id": "all-element",
+      "label": "전체 속성 피해 증가",
+      "trigger": {
+        "mode": "always"
+      },
+      "effects": [
+        {
+          "stat": "dmgBonus",
+          "value": [12, 15, 18, 21, 24]
+        }
+      ]
+    },
+    {
+      "id": "blessing",
+      "label": "「가호」: 공명 스킬 피해 증가",
+      "condition": "변주 스킬 발동 후 12초",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "skillDmgBonus",
+          "value": [24, 30, 36, 42, 48]
+        }
+      ]
+    },
+    {
+      "id": "grace",
+      "label": "「축복」: 공명 스킬 피해 증가",
+      "condition": "공명 스킬 발동 후 12초",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "skillDmgBonus",
+          "value": [24, 30, 36, 42, 48]
+        }
+      ]
+    }
+  ]
 }

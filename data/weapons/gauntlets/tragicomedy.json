@@ -11,5 +11,35 @@
       "atkBonus": [12, 15, 18, 21, 24],
       "heavyAtkDmgBonus": [48, 60, 72, 84, 96]
     }
-  }
+  },
+  "buffs": [
+    {
+      "id": "atk",
+      "label": "공격력 증가",
+      "trigger": {
+        "mode": "always"
+      },
+      "effects": [
+        {
+          "stat": "atkPercent",
+          "value": [12, 15, 18, 21, 24]
+        }
+      ]
+    },
+    {
+      "id": "heavy",
+      "label": "일반 공격·변주 후 강공격 피해 증가",
+      "condition": "3초",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "heavyAtkDmgBonus",
+          "value": [48, 60, 72, 84, 96]
+        }
+      ]
+    }
+  ]
 }

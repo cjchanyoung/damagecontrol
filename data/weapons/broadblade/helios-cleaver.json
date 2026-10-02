@@ -10,5 +10,26 @@
     "valuesByRefinement": {
       "atkBonusPerStack": [3, 3.75, 4.5, 5.25, 6]
     }
-  }
+  },
+  "buffs": [
+    {
+      "id": "atk-stack",
+      "label": "공명 스킬 후 2초마다 공격력 증가 (스택)",
+      "condition": "12초, 최대 4스택",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "stacks": {
+        "max": 4,
+        "default": 4
+      },
+      "effects": [
+        {
+          "stat": "atkPercent",
+          "value": [3, 3.75, 4.5, 5.25, 6]
+        }
+      ]
+    }
+  ]
 }

@@ -12,5 +12,45 @@
       "heavyAtkDmgBoost": [36, 45, 54, 63, 72],
       "defIgnore": [12, 15, 18, 21, 24]
     }
-  }
+  },
+  "buffs": [
+    {
+      "id": "all-element",
+      "label": "전체 속성 피해 증가",
+      "trigger": {
+        "mode": "always"
+      },
+      "effects": [
+        {
+          "stat": "dmgBonus",
+          "value": [12, 15, 18, 21, 24]
+        }
+      ]
+    },
+    {
+      "id": "heavy",
+      "label": "암흑 효과 추가 후 강공격 부스트·방어력 무시",
+      "condition": "8초",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "dmgBoost",
+          "value": [36, 45, 54, 63, 72],
+          "scope": {
+            "damageTypes": ["heavy"]
+          }
+        },
+        {
+          "stat": "defIgnore",
+          "value": [12, 15, 18, 21, 24],
+          "scope": {
+            "damageTypes": ["heavy"]
+          }
+        }
+      ]
+    }
+  ]
 }

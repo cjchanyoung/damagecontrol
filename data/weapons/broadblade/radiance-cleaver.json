@@ -11,5 +11,35 @@
       "atkBonus": [12, 15, 18, 21, 24],
       "liberationDmgBonus": [24, 27, 30, 33, 36]
     }
-  }
+  },
+  "buffs": [
+    {
+      "id": "atk",
+      "label": "공격력 증가",
+      "trigger": {
+        "mode": "always"
+      },
+      "effects": [
+        {
+          "stat": "atkPercent",
+          "value": [12, 15, 18, 21, 24]
+        }
+      ]
+    },
+    {
+      "id": "lib",
+      "label": "조화 밀집·간섭 적 타격 후 공명 해방 피해 증가",
+      "condition": "3초",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "liberationDmgBonus",
+          "value": [24, 27, 30, 33, 36]
+        }
+      ]
+    }
+  ]
 }

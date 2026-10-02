@@ -2,7 +2,7 @@
   "baseAtk": 500,
   "mainStat": {
     "type": "크리티컬",
-    "value": 36.0
+    "value": 36
   },
   "passive": {
     "name": "만물을 연결하는 달",
@@ -12,5 +12,57 @@
       "liberationDmgBonus": [20, 25, 30, 35, 40],
       "defIgnorePerStack": [7.2, 8.4, 9.6, 10.8, 12]
     }
-  }
+  },
+  "buffs": [
+    {
+      "id": "atk",
+      "label": "공격력 증가",
+      "trigger": {
+        "mode": "always"
+      },
+      "effects": [
+        {
+          "stat": "atkPercent",
+          "value": [12, 15, 18, 21, 24]
+        }
+      ]
+    },
+    {
+      "id": "lib",
+      "label": "변주·공명 해방 후 공명 해방 피해 증가",
+      "condition": "15초",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "liberationDmgBonus",
+          "value": [20, 25, 30, 35, 40]
+        }
+      ]
+    },
+    {
+      "id": "def-ignore",
+      "label": "실드/변주: 공명 해방 방어력 무시 (스택)",
+      "condition": "7초, 최대 5스택 (변주 시 3초간 최대치)",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "stacks": {
+        "max": 5,
+        "default": 5
+      },
+      "effects": [
+        {
+          "stat": "defIgnore",
+          "value": [7.2, 8.4, 9.6, 10.8, 12],
+          "scope": {
+            "damageTypes": ["liberation"]
+          }
+        }
+      ]
+    }
+  ]
 }

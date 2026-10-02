@@ -10,5 +10,22 @@
     "valuesByRefinement": {
       "liberationDmgBonus": [18, 27, 36, 45, 54]
     }
-  }
+  },
+  "buffs": [
+    {
+      "id": "lib",
+      "label": "공명 스킬 후 공명 해방 피해 증가",
+      "condition": "15초",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "liberationDmgBonus",
+          "value": [18, 27, 36, 45, 54]
+        }
+      ]
+    }
+  ]
 }

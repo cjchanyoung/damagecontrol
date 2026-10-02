@@ -2,7 +2,7 @@
   "baseAtk": 500,
   "mainStat": {
     "type": "크리티컬 피해",
-    "value": 72.0
+    "value": 72
   },
   "passive": {
     "name": "침묵 속의 추도사",
@@ -11,5 +11,35 @@
       "atkBonus": [12, 15, 18, 21, 24],
       "skillDmgBonus": [48, 60, 72, 84, 96]
     }
-  }
+  },
+  "buffs": [
+    {
+      "id": "atk",
+      "label": "공격력 증가",
+      "trigger": {
+        "mode": "always"
+      },
+      "effects": [
+        {
+          "stat": "atkPercent",
+          "value": [12, 15, 18, 21, 24]
+        }
+      ]
+    },
+    {
+      "id": "skill",
+      "label": "변주·공명 해방 후 공명 스킬 피해 증가",
+      "condition": "5초",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "skillDmgBonus",
+          "value": [48, 60, 72, 84, 96]
+        }
+      ]
+    }
+  ]
 }

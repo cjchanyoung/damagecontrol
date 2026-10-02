@@ -10,5 +10,22 @@
     "valuesByRefinement": {
       "healBonus": [16, 20, 24, 28, 32]
     }
-  }
+  },
+  "buffs": [
+    {
+      "id": "heal",
+      "label": "공명 해방 후 치료 효과 증가",
+      "condition": "15초",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "healBonus",
+          "value": [16, 20, 24, 28, 32]
+        }
+      ]
+    }
+  ]
 }

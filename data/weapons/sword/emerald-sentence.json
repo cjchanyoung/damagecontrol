@@ -12,5 +12,55 @@
       "heavyAtkDmgBonus": [30, 37.5, 45, 52.5, 60],
       "echoDmgBonus": [20, 25, 30, 35, 40]
     }
-  }
+  },
+  "buffs": [
+    {
+      "id": "atk",
+      "label": "공격력 증가",
+      "trigger": {
+        "mode": "always"
+      },
+      "effects": [
+        {
+          "stat": "atkPercent",
+          "value": [12, 15, 18, 21, 24]
+        }
+      ]
+    },
+    {
+      "id": "heavy-stack",
+      "label": "「파죽」: 강공격 피해 증가 (스택)",
+      "condition": "12초, 최대 2스택",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "stacks": {
+        "max": 2,
+        "default": 2
+      },
+      "effects": [
+        {
+          "stat": "heavyAtkDmgBonus",
+          "value": [30, 37.5, 45, 52.5, 60]
+        }
+      ]
+    },
+    {
+      "id": "party-echo",
+      "label": "변주 후 파티 에코 피해 증가",
+      "condition": "30초, 같은 이름 중첩 불가",
+      "target": "team",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "echoAbilityDmgBonus",
+          "value": [20, 25, 30, 35, 40]
+        }
+      ]
+    }
+  ]
 }
