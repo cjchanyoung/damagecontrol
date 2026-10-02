@@ -37,6 +37,7 @@ const characters = [
   { id: 'cartethyia', name: '카르티시아', weaponType: 'sword', element: '기류', modes: null, image: 'https://arufuzgxjgjbjlgddrdo.supabase.co/storage/v1/object/public/images/characters/cartethyia.png' },
   { id: 'ciaccona', name: '샤콘', weaponType: 'pistols', element: '기류', modes: null, image: 'https://arufuzgxjgjbjlgddrdo.supabase.co/storage/v1/object/public/images/characters/ciaccona.png' },
   { id: 'zani', name: '젠니', weaponType: 'gauntlets', element: '회절', modes: null, image: 'https://arufuzgxjgjbjlgddrdo.supabase.co/storage/v1/object/public/images/characters/zani.png' },
+  { id: 'rover-electro', name: '방랑자 [전도]', weaponType: 'sword', element: '전도', modes: null, image: 'https://arufuzgxjgjbjlgddrdo.supabase.co/storage/v1/object/public/images/characters/rover.png' },
   { id: 'rover-aero', name: '방랑자 [기류]', weaponType: 'sword', element: '기류', modes: null, image: 'https://arufuzgxjgjbjlgddrdo.supabase.co/storage/v1/object/public/images/characters/rover.png' },
   { id: 'cantarella', name: '칸타렐라', weaponType: 'rectifier', element: '인멸', modes: null, image: 'https://arufuzgxjgjbjlgddrdo.supabase.co/storage/v1/object/public/images/characters/cantarella.png' },
   { id: 'brant', name: '브렌트', weaponType: 'sword', element: '용융', modes: null, image: 'https://arufuzgxjgjbjlgddrdo.supabase.co/storage/v1/object/public/images/characters/brant.png' },
