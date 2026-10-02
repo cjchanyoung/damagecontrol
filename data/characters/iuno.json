@@ -564,38 +564,210 @@
       "nodes": [
         {
           "name": "가득 차오른 달",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "유노가 일반 공격, 강공격, 회피 반격, 공명 스킬, 공명 해방, 변주 스킬을 발동할 때마다 자신의 공격력의 32%에 해당하는 실드를 1개 획득할 수 있으며 15초간 지속된다. 다른 캐릭터는 해당 실드를 이어받을 수 없다"
+          "effects": [],
+          "_note": "스킬마다 실드 — 창백한 달빛의 축복 획득 조건"
         },
         {
           "name": "새로운 탄생",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "유노가 변주 스킬 혹은 공명 해방 발동 시, 자신은 5스택의 창백한 달빛의 축복을 직접 획득한다"
+          "effects": [],
+          "_note": "변주·해방 시 창백한 달빛의 축복 5스택 — 축복 버프 스택으로 반영"
         }
       ]
     },
     "outro": {
       "name": "밤을 건너 새벽으로",
-      "entries": []
+      "entries": [
+        {
+          "id": "outro-1",
+          "name": "밤을 건너 새벽으로",
+          "damageType": [
+            "outro"
+          ],
+          "parts": [
+            {
+              "mv": 100
+            }
+          ],
+          "_fromDescription": true
+        }
+      ]
     }
   },
-  "buffs": [],
-  "rotation": null,
+  "buffs": [
+    {
+      "id": "moon-blessing",
+      "label": "창백한 달빛의 축복: 피해 부스트 4% (스택)",
+      "condition": "보름달 영역에서 실드 획득 시 1스택, 최대 10. 유노는 변주·해방 시 5스택",
+      "target": "team",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "stacks": {
+        "max": 10,
+        "default": 5
+      },
+      "effects": [
+        {
+          "stat": "dmgBoost",
+          "value": 4
+        }
+      ]
+    },
+    {
+      "id": "outro",
+      "label": "반주: 다음 캐릭터 강공격 피해 부스트 50%",
+      "condition": "14초",
+      "target": "others",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "dmgBoost",
+          "value": 50,
+          "scope": {
+            "damageTypes": [
+              "heavy"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "rotation": {
+    "name": "기본 사이클",
+    "draft": true,
+    "duration": 22,
+    "steps": [
+      {
+        "pending": true,
+        "note": "에코 (Q) — 메인 에코 계수/버프 추가 예정"
+      },
+      {
+        "note": "변주 — 영성 40",
+        "skillId": "intro-1"
+      },
+      {
+        "note": "최초의 움직임 → 종결의 소리 (달의 순환 · 반달)",
+        "skillIds": [
+          "skill-1",
+          "skill-2"
+        ]
+      },
+      {
+        "note": "달의 고리 평타 1~3단 — 영성",
+        "skillIds": [
+          "normal-1",
+          "normal-2",
+          "normal-3"
+        ]
+      },
+      {
+        "note": "강공격 · 변화 · 달의 활 → 초승달",
+        "skillId": "circuit-1"
+      },
+      {
+        "note": "강화 달의 활 1~3단 (영성 소모)",
+        "skillIds": [
+          "circuit-3",
+          "circuit-4",
+          "circuit-5"
+        ]
+      },
+      {
+        "note": "강화 경계를 넘은 활시위 2회",
+        "skillId": "circuit-7",
+        "count": 2
+      },
+      {
+        "note": "추락한 달의 바다",
+        "skillId": "liberation-1"
+      },
+      {
+        "note": "완벽한 결말 → 보름달 영역",
+        "skillId": "circuit-8"
+      },
+      {
+        "note": "반주",
+        "skillId": "outro-1"
+      }
+    ]
+  },
   "chain": [
     {
       "name": "보름달이든 초승달이든, 그 모든 순간이 고귀한 가지를 금빛으로 물들이고",
       "description": "유노가 달의 순환 상태에 있을 시, 공격력이 40% 증가된다.\n유노가 보름달 영역에 있을 시, 자신이 1초마다 추가로 1pt의 공명 에너지를 회복한다.\n공명 스킬 · 경계를 넘은 활시위와 강공격 · 완벽한 결말은 적의 공격에 의해 중단되지 않는다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C1 달의 순환 중 공격력 +40%",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "atkPercent",
+              "value": 40
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "밤이든 낮이든, 나는 그 자체로 영원히 변함없이",
       "description": "파티 내 캐릭터의 창백한 달빛의 축복이 10스택까지 중첩 시, 해당 캐릭터의 전체 피해가 추가로 40% 부스트된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C2 축복 10스택: 피해 부스트 +40%",
+          "target": "team",
+          "trigger": {
+            "mode": "toggle",
+            "default": false
+          },
+          "effects": [
+            {
+              "stat": "dmgBoost",
+              "value": 40
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "그들의 망각을 음미해",
       "description": "유노가 달의 순환 상태에 있을 시, 달의 활 · 일반 공격, 공명 스킬 · 경계를 넘은 활시위, 달의 활 · 회피 반격으로 입히는 피해가 65% 부스트된다.\n달의 활 · 일반 공격 혹은 달의 활 · 회피 반격을 발동한 후 일정 시간 내에 공명 스킬 · 경계를 넘은 활시위를 발동하면 달의 활 · 일반 공격의 다단 공격이 리셋되지 않는다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C3 달의 활 공격·활시위 피해 부스트 65%",
+          "condition": "달의 순환 중",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "dmgBoost",
+              "value": 65,
+              "scope": {
+                "skillIds": [
+                  "normal-4",
+                  "normal-5",
+                  "normal-6",
+                  "normal-7",
+                  "skill-3",
+                  "circuit-3",
+                  "circuit-4",
+                  "circuit-5",
+                  "circuit-6",
+                  "circuit-7"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "빗물이 내 눈동자에 깃들게 하노라",
@@ -605,12 +777,44 @@
     {
       "name": "수없이 허망한 시선을 받았지만",
       "description": "공명 해방 피해 보너스가 20% 증가된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C5 공명 해방 피해 +20%",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "liberationDmgBonus",
+              "value": 20
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "내가 머무는 곳, 그곳이야말로 변치 않는 유일한 진실",
       "description": "강공격 · 완벽한 결말의 피해 배율이 1600% 증가된다.\n유노가 강공격 · 완벽한 결말 발동 시, 다시 달의 순환 · 초승달 상태에 진입하고 100pt의 「영성」을 획득하며, 공명 스킬 · 경계를 넘은 활시위의 모든 쿨타임을 리셋한다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C6 완벽한 결말 배율 +1600%",
+          "_note": "API 변종 확인: 159.05 → 1759.05 (덧셈)",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "mvFlat",
+              "value": 1600,
+              "scope": {
+                "skillIds": [
+                  "circuit-8"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     }
   ],
   "_innateSkills": [

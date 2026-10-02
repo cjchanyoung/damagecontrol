@@ -564,13 +564,29 @@
       "nodes": [
         {
           "name": "「약」",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "치료 효과 보너스가 20% 증가된다"
+          "effects": [],
+          "_note": "치료 효과 보너스 — 피해 계산 무관"
         },
         {
           "name": "「독」",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "에코 어빌리티 발동 시, 자신의 인멸 피해 보너스가 6% 증가되고, 10초간 지속되며, 최대 2스택 중첩이 가능하다"
+          "buff": {
+            "label": "에코 어빌리티 발동 시 인멸 피해 +6% (스택)",
+            "condition": "10초, 최대 2 (뒤섞인 꿈·함몰·감각 흡수도 에코 어빌리티로 간주)",
+            "trigger": {
+              "mode": "toggle",
+              "default": true
+            },
+            "stacks": {
+              "max": 2,
+              "default": 2
+            },
+            "effects": [
+              {
+                "stat": "havocDmgBonus",
+                "value": 6
+              }
+            ]
+          }
         }
       ]
     },
@@ -579,23 +595,181 @@
       "entries": []
     }
   },
-  "buffs": [],
-  "rotation": null,
+  "buffs": [
+    {
+      "id": "outro-havoc",
+      "label": "반주: 다음 캐릭터 인멸 피해 부스트 20%",
+      "condition": "14초",
+      "target": "others",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "dmgBoost",
+          "value": 20,
+          "scope": {
+            "elements": [
+              "인멸"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "outro-skill",
+      "label": "반주: 다음 캐릭터 공명 스킬 피해 부스트 25%",
+      "target": "others",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "dmgBoost",
+          "value": 25,
+          "scope": {
+            "damageTypes": [
+              "skill"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "rotation": {
+    "name": "기본 사이클",
+    "draft": true,
+    "duration": 22,
+    "steps": [
+      {
+        "pending": true,
+        "note": "에코 (Q) — 메인 에코 계수/버프 추가 예정"
+      },
+      {
+        "note": "변주 잔잔한 물결 — 몽롱 1",
+        "skillId": "intro-1"
+      },
+      {
+        "note": "일반 공격 1~3단 → 민첩 — 몽롱",
+        "skillIds": [
+          "normal-1",
+          "normal-2",
+          "normal-3",
+          "skill-1"
+        ]
+      },
+      {
+        "note": "함몰 — 몽롱 3, 자욱한 안개",
+        "skillId": "liberation-1"
+      },
+      {
+        "note": "몽환의 바다 → 신기루",
+        "skillId": "normal-5"
+      },
+      {
+        "note": "뒤섞인 꿈 → 놀람",
+        "skillIds": [
+          "skill-2",
+          "skill-3"
+        ]
+      },
+      {
+        "note": "기이한 환상 1~3단 — 떨림 3",
+        "skillIds": [
+          "circuit-1",
+          "circuit-2",
+          "circuit-3"
+        ]
+      },
+      {
+        "note": "감각 흡수 → 놀람",
+        "skillIds": [
+          "circuit-5",
+          "skill-3"
+        ]
+      },
+      {
+        "note": "꿈을 엮는 해파리 협동 공격 (21마리)",
+        "skillId": "liberation-2"
+      }
+    ]
+  },
   "chain": [
     {
       "name": "끝없이 펼쳐진 파도 속에서",
       "description": "공명 스킬 발동 시, 「몽롱」 1pt가 회복된다. 공명 스킬 민첩, 공명 스킬 뒤섞인 꿈, 공명 회로 감각 흡수의 피해 배율이 50% 상승된다. 공명 회로 감각 흡수는 적의 공격에 의해 중단되지 않는다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C1 민첩·뒤섞인 꿈·감각 흡수 배율 ×1.5",
+          "_note": "API 변종 확인: 196.23 → 294.34, 667.99 → 1001.99 (×1.5)",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "mvBoost",
+              "value": 50,
+              "scope": {
+                "skillIds": [
+                  "skill-1",
+                  "skill-2",
+                  "circuit-5"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "흐릿한 환상 속으로",
       "description": "공명 해방 함몰은 목표를 환몽 상태로 진입시킬 수 있으며, 칸타렐라가 발생시키는 놀람의 피해 배율이 245% 상승된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C2 놀람 배율 ×3.45",
+          "_note": "API 변종 확인: 198.81 → 685.9 (×3.45)",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "mvBoost",
+              "value": 245,
+              "scope": {
+                "skillIds": [
+                  "skill-3"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "심연을 향한 응시",
       "description": "공명 해방 함몰의 피해 배율이 370% 상승된다. 공명 해방 함몰 발동 후, 즉시 신기루 상태 상태에 진입한다. 현재 신기루 상태 상태에 있을 경우, 공명 해방 함몰을 발동해도 신기루 상태에 다시 진입하지 않는다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C3 함몰 배율 ×4.7",
+          "_note": "API 변종 확인: 376 → 1767.2 (×4.7)",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "mvBoost",
+              "value": 370,
+              "scope": {
+                "skillIds": [
+                  "liberation-1"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "영혼을 들여다보듯",
@@ -610,7 +784,42 @@
     {
       "name": "추락, 추락... 더 깊은 환상 속으로",
       "description": "일반 공격 기이한 환상의 피해 배율이 80% 증가한다. 공명 해방 함몰 발동 시, 칸타렐라가 입히는 피해는 목표의 30% 방어력을 무시하고, 10초간 지속된다.\n환몽 효과 발동 후 1.2초 이내, 목표가 피해를 입을 경우, 해당 피해가 환몽 효과를 추가하지 않으면, 목표는 놀람을 발생시킬 수 없다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C6 기이한 환상 배율 +80%",
+          "_note": "'배율이 80% 증가' — 변종값이 없어 덧셈(단계별 +80)으로 추정",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "mvFlat",
+              "value": 80,
+              "scope": {
+                "skillIds": [
+                  "circuit-1",
+                  "circuit-2",
+                  "circuit-3"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "label": "C6 함몰 후 방어력 30% 무시",
+          "condition": "10초",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "defIgnore",
+              "value": 30
+            }
+          ]
+        }
+      ]
     }
   ],
   "_innateSkills": [

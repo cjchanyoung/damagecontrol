@@ -430,13 +430,51 @@
       "nodes": [
         {
           "name": "친절한 접대",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "공명 스킬 분노의 연주 발동 후 8초 내에 공명 스킬 분노의 후가의 피해가 25% 증가한다"
+          "buff": {
+            "label": "분노의 연주 후 분노의 후가 피해 +25%",
+            "condition": "8초",
+            "trigger": {
+              "mode": "toggle",
+              "default": true
+            },
+            "effects": [
+              {
+                "stat": "dmgBonus",
+                "value": 25,
+                "scope": {
+                  "skillIds": [
+                    "circuit-1"
+                  ]
+                }
+              }
+            ]
+          }
         },
         {
           "name": "자유로운 리듬",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "공명 해방 드래곤의 광상곡 지속 기간, 공명 해방 강화음으로 목표 명중 시마다, 다음 공명 해방 강화음의 피해를 1.5% 증가시키며, 0.35초마다 1회 발생할 수 있으며, 최대 50스택 중첩이 가능하다.\n공명 해방 드래곤의 광상곡 종료 후 효과 스택은 리셋된다"
+          "buff": {
+            "label": "강화음 명중마다 다음 강화음 피해 +1.5% (스택)",
+            "condition": "드래곤의 광상곡 중, 최대 50 (사이클 평균 25로 기본값)",
+            "trigger": {
+              "mode": "toggle",
+              "default": true
+            },
+            "stacks": {
+              "max": 50,
+              "default": 25
+            },
+            "effects": [
+              {
+                "stat": "dmgBonus",
+                "value": 1.5,
+                "scope": {
+                  "skillIds": [
+                    "liberation-2"
+                  ]
+                }
+              }
+            ]
+          }
         }
       ]
     },
@@ -445,8 +483,69 @@
       "entries": []
     }
   },
-  "buffs": [],
-  "rotation": null,
+  "buffs": [
+    {
+      "id": "outro",
+      "label": "반주: 다음 캐릭터 강공격 피해 부스트 38%",
+      "condition": "14초",
+      "target": "others",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "dmgBoost",
+          "value": 38,
+          "scope": {
+            "damageTypes": [
+              "heavy"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "rotation": {
+    "name": "기본 사이클",
+    "draft": true,
+    "duration": 12,
+    "steps": [
+      {
+        "pending": true,
+        "note": "에코 (Q) — 메인 에코 계수/버프 추가 예정"
+      },
+      {
+        "note": "변주 → 분노의 연주",
+        "skillIds": [
+          "intro-1",
+          "skill-1"
+        ]
+      },
+      {
+        "note": "일반 공격 1~4단 — 분노 게이지",
+        "skillIds": [
+          "normal-1",
+          "normal-2",
+          "normal-3",
+          "normal-4"
+        ]
+      },
+      {
+        "note": "분노의 후가",
+        "skillId": "circuit-1"
+      },
+      {
+        "note": "격렬한 피날레 → 드래곤의 광상곡",
+        "skillId": "liberation-1"
+      },
+      {
+        "note": "파티원 공격에 맞춘 강화음 협동 공격 (10초간 추정 25발)",
+        "skillId": "liberation-2",
+        "count": 25
+      }
+    ]
+  },
   "chain": [
     {
       "name": "고독의 연주",
@@ -461,7 +560,25 @@
     {
       "name": "예열된 조율",
       "description": "공명 해방 드래곤의 광상곡 지속 기간 동안, 공명 해방 강화음의 크리티컬 피해가 30% 증가된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C3 드래곤의 광상곡 중 강화음 크리 피해 +30%",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "critDmg",
+              "value": 30,
+              "scope": {
+                "skillIds": [
+                  "liberation-2"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "분노의 왈츠",
@@ -476,7 +593,23 @@
     {
       "name": "극노의 침묵",
       "description": "공명 해방 격렬한 피날레를 사용할 시, 파티 내 캐릭터의 공격력이 20% 상승하며, 20초간 지속된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C6 해방 후 파티 공격력 +20%",
+          "condition": "20초",
+          "target": "team",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "atkPercent",
+              "value": 20
+            }
+          ]
+        }
+      ]
     }
   ],
   "_innateSkills": [

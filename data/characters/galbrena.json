@@ -610,13 +610,25 @@
       "nodes": [
         {
           "name": "사냥의 맹세",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "갈브레나의 변주 스킬, 일반 공격, 일반 공격 · 데빌 헌터의 처형, 회피 반격, 강공격 · 살육 점화, 강공격 · 불타는 깃털의 단죄, 공중 공격, 지옥 관통, 공명 스킬 · 임박, 공명 스킬 · 어둠 날개의 비상, 공명 스킬 · 기습 약탈, 공명 해방이 목표에 명중 시, 목표에게 1스택의 정해진 죽음을 추가하며, 1스택마다 갈브레나가 기본 공격, 공명 스킬, 공명 회로, 공명 해방, 변주 스킬, 반주 스킬로 입히는 피해를 5% 부스트시키고 최대 4스택까지 중첩이 가능하며 5.5초간 지속된다. 동일한 유형의 스킬은 동일한 목표에게 5초 내 1회만 추가할 수 있다.\n공명 스킬 · 임박, 공명 스킬 · 기습 약탈은 같은 스킬 유형으로 간주된다"
+          "buff": {
+            "label": "정해진 죽음 4스택: 피해 부스트 20%",
+            "condition": "서로 다른 스킬 유형 명중마다 1스택(5%), 최대 4, 5.5초",
+            "trigger": {
+              "mode": "toggle",
+              "default": true
+            },
+            "effects": [
+              {
+                "stat": "dmgBoost",
+                "value": 20
+              }
+            ]
+          }
         },
         {
           "name": "폭식의 죄",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "갈브레나가 일반 공격 4단, 일반 공격 · 데빌 헌터의 처형 5단, 강공격 · 살육 점화 3단, 강공격 · 불타는 깃털의 단죄 3단 발동 시, 10pt의 스태미나가 회복된다"
+          "effects": [],
+          "_note": "스태미나 회복 — 피해 계산 무관"
         }
       ]
     },
@@ -642,13 +654,178 @@
       ]
     }
   },
-  "buffs": [],
-  "rotation": null,
+  "buffs": [
+    {
+      "id": "demon",
+      "label": "연옥 정화: 악마의 자격 스킬 배율 ×1.85",
+      "condition": "해방 후 14초, 악마의 자격 중",
+      "_note": "API 변종 확인: 58.99 → 109.13 (×1.85), C6와는 곱 → 174.61 (×1.85×1.6)",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "mvBoost",
+          "value": 85,
+          "scope": {
+            "skillIds": [
+              "circuit-1",
+              "circuit-2",
+              "circuit-3",
+              "circuit-4",
+              "circuit-5",
+              "circuit-6",
+              "circuit-7",
+              "circuit-8",
+              "circuit-9",
+              "circuit-10",
+              "circuit-11"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "embers",
+      "label": "남은 불꽃: 악마의 자격 스킬 받는 피해 +60% (40pt 기준)",
+      "condition": "남은 불꽃 1pt당 1.5%, 최대 60%",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "dmgBoost",
+          "value": 60,
+          "scope": {
+            "skillIds": [
+              "circuit-1",
+              "circuit-2",
+              "circuit-3",
+              "circuit-4",
+              "circuit-5",
+              "circuit-6",
+              "circuit-7",
+              "circuit-8",
+              "circuit-9",
+              "circuit-10",
+              "circuit-11",
+              "circuit-12"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "rotation": {
+    "name": "기본 사이클",
+    "draft": true,
+    "duration": 25,
+    "steps": [
+      {
+        "pending": true,
+        "note": "에코 (Q) — 메인 에코 계수/버프 추가 예정"
+      },
+      {
+        "note": "변주",
+        "skillId": "intro-1"
+      },
+      {
+        "note": "일반 공격 1~4단 → 살육 점화 1~3단 (죄의 불꽃)",
+        "skillIds": [
+          "normal-1",
+          "normal-2",
+          "normal-3",
+          "normal-4",
+          "normal-8",
+          "normal-9",
+          "normal-10"
+        ]
+      },
+      {
+        "note": "임박 → 일반 공격 2~4단",
+        "skillIds": [
+          "skill-1",
+          "normal-2",
+          "normal-3",
+          "normal-4"
+        ]
+      },
+      {
+        "note": "어둠 날개의 비상 → 악마의 자격",
+        "skillId": "skill-2"
+      },
+      {
+        "note": "연옥 정화",
+        "skillId": "liberation-1"
+      },
+      {
+        "note": "데빌 헌터의 처형 2~5단 ×2",
+        "repeat": 2,
+        "skillIds": [
+          "circuit-2",
+          "circuit-3",
+          "circuit-4",
+          "circuit-5"
+        ]
+      },
+      {
+        "note": "불타는 깃털의 단죄 1~3단",
+        "skillIds": [
+          "circuit-6",
+          "circuit-7",
+          "circuit-8"
+        ]
+      },
+      {
+        "note": "기습 약탈 → 죄와 벌",
+        "skillIds": [
+          "circuit-12",
+          "circuit-9"
+        ]
+      },
+      {
+        "note": "반주",
+        "skillId": "outro-1"
+      }
+    ]
+  },
   "chain": [
     {
       "name": "영원히 타오르는 저항의 마음",
       "description": "갈브레나가 공명 스킬 · 어둠 날개의 비상 발동 시, 「남은 불꽃」 1pt 당 일반 공격 · 데빌 헌터의 처형, 강공격 · 불타는 깃털의 단죄, 공중 공격 · 불지옥 폭풍, 공명 스킬 · 기습 약탈, 회피 반격 · 죄와 벌의 크리티컬 피해를 추가로 2% 증가시키고 최대 80%까지 증가시킬 수 있으며, 악마의 자격 종료 시 제거된다.\n악마의 자격 기간 동안 일반 공격 · 데빌 헌터의 처형 5단, 강공격 · 불타는 깃털의 단죄 3단, 공중 공격 · 불지옥 폭풍은 목표의 공격에 의해 중단되지 않는다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C1 악마의 자격 스킬 크리 피해 +80% (남은 불꽃 40pt)",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "critDmg",
+              "value": 80,
+              "scope": {
+                "skillIds": [
+                  "circuit-1",
+                  "circuit-2",
+                  "circuit-3",
+                  "circuit-4",
+                  "circuit-5",
+                  "circuit-6",
+                  "circuit-7",
+                  "circuit-8",
+                  "circuit-9",
+                  "circuit-10",
+                  "circuit-11",
+                  "circuit-12"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "연옥과 암흑을 지나는 길",
@@ -658,22 +835,136 @@
     {
       "name": "타오른 피로 쓴 사냥의 맹세",
       "description": "공명 해방 피해 배율이 130% 상승된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C3 해방 배율 ×2.3",
+          "_note": "API 변종 확인: 110.9 → 255.07, 90.74 → 208.69 (×2.3). C2 내부 연소 공격력 보너스는 기본값 원문이 잘려 미반영",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "mvBoost",
+              "value": 130,
+              "scope": {
+                "skillIds": [
+                  "liberation-1"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "홀로 짊어진 고통의 불길",
       "description": "파티 내 캐릭터가 에코 어빌리티 발동 시, 파티 내 모든 캐릭터의 전체 속성 피해 보너스를 20% 증가시키고, 20초간 지속된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C4 에코 어빌리티 발동 시 파티 전체 속성 피해 +20%",
+          "condition": "20초",
+          "target": "team",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "dmgBonus",
+              "value": 20
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "빛이 멀어져도, 재앙에 타들어가도",
       "description": "공명 스킬 · 임박, 공명 스킬 · 어둠 날개의 비상, 공명 스킬 · 기습 약탈의 피해 배율이 150% 상승된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C5 공명 스킬 배율 ×2.5",
+          "_note": "API 변종 확인: 51.57 → 128.93 (×2.5)",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "mvBoost",
+              "value": 150,
+              "scope": {
+                "skillIds": [
+                  "skill-1",
+                  "skill-2",
+                  "circuit-12"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "영원히 불태워 자신을 증명해",
       "description": "악마의 자격이 불멸의 자격으로 진화하며 불멸의 자격은 악마의 자격의 모든 효과를 이어받는다.\n불멸의 자격 기간 동안, 일반 공격 · 데빌 헌터의 처형, 강공격 · 불타는 깃털의 단죄, 공중 공격 · 불지옥 폭풍, 회피 반격 · 죄와 벌의 피해 배율이 60% 상승된다.\n\n갈브레나가 공명 스킬 · 어둠 날개의 비상 발동 시, 「남은 불꽃」 1pt 당 일반 공격 · 데빌 헌터의 처형, 강공격 · 불타는 깃털의 단죄, 공중 공격 · 불지옥 폭풍, 공명 스킬 · 기습 약탈, 회피 반격 · 죄와 벌의 용융 피해가 추가로 0.875% 부스트되고, 최대 35%까지 부스트되며 불멸의 자격 종료 시 제거된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C6 불멸의 자격 스킬 배율 ×1.6",
+          "_note": "API 변종 확인: 58.99 → 94.38 (×1.6)",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "mvBoost",
+              "value": 60,
+              "scope": {
+                "skillIds": [
+                  "circuit-1",
+                  "circuit-2",
+                  "circuit-3",
+                  "circuit-4",
+                  "circuit-5",
+                  "circuit-6",
+                  "circuit-7",
+                  "circuit-8",
+                  "circuit-9",
+                  "circuit-10",
+                  "circuit-11"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "label": "C6 남은 불꽃: 용융 피해 부스트 35% (40pt 기준)",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "dmgBoost",
+              "value": 35,
+              "scope": {
+                "skillIds": [
+                  "circuit-1",
+                  "circuit-2",
+                  "circuit-3",
+                  "circuit-4",
+                  "circuit-5",
+                  "circuit-6",
+                  "circuit-7",
+                  "circuit-8",
+                  "circuit-9",
+                  "circuit-10",
+                  "circuit-11",
+                  "circuit-12"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     }
   ],
   "_innateSkills": [

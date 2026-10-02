@@ -488,13 +488,29 @@
       "nodes": [
         {
           "name": "변음 기호",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "에코 어빌리티 발동 시, 경직 저항력이 증가하고 받는 피해가 30% 감소되며 15초간 지속된다.\n죽음 모음곡, 영생 모음곡, 에코 어빌리티 발동 시, 다음에 획득하는 「흔들리는 음」은 「흔들리는 음 · 카덴차」로 변한다"
+          "effects": [],
+          "_note": "받는 피해 감소·카덴차 음 전환 — 피해 계산 무관"
         },
         {
           "name": "팔중주",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "전투 상태에 진입하면 10스택의 잔음을 획득하며, 전투 상태 종료 후 4초간 해당 효과를 발생시킬 수 없다.\n1스택의 잔음을 보유할 때마다 크리티컬 피해가 2.5% 증가된다.\n잔음 스택이 최대치에 도달 시, 다시 잔음을 획득하면 초과한 잔음 1스택 당 플로로의 크리티컬 피해를 1% 증가시키고, 해당 방식을 통해 최대 100%까지 증가시킬 수 있으며, 잔음 스택 제거 시 해당 방식으로 제공된 크리티컬 피해 증가 효과도 제거된다"
+          "buff": {
+            "label": "잔음: 크리 피해 +2.5% (스택)",
+            "condition": "전투 진입 시 10스택, 최대 24 (초과분 1%씩 최대 100%는 미반영)",
+            "trigger": {
+              "mode": "toggle",
+              "default": true
+            },
+            "stacks": {
+              "max": 24,
+              "default": 20
+            },
+            "effects": [
+              {
+                "stat": "critDmg",
+                "value": 2.5
+              }
+            ]
+          }
         }
       ]
     },
@@ -503,28 +519,248 @@
       "entries": []
     }
   },
-  "buffs": [],
-  "rotation": null,
+  "buffs": [
+    {
+      "id": "lingering-tones",
+      "label": "잔음: 마지막 작곡 배율 +82.55% (스택)",
+      "condition": "잔음 스택 수만큼 — 팔중주 스택과 맞춰서 쓰기",
+      "_note": "원문 기타수치 '잔음 1스택 당 배율 증가량 82.55%' (덧셈). C2의 ×1.75가 이 가산분까지 곱해져 'C2: 잔음 효과 75% 상승'과 일치",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "stacks": {
+        "max": 24,
+        "default": 20
+      },
+      "effects": [
+        {
+          "stat": "mvFlat",
+          "value": 82.55,
+          "scope": {
+            "skillIds": [
+              "normal-5"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "conducting",
+      "label": "지휘 상태: 공격력 +120%",
+      "condition": "잊혀진 심연의 왈츠 후 24초",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "atkPercent",
+          "value": 120
+        }
+      ]
+    },
+    {
+      "id": "outro",
+      "label": "반주: 다음 캐릭터 인멸 피해 부스트 20%",
+      "condition": "14초",
+      "target": "others",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "dmgBoost",
+          "value": 20,
+          "scope": {
+            "elements": [
+              "인멸"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "outro-heavy",
+      "label": "반주: 다음 캐릭터 강공격 피해 부스트 25%",
+      "target": "others",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "dmgBoost",
+          "value": 25,
+          "scope": {
+            "damageTypes": [
+              "heavy"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "rotation": {
+    "name": "기본 사이클",
+    "draft": true,
+    "duration": 25,
+    "steps": [
+      {
+        "pending": true,
+        "note": "에코 (Q) — 메인 에코 계수/버프 추가 예정"
+      },
+      {
+        "note": "변주 죽음 모음곡",
+        "skillId": "intro-1"
+      },
+      {
+        "note": "일반 공격 1~3단 → 멸망과 죽음의 악장 (현악)",
+        "skillIds": [
+          "normal-1",
+          "normal-2",
+          "normal-3",
+          "circuit-1"
+        ]
+      },
+      {
+        "note": "스쳐 지나간 잠꼬대 → 영원히 사라지지 않는 잠꼬대 (관악)",
+        "skillIds": [
+          "skill-1",
+          "circuit-2"
+        ]
+      },
+      {
+        "note": "한 번 더 반복해 흔들리는 음 6개",
+        "skillIds": [
+          "normal-1",
+          "normal-2",
+          "normal-3",
+          "circuit-1",
+          "skill-1",
+          "circuit-2"
+        ]
+      },
+      {
+        "note": "마지막 작곡 → 표준음",
+        "skillId": "normal-5"
+      },
+      {
+        "note": "잊혀진 심연의 왈츠 → 지휘, 헤카테 평타",
+        "skillIds": [
+          "liberation-1",
+          "liberation-2"
+        ]
+      },
+      {
+        "note": "강화된 공격 · 헤카테 (현악·관악·카덴차 각 2회)",
+        "repeat": 2,
+        "skillIds": [
+          "liberation-3",
+          "liberation-4",
+          "liberation-5"
+        ]
+      },
+      {
+        "note": "커튼콜",
+        "skillId": "liberation-6"
+      }
+    ]
+  },
   "chain": [
     {
       "name": "이계의 비밀로 들어가는 열쇠",
       "description": "멸망과 죽음의 악장의 피해 배율이 80% 상승된다.\n영원히 사라지지 않는 잠꼬대의 피해 배율이 80% 상승된다.\n플로로가 지휘 상태가 아닌 동시에 비전투 상태가 4초간 지속된 후, 「흔들리는 음」이 2개 미만이면 「흔들리는 음」이 2개 이상이 될 때까지 「흔들리는 음 · 카덴차」를 획득한다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C1 멸망과 죽음의 악장·잠꼬대 배율 ×1.8",
+          "_note": "API 변종 확인: 117.83 → 212.1, 324.82 → 584.67 (×1.8)",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "mvBoost",
+              "value": 80,
+              "scope": {
+                "skillIds": [
+                  "circuit-1",
+                  "circuit-2"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "새로운 삶을 연결하는 밧줄",
       "description": "마지막 작곡의 피해 배율이 75% 상승되고 잔음이 마지막 작곡에 대한 배율 증가 효과가 75% 상승된다.\n마지막 작곡 발동 시 14스택의 잔음을 획득할 수 있다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C2 마지막 작곡 배율 ×1.75 (잔음 가산분 포함)",
+          "_note": "API 변종 확인: 495.1 → 866.42 (×1.75)",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "mvBoost",
+              "value": 75,
+              "scope": {
+                "skillIds": [
+                  "normal-5"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "망상을 끊는 날카로운 비수",
       "description": "에코 어빌리티 피해가 80% 부스트된다.\n마지막 작곡 발동 기간, 모든 「흔들리는 음」은 순서에 따라 「흔들리는 음 · 카덴차」로 전환된다.\n강화된 공격 · 카덴차 · 헤카테에 명중된 목표는 공격력이 20% 감소되고, 15초간 지속된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C3 에코 어빌리티 피해 부스트 80%",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "dmgBoost",
+              "value": 80,
+              "scope": {
+                "damageTypes": [
+                  "echo"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "새로운 여정을 인도하는 횃불",
       "description": "에코 어빌리티 발동 시 파티 내 캐릭터의 전체 속성 피해 보너스가 20% 증가되고 30초간 지속된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C4 에코 어빌리티 시 파티 전체 속성 피해 +20%",
+          "condition": "30초",
+          "target": "team",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "dmgBonus",
+              "value": 20
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "삶의 관건을 가로지르는 갈림길",
@@ -534,7 +770,56 @@
     {
       "name": "안식과 종말을 벗어나는 심야",
       "description": "강화된 공격 · 헤카테의 피해 배율이 24% 상승된다.\n\n멸망과 죽음의 악장, 영원히 사라지지 않는 잠꼬대 발동 기간에, 헤카테를 소환하여 뒤얽힌 세계의 환상 · 헤카테를 1회 발동하고, 플로로 공격력의 216.42%에 해당하는 인멸 피해를 입히며, 목표 명중 시 8스택의 잔음을 획득한다. 해당 피해는 에코 어빌리티 피해로 적용된다.\n\n지휘 상태에 있을 시, 플로로가 파티 내 등장 캐릭터가 아닐 경우, 목표가 헤카테와 플로로로부터 받는 피해가 40% 증가된다.\n지휘 상태에 있을 시, 플로로가 파티 내 등장 캐릭터일 경우, 인멸 피해 보너스가 60% 증가된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C6 강화된 공격 · 헤카테 배율 ×1.24",
+          "_note": "API 변종 확인: 243.55 → 302, 231.37 → 286.9 (×1.24). 뒤얽힌 세계의 환상(216.42% 에코 어빌리티)은 판정이 달라 미반영",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "mvBoost",
+              "value": 24,
+              "scope": {
+                "skillIds": [
+                  "liberation-3",
+                  "liberation-4",
+                  "liberation-5"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "label": "C6 지휘 중 퇴장 시: 받는 피해 +40%",
+          "condition": "지휘 상태에서 플로로가 필드 밖",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "dmgBoost",
+              "value": 40
+            }
+          ]
+        },
+        {
+          "label": "C6 지휘 중 등장 시: 인멸 피해 +60%",
+          "condition": "지휘 상태에서 플로로가 필드 위 (위 효과와 택1)",
+          "trigger": {
+            "mode": "toggle",
+            "default": false
+          },
+          "effects": [
+            {
+              "stat": "havocDmgBonus",
+              "value": 60
+            }
+          ]
+        }
+      ]
     }
   ],
   "_innateSkills": [

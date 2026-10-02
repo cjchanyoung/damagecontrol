@@ -663,7 +663,7 @@
           "id": "circuit-3",
           "name": "해킹 대응 · 멜트다운 피해",
           "damageType": [
-            "normal"
+            "concerto"
           ],
           "parts": [
             {
@@ -681,59 +681,357 @@
               ]
             }
           ],
-          "_todoDamageType": true
+          "_note": "해킹 피해 — 조화도 계열 피해로 분류",
+          "_fixed": true
         }
       ],
       "nodes": [
         {
           "name": "네 차례야!",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "둘 다 내 거야! 효과를 획득할 때마다 혹은 강공격 · 탕탕탕! · 헌트리스와 강공격 · 콰과광! · 거츠 발동 시, 공격력이 10% 증가되고 12초간 지속되며, 2스택 중첩이 가능하다. \n파티 내 캐릭터가 「해킹 · 이탈」 추가 시, 조화도 파괴 증폭이 30pt 증가되고 30초간 지속된다"
+          "buff": {
+            "label": "공격력 +10% (스택)",
+            "condition": "둘 다 내 거야! 획득 또는 탕탕탕!/콰과광! 발동 시 12초, 최대 2스택",
+            "_note": "해킹 · 이탈 시 조화도 파괴 증폭 +30은 공식 미정이라 미반영",
+            "trigger": {
+              "mode": "toggle",
+              "default": true
+            },
+            "stacks": {
+              "max": 2,
+              "default": 2
+            },
+            "effects": [
+              {
+                "stat": "atkPercent",
+                "value": 10
+              }
+            ]
+          }
         },
         {
           "name": "빈틈 발견!",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "강공격 · 탕탕탕! · 헌트리스와 강공격 · 콰과광! · 거츠의 경직 저항력이 증가된다.\n레베카가 공명 해방 · 파티 타임! 발동 시, 근처 파티 내 모든 캐릭터의 공격력이 20% 증가되고, 30초간 지속된다"
+          "buff": {
+            "label": "해방 시 파티 공격력 +20%",
+            "condition": "파티 타임! 발동 후 30초",
+            "target": "team",
+            "trigger": {
+              "mode": "toggle",
+              "default": true
+            },
+            "effects": [
+              {
+                "stat": "atkPercent",
+                "value": 20
+              }
+            ]
+          }
         }
       ]
     },
     "outro": {
       "name": "최고의 동료",
-      "entries": []
+      "entries": [
+        {
+          "id": "outro-1",
+          "name": "최고의 동료",
+          "damageType": [
+            "outro"
+          ],
+          "parts": [
+            {
+              "mv": 2.5
+            }
+          ],
+          "_fromDescription": true
+        }
+      ]
     }
   },
-  "buffs": [],
-  "rotation": null,
+  "buffs": [
+    {
+      "id": "huntress",
+      "label": "헌트리스 모드: 크리 피해 +30%",
+      "condition": "헌트리스 모드 (둘 다 내 거야! 중엔 두 모드 효과 동시)",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "critDmg",
+          "value": 30
+        }
+      ]
+    },
+    {
+      "id": "guts",
+      "label": "거츠 모드: 방어력 15% 무시",
+      "condition": "거츠 모드 (둘 다 내 거야! 중엔 두 모드 효과 동시)",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "defIgnore",
+          "value": 15
+        }
+      ]
+    },
+    {
+      "id": "outro",
+      "label": "반주 엣지러너의 유대: 다음 캐릭터 피해 부스트 15%",
+      "target": "others",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "dmgBoost",
+          "value": 15
+        }
+      ]
+    },
+    {
+      "id": "outro-overlimit",
+      "label": "반주 오버리미트: 다음 캐릭터 강공격 피해 부스트 35%",
+      "condition": "0.2초마다 0.5%, 최대 35%",
+      "target": "others",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "dmgBoost",
+          "value": 35,
+          "scope": {
+            "damageTypes": [
+              "heavy"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "rotation": {
+    "name": "기본 사이클",
+    "draft": true,
+    "duration": 25,
+    "steps": [
+      {
+        "pending": true,
+        "note": "에코 (Q) — 메인 에코 계수/버프 추가 예정"
+      },
+      {
+        "note": "변주 — 둘 다 내 거야! (거츠 전환)",
+        "skillId": "intro-1"
+      },
+      {
+        "note": "잡을 테면 잡아봐! (헌트리스 전환)",
+        "skillId": "skill-2"
+      },
+      {
+        "note": "헌트리스 평타 1~3단 → 탕탕탕!",
+        "skillIds": [
+          "normal-1",
+          "normal-2",
+          "normal-3",
+          "circuit-1"
+        ]
+      },
+      {
+        "note": "이건 꽤 아플걸! (거츠 전환)",
+        "skillId": "skill-1"
+      },
+      {
+        "note": "거츠 평타 1~3단 → 콰과광!",
+        "skillIds": [
+          "normal-9",
+          "normal-10",
+          "normal-11",
+          "circuit-2"
+        ]
+      },
+      {
+        "note": "파티 타임! 자동 사격 (발수 추정 20)",
+        "skillId": "liberation-1",
+        "count": 20
+      },
+      {
+        "note": "화끈한 불꽃놀이!",
+        "skillId": "liberation-2"
+      },
+      {
+        "pending": true,
+        "note": "해킹 대응 · 멜트다운(2358.89%)은 해킹 · 간섭 파티 조건이라 제외"
+      }
+    ]
+  },
   "chain": [
     {
       "name": "잘 부탁해!",
       "description": "레베카의 다음 스킬의 피해 배율이 50% 상승된다.\n· 일반 공격 · 헌트리스, 강공격 · 헌트리스, 전술 회피 · 헌트리스, 회피 반격 · 헌트리스\n· 일반 공격 · 거츠, 전술 회피 · 거츠, 회피 반격 · 거츠\n레베카가 둘 다 내 거야! 효과 획득 시, 추가로 3스택의 부랑아의 직감을 획득하고 12초간 지속된다. 전술 회피 · 헌트리스, 전술 회피 · 거츠 발동 시, 부랑아의 직감을 보유할 경우 1스택의 부랑아의 직감을 소모하여 20pt의 스태미나를 회복한다.\n공명 해방 화끈한 불꽃놀이!는 적의 공격에 의해 중단되지 않는다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C1 평타·전술 회피·회피 반격 배율 ×1.5",
+          "_note": "API 변종 확인: 109.85 → 164.77, 258.56 → 387.83 (×1.5). 강공격 · 거츠는 대상 아님",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "mvBoost",
+              "value": 50,
+              "scope": {
+                "skillIds": [
+                  "normal-1",
+                  "normal-2",
+                  "normal-3",
+                  "normal-4",
+                  "normal-6",
+                  "normal-7",
+                  "normal-8",
+                  "normal-9",
+                  "normal-10",
+                  "normal-11",
+                  "normal-14",
+                  "normal-15",
+                  "normal-16"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "뭐야, 너구나!",
       "description": "변주 스킬 훗, 이건 꽤 아플걸!, 변주 스킬 멍청아! 잡을 테면 잡아봐! 혹은 공명 해방 파티 타임! 발동 시, 파티 내 캐릭터의 전체 속성 피해 보너스가 20% 증가되고 30초간 지속된다.\n파티 내 캐릭터가 「해킹 · 이탈」 추가 시, 전체 피해가 15% 부스트되고, 30초간 지속된다.\n비전투 상태에 있을 시, 「나한테 딱이야」의 회복 속도가 2배가 된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C2 파티 전체 속성 피해 +20%",
+          "condition": "변주·해방 발동 후 30초",
+          "target": "team",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "dmgBonus",
+              "value": 20
+            }
+          ]
+        },
+        {
+          "label": "C2 해킹 · 이탈 추가 시 전체 피해 부스트 15%",
+          "target": "team",
+          "trigger": {
+            "mode": "toggle",
+            "default": false
+          },
+          "effects": [
+            {
+              "stat": "dmgBoost",
+              "value": 15
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "뒤는 내게 맡겨!",
       "description": "레베카의 공명 해방 파티 타임!, 공명 해방 화끈한 불꽃놀이!의 피해 배율이 60% 상승된다.\n레베카의 공명 해방 파티 타임!의 폭발 범위가 30% 증가된다.\n변주 스킬 훗, 이건 꽤 아플걸!, 변주 스킬 멍청아! 잡을 테면 잡아봐! 발동 시, 120pt의 「나한테 딱이야」를 획득한다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C3 해방 배율 ×1.6",
+          "_note": "API 변종 확인: 24.3 → 38.88, 572.58 → 916.12 (×1.6)",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "mvBoost",
+              "value": 60,
+              "scope": {
+                "skillIds": [
+                  "liberation-1",
+                  "liberation-2"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "내가 지켜줄게!",
       "description": "레베카의 둘 다 내 거야!의 속성 보너스 효과가 추가로 60% 상승된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C4 모드 효과 +60% (크리 피해 +18%, 방어 무시 +9%)",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "critDmg",
+              "value": 18
+            },
+            {
+              "stat": "defIgnore",
+              "value": 9
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "엣지러너의 꿈",
       "description": "레베카가 「해킹 · 이탈」 추가 시, 자신의 일반 공격 피해 보너스가 20% 증가되고, 8초간 지속된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C5 해킹 · 이탈 추가 시 일반 공격 피해 +20%",
+          "trigger": {
+            "mode": "toggle",
+            "default": false
+          },
+          "effects": [
+            {
+              "stat": "normalAtkDmgBonus",
+              "value": 20
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "어쩌면...",
       "description": "레베카가 모든 출처에서 획득하는 일반 공격 피해 보너스 수치가 40% 상승된다.\n레베카가 강공격 · 탕탕탕! · 헌트리스, 강공격 · 콰과광! · 거츠 발동 기간 동안, 추가로 900%의 전도 피해를 1회 입히며, 해당 피해는 일반 공격 피해로 적용된다.\n레베카가 강공격 · 탕탕탕! · 헌트리스, 강공격 · 콰과광! · 거츠 발동 시, 추가로 20pt의 「나한테 딱이야」를 회복한다.\n치명적인 피해를 받을 시, 레베카는 해당 피해로 의식을 잃지 않고 즉시 2077pt의 고정 HP를 5회 회복한다. 해당 효과는 10분마다 1회 발생할 수 있다.\n비전투 상태 지속 시간이 4초를 초과 시, 레베카는 120pt의 「광란」을 회복하고, 4초마다 1회만 적용된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C6 탕탕탕!·콰과광! 추가타 900%",
+          "_note": "같은 판정(일반 공격)이라 계수에 더해서 처리. '일반 공격 피해 보너스 수치 40% 상승'은 미반영",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "mvFlat",
+              "value": 900,
+              "scope": {
+                "skillIds": [
+                  "circuit-1",
+                  "circuit-2"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     }
   ],
   "_innateSkills": [

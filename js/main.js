@@ -356,9 +356,10 @@ function getSlotEffects(slotId) {
 
     const multiplier = buff.maxStacks > 1 ? (st.stacks || 0) : 1;
     buff.effects.forEach(e => {
-      const resolved = { stat: e.stat, value: e.value * multiplier, scope: e.scope };
-      (e.scope ? scoped : global).push(resolved);
-      if (buff.target === 'team') team.push(resolved);
+      const resolved = { stat: e.stat, value: e.value * multiplier, scope: e.scope, group: e.group };
+      // 'others'는 반주 버프처럼 다음 등장 캐릭터에게만 가는 효과 — 본인에겐 안 붙음
+      if (buff.target !== 'others') (e.scope ? scoped : global).push(resolved);
+      if (buff.target === 'team' || buff.target === 'others') team.push(resolved);
     });
   });
 
@@ -499,6 +500,8 @@ function renderBuffCardHTML(slotId, ctx) {
             <input type="checkbox" ${st.on ? 'checked' : ''} onchange="toggleSlotBuff('${slotId}', '${b.id}', this.checked)"
               class="accent-teal-500 w-3 h-3 shrink-0">
             <span class="flex-1 min-w-0 truncate">${b.label}</span>
+            ${b.target === 'team' ? '<span class="shrink-0 text-[9px] text-sky-400/80 border border-sky-500/30 rounded px-1">파티</span>' : ''}
+            ${b.target === 'others' ? '<span class="shrink-0 text-[9px] text-violet-400/80 border border-violet-500/30 rounded px-1">다음 캐릭터</span>' : ''}
             ${b.maxStacks > 1 ? `<input type="number" min="0" max="${b.maxStacks}" value="${st.stacks}"
               onchange="setSlotBuffStacks('${slotId}', '${b.id}', this.value)"
               class="w-9 shrink-0 bg-zinc-800 border border-zinc-700 rounded px-1 py-0.5 text-[10px] text-zinc-200 text-right focus:outline-none focus:border-teal-500">` : ''}
@@ -588,7 +591,11 @@ function renderRotationCardHTML(ctx, data) {
 
   return `
     <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-3 mt-2 first:mt-0">
-      <div class="text-xs font-bold text-zinc-300 mb-2">로테이션 · ${data.rotation.name || '기본 사이클'}</div>
+      <div class="flex items-center gap-1.5 mb-2">
+        <div class="text-xs font-bold text-zinc-300">로테이션 · ${data.rotation.name || '기본 사이클'}</div>
+        ${data.rotation.draft ? '<span class="text-[9px] text-amber-400/90 border border-amber-500/40 rounded px-1">초안</span>' : ''}
+      </div>
+      ${data.rotation.draft ? '<div class="text-[10px] text-amber-500/70 -mt-1 mb-2">스킬 설명으로 짠 초안이고 사이클 시간은 추정치예요. 실제 로테이션으로 확인이 필요합니다.</div>' : ''}
 
       <div class="grid grid-cols-3 gap-1.5 mb-3">
         ${summary.map(([label, value]) => `

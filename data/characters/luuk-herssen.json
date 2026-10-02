@@ -560,53 +560,378 @@
       "nodes": [
         {
           "name": "눈속에 묻힌 맥박",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "파티 내 캐릭터가 직접 입히는 피해로 「조화 밀집 · 간섭」이 있는 목표 격파 시:\n루크 · 헤르센이 「연이어 쓰여진 한낮」 효과가 없을 경우, 「연이어 쓰여진 한낮」 효과를 획득하고, 스택은 목표의 「조화 밀집 · 간섭」 스택과 동일하다.\n루크 · 헤르센이 「연이어 쓰여진 한낮」 효과가 있고, 목표의 「조화 밀집 · 간섭」 스택이 루크 · 헤르센의 「연이어 쓰여진 한낮」 스택보다 많을 경우, 루크 · 헤르센의 「연이어 쓰여진 한낮」 스택은 목표의 「조화 밀집 · 간섭」 스택과 동일한 스택으로 변한다.\n\n「연이어 쓰여진 한낮」\n\n파티 내 캐릭터가 「조화도 파괴」 발동 시, 목표가 「조화 밀집 · 이탈」이 있을 경우, 루크 · 헤르센은 「연이어 쓰여진 한낮」의 모든 스택을 잃게 되고, 목표가 동일한 스택의 「조화 밀집 · 간섭」을 추가로 획득하게 된다. 현재 목표의 「조화 밀집 · 간섭」 스택 최대치까지 중첩이 가능하고, 해당 효과의 쿨타임은 1초이다.\n루크 · 헤르센이 의식을 잃을 시, 더 이상 「연이어 쓰여진 한낮」 효과를 획득할 수 없고, 동시에 이미 보유한 「연이어 쓰여진 한낮」 효과도 종료된다.\n「연이어 쓰여진 한낮」 효과는 최대 2스택 중첩이 가능하다"
+          "effects": [],
+          "_note": "연이어 쓰여진 한낮 — 조화 밀집 · 간섭 전달 메커니즘"
         },
         {
           "name": "이유 없이 찾아온 치유의 계시",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "자신이 발동한 스킬이 「조화 밀집 · 간섭」이 있는 목표에게 직접 피해를 입힐 시, 루크 · 헤르센이 조화도 파괴 증폭을 10pt 보유할 때마다,해당 피해는 5% 부스트되고, 최대 30%까지 부스트된다.\n근처 파티 내 모든 캐릭터가 적에게 「조화 밀집 · 이탈」을 추가하거나 「조화도 파괴」 피해를 입힌 후, 루크 · 헤르센의 공격력이 25% 증가되고, 20초간 지속된다"
+          "buff": {
+            "label": "조화 밀집 · 이탈 추가 후 공격력 +25%",
+            "condition": "파티원이 이탈 추가 또는 조화도 파괴 피해 후 20초",
+            "trigger": {
+              "mode": "toggle",
+              "default": true
+            },
+            "effects": [
+              {
+                "stat": "atkPercent",
+                "value": 25
+              }
+            ]
+          }
         }
       ]
     },
     "outro": {
       "name": "죽음으로 내린 답",
-      "entries": []
+      "entries": [
+        {
+          "id": "outro-1",
+          "name": "죽음으로 내린 답",
+          "damageType": [
+            "outro"
+          ],
+          "parts": [
+            {
+              "mv": 500
+            }
+          ],
+          "_fromDescription": true
+        }
+      ]
     }
   },
-  "buffs": [],
-  "rotation": null,
+  "buffs": [
+    {
+      "id": "interference-boost",
+      "label": "간섭 대상: 조화도 파괴 증폭 10당 피해 부스트 5% (최대 30%)",
+      "condition": "조화 밀집 · 간섭 대상. 증폭 60 이상일 때 최대. C2부터 10%씩 최대 60%",
+      "_note": "조화도 파괴 증폭 수치에 비례 — 기본 증폭 10이면 5%만 적용되니 상황에 맞게 켜기",
+      "trigger": {
+        "mode": "toggle",
+        "default": false
+      },
+      "effects": [
+        {
+          "stat": "dmgBoost",
+          "value": 30
+        }
+      ]
+    },
+    {
+      "id": "golden-ruling",
+      "label": "황금의 재량: 햇무리 참살·판결·이코르 배열 배율 +110%",
+      "condition": "이코르 에너지의 흐름 가득 → 햇무리 참살마다 100 소모",
+      "_note": "API 변종 확인: 354.11 → 743.62, 306.9 → 644.48 (×2.1). C3와 '서로 중첩' → 같은 그룹(golden)",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "mvBoost",
+          "value": 110,
+          "group": "golden",
+          "scope": {
+            "skillIds": [
+              "skill-2",
+              "skill-3",
+              "skill-4",
+              "skill-6",
+              "circuit-1"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "final-analysis",
+      "label": "최후의 해석: 해방 배율 +25% (스택)",
+      "condition": "햇무리 참살마다 1스택, 최대 3",
+      "_note": "API 변종 확인: 745.54 → 931.93 / 1118.31 / 1304.7 (+25%씩). C2와 '서로 중첩' → 같은 그룹(lib)",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "stacks": {
+        "max": 3,
+        "default": 3
+      },
+      "effects": [
+        {
+          "stat": "mvBoost",
+          "value": 25,
+          "group": "lib",
+          "scope": {
+            "skillIds": [
+              "liberation-1"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "rotation": {
+    "name": "기본 사이클",
+    "draft": true,
+    "duration": 25,
+    "steps": [
+      {
+        "pending": true,
+        "note": "에코 (Q) — 메인 에코 계수/버프 추가 예정"
+      },
+      {
+        "note": "변주 — 조화 밀집 · 이탈",
+        "skillId": "intro-1"
+      },
+      {
+        "note": "되살아난 금빛의 흐름 2회",
+        "skillId": "skill-1",
+        "count": 2
+      },
+      {
+        "note": "일반 공격 1~4단 → 햇무리 참살 · 고리 → 나란히 흐르는 금빛",
+        "skillIds": [
+          "normal-1",
+          "normal-2",
+          "normal-3",
+          "normal-4",
+          "skill-2",
+          "skill-5"
+        ]
+      },
+      {
+        "note": "일반 공격 1~4단 → 햇무리 참살 · 균열 → 나란히 흐르는 금빛",
+        "skillIds": [
+          "normal-1",
+          "normal-2",
+          "normal-3",
+          "normal-4",
+          "skill-3",
+          "skill-5"
+        ]
+      },
+      {
+        "note": "일반 공격 1~4단 → 햇무리 참살 · 요광 → 대지를 가르는 판결 → 이코르 배열",
+        "skillIds": [
+          "normal-1",
+          "normal-2",
+          "normal-3",
+          "normal-4",
+          "skill-4",
+          "circuit-1",
+          "skill-6"
+        ]
+      },
+      {
+        "note": "공명 해방 (최후의 해석 3)",
+        "skillId": "liberation-1"
+      },
+      {
+        "note": "반주",
+        "skillId": "outro-1"
+      }
+    ]
+  },
   "chain": [
     {
       "name": "잿빛 속에 타오르는 금빛",
       "description": "공중 공격 피해 보너스가 150% 증가된다.\n「햇살의 비호」의 스택 최대치가 1스택 증가된다.\n황금의 재량 상태에 있을 시, 공명 스킬 햇무리 참살을 발동하면 1스택의 「햇살의 비호」를 획득할 수 있다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C1 공중 공격 피해 +150%",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "dmgBonus",
+              "value": 150,
+              "scope": {
+                "skillIds": [
+                  "normal-6",
+                  "normal-7",
+                  "normal-8",
+                  "normal-9",
+                  "normal-10",
+                  "normal-11",
+                  "normal-13",
+                  "circuit-1"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "끊이지 않고 펼쳐지는 눈사태",
       "description": "공명 해방 얼음 속의 의미의 피해 배율이 60% 상승된다. 해당 배율 상승 효과는 「최후의 해석」의 배율 상승 효과와 서로 중첩된다.\n고유 스킬 이유 없이 찾아온 치유의 계시 효과 중, 「조화 밀집 · 간섭」이 있는 목표에게 피해를 입힐 시, 루크 · 헤르센이 조화도 파괴 증폭을 10pt 보유할 때마다, 피해 부스트 효과가 10%로 증가되고, 해당 부스트 효과의 최대치가 30%에서 60%까지 증가된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C2 해방 배율 +60%",
+          "_note": "API 변종 확인: 745.54 → 1192.86 (×1.6), 최후의 해석 3스택과 → 1752.02 (×2.35, 덧셈)",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "mvBoost",
+              "value": 60,
+              "group": "lib",
+              "scope": {
+                "skillIds": [
+                  "liberation-1"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "그대의 의지를 일깨우는 금비",
       "description": "황금의 재량 상태에서 모든 형태의 공명 스킬 햇무리 참살의 피해 배율이 136% 상승된다. 햇무리 참살 · 요광 발동 후, 이어진 공중 공격 · 대지를 가르는 판결과 이코르 배열의 피해 배율을 136% 상승시킨다. 해당 배율 상승 효과는 공명 회로 황금의 재량의 배율 상승 효과와 서로 중첩된다.\n고유 스킬 눈속에 묻힌 맥박이 강화된다.\n· 「연이어 쓰여진 한낮」 효과는 최대 4스택까지 중첩이 가능하다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C3 황금의 재량 배율 +136.5%",
+          "_note": "설명은 136%지만 API 변종 26.56 → 92.03 이 ×3.465 = 1+1.1+1.365 라서 136.5로 설정",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "mvBoost",
+              "value": 136.5,
+              "group": "golden",
+              "scope": {
+                "skillIds": [
+                  "skill-2",
+                  "skill-3",
+                  "skill-4",
+                  "skill-6",
+                  "circuit-1"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "얼어붙은 땅 아래에도, 새 생명은 움트니",
       "description": "파티 내 캐릭터가 「조화도 파괴」 피해를 입힌 후, 파티 내 모든 캐릭터가 입히는 피해를 20% 증가시키고, 20초간 지속되며, 중첩이 불가하다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C4 조화도 파괴 후 파티 피해 +20%",
+          "condition": "20초",
+          "target": "team",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "dmgBonus",
+              "value": 20
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "눈보라가 만든 침묵의 장을 지나",
       "description": "변주 스킬 새벽빛을 주입하기 전에와 반주 스킬 죽음으로 내린 답의 피해 보너스가 80% 증가된다.\n공명 스킬 되살아난 금빛의 흐름의 피해 배율이 50% 상승되고, 쿨타임이 2초 감소되며, 발동 가능 횟수가 1회 증가된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C5 변주·반주 피해 +80%",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "dmgBonus",
+              "value": 80,
+              "scope": {
+                "skillIds": [
+                  "intro-1",
+                  "outro-1"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "label": "C5 되살아난 금빛의 흐름 배율 ×1.5",
+          "_note": "API 변종 확인: 201.2 → 301.8 (×1.5)",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "mvBoost",
+              "value": 50,
+              "scope": {
+                "skillIds": [
+                  "skill-1"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "빙원 위, 끝없이 펼쳐진 새벽빛",
       "description": "근처 파티 내 모든 캐릭터가 「조화도 파괴」 피해를 입힐 시, 목표가 루크 · 헤르센의 모든 형태의 공명 스킬 햇무리 참살, 이코르 배열과 공중 공격 · 대지를 가르는 판결로부터 받는 피해를 30% 증가시키고, 25초간 지속된다.\n루크 · 헤르센의 「최후의 해석」 1스택마다 공명 해방 얼음 속의 의미의 피해 보너스를 추가로 40% 증가시키며, 최대 120%까지 증가시킨다.\n루크 · 헤르센이 「조화 밀집 · 간섭」이 있는 목표에게 피해를 입힐 시, 목표 현재의 「조화 밀집 · 간섭」을 2스택 증가시키는 것으로 간주되고, 해당 효과는 스택 최대치를 무시한다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C6 햇무리 참살·이코르 배열·판결 받는 피해 +30%",
+          "condition": "조화도 파괴 피해 후 25초",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "dmgBoost",
+              "value": 30,
+              "scope": {
+                "skillIds": [
+                  "skill-2",
+                  "skill-3",
+                  "skill-4",
+                  "skill-6",
+                  "circuit-1"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "label": "C6 최후의 해석당 해방 피해 +40% (스택)",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "stacks": {
+            "max": 3,
+            "default": 3
+          },
+          "effects": [
+            {
+              "stat": "dmgBonus",
+              "value": 40,
+              "scope": {
+                "skillIds": [
+                  "liberation-1"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     }
   ],
   "_innateSkills": [

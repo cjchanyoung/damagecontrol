@@ -502,13 +502,34 @@
       "nodes": [
         {
           "name": "함의의 재현",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "변주 스킬 · 밝은 날의 어원 발동 후, 시그리카는 메아리를 획득하고, 20초간 지속된다.\n\n메아리\n\n시그리카가 다음번 「룬」을 획득 시, 동일한 「룬」 1개를 추가로 획득할 수 있으며, 메아리가 제거된다.\n시그리카가 동시에 집중과 메아리를 보유 시, 메아리 효과가 우선적으로 적용된다.\n시그리카의 「마침표」가 100pt일 시, 메아리 효과는 적용되지 않는다"
+          "effects": [],
+          "_note": "메아리 — 룬 획득 메커니즘, 스탯 효과 없음"
         },
         {
           "name": "함의의 공명",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "파티 내 캐릭터가 에코 어빌리티 발동 시, 시그리카는 자신에게 1스택의 함의의 축복을 중첩하고, 최대 6스택까지 중첩이 가능하다. 같은 이름의 에코일 시 해당 효과는 1회만 발생할 수 있다.\n캐릭터가 파티에 편성될 시, 해당 효과는 리셋된다.\n\n함의의 축복\n\n함의의 축복 1스택마다 파티 내 등장 캐릭터의 기류 피해 보너스를 3% 증가시키고, 에코 어빌리티 피해 보너스를 3% 증가시킨다.\n함의의 축복이 6스택에 도달 시, 시그리카의 기류 피해 보너스와 에코 어빌리티 피해 보너스가 추가로 30% 증가된다.\n\n시그리카 자신의 공명 효율이 125%를 초과할 경우, 초과한 공명 효율 1% 당, 자신의 에코 어빌리티 피해 보너스를 2% 증가시키고, 최대 50%까지 증가시킬 수 있다"
+          "buff": {
+            "label": "함의의 축복: 파티 기류·에코 어빌리티 피해 +3% (스택)",
+            "condition": "파티원이 서로 다른 에코 어빌리티 발동 시 1스택, 최대 6",
+            "target": "team",
+            "trigger": {
+              "mode": "toggle",
+              "default": true
+            },
+            "stacks": {
+              "max": 6,
+              "default": 6
+            },
+            "effects": [
+              {
+                "stat": "aeroDmgBonus",
+                "value": 3
+              },
+              {
+                "stat": "echoAbilityDmgBonus",
+                "value": 3
+              }
+            ]
+          }
         }
       ]
     },
@@ -530,18 +551,210 @@
       ]
     }
   },
-  "buffs": [],
-  "rotation": null,
+  "buffs": [
+    {
+      "id": "blessing-max",
+      "label": "함의의 축복 6스택: 기류·에코 어빌리티 피해 +30%",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "aeroDmgBonus",
+          "value": 30
+        },
+        {
+          "stat": "echoAbilityDmgBonus",
+          "value": 30
+        }
+      ]
+    },
+    {
+      "id": "er-echo",
+      "label": "공명 효율: 에코 어빌리티 피해 +50% (공명 효율 150% 기준)",
+      "condition": "공명 효율 125% 초과 1%당 2%, 최대 50%",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "echoAbilityDmgBonus",
+          "value": 50
+        }
+      ]
+    },
+    {
+      "id": "sun-spirit",
+      "label": "태양의 정령 에너지 30: 룬 배율 ×1.5",
+      "_note": "API 변종 확인: 264.75 → 397.13, 66.26 → 99.39, 119.26 → 178.89 (×1.5)",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "mvBoost",
+          "value": 50,
+          "scope": {
+            "skillIds": [
+              "circuit-2",
+              "circuit-3",
+              "circuit-4"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "talent",
+      "label": "타고난 재능?: 룬·나 곧 함의이니 피해 부스트 30% (스택)",
+      "condition": "태양의 정령 에너지 30 소모마다, 최대 2 (C3에서 4)",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "stacks": {
+        "max": 4,
+        "default": 2
+      },
+      "effects": [
+        {
+          "stat": "dmgBoost",
+          "value": 30,
+          "scope": {
+            "skillIds": [
+              "circuit-2",
+              "circuit-3",
+              "circuit-4",
+              "circuit-5"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "rotation": {
+    "name": "기본 사이클",
+    "draft": true,
+    "duration": 25,
+    "steps": [
+      {
+        "pending": true,
+        "note": "에코 (Q) — 메인 에코 계수/버프 추가 예정"
+      },
+      {
+        "note": "변주 — 메아리",
+        "skillId": "intro-1"
+      },
+      {
+        "note": "일반 공격 1~4단 → 해독 → 깨달음 (룬 · 기대)",
+        "skillIds": [
+          "normal-1",
+          "normal-2",
+          "normal-3",
+          "normal-4",
+          "normal-5"
+        ]
+      },
+      {
+        "note": "강공격 · 룬 · 근원 → 룬 · 뒤얽힌 사슬 (마침표 50)",
+        "skillIds": [
+          "circuit-1",
+          "circuit-3"
+        ]
+      },
+      {
+        "note": "일반 공격 2~4단 → 태양의 정령 도와줘 (룬 · 문답)",
+        "skillIds": [
+          "normal-2",
+          "normal-3",
+          "normal-4",
+          "skill-3"
+        ]
+      },
+      {
+        "note": "공명 해방 — 집중",
+        "skillId": "liberation-1"
+      },
+      {
+        "note": "일반 공격 2~4단 → 쿠쿵팡!",
+        "skillIds": [
+          "normal-2",
+          "normal-3",
+          "normal-4",
+          "skill-2"
+        ]
+      },
+      {
+        "note": "강공격 · 룬 · 근원 → 룬 · 폭발 (마침표 100)",
+        "skillIds": [
+          "circuit-1",
+          "circuit-2"
+        ]
+      },
+      {
+        "note": "나 곧 함의이니",
+        "skillId": "circuit-5"
+      },
+      {
+        "note": "반주",
+        "skillId": "outro-1"
+      }
+    ]
+  },
   "chain": [
     {
       "name": "밝게 빛나야 할 광휘에게",
       "description": "일반 공격 · 깨달음, 회피 반격 · 해독, 공명 스킬 · 쿠쿵팡!과 공명 스킬 · 태양의 정령 도와줘의 피해 배율이 70% 상승된다.\n시그리카가 일반 공격 · 깨달음, 공명 스킬 · 쿠쿵팡!과 공명 스킬 · 태양의 정령 도와줘를 발동하는 기간 동안, 적의 공격에 의해 중단되지 않는다.\n함의 응축 스택 최대치가 3스택으로 변경되고, 시그리카가 반주 스킬 지금 이 순간을 발동할 경우, 1스택의 함의 응축을 추가로 획득할 수 있다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C1 깨달음·해독·쿠쿵팡!·태양의 정령 도와줘 배율 ×1.7",
+          "_note": "API 변종 확인: 123.11 → 209.28, 194.77 → 331.1 (×1.7)",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "mvBoost",
+              "value": 70,
+              "scope": {
+                "skillIds": [
+                  "normal-5",
+                  "normal-10",
+                  "skill-2",
+                  "skill-3"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "깊게 간직해 온 고뇌에게",
       "description": "공명 회로 · 나 곧 함의이니의 피해 배율이 120% 상승된다.\n시그리카의 비전투 상태 지속 시간이 4초를 초과할 시, 집중을 획득하고, 4초마다 1회만 적용된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C2 나 곧 함의이니 배율 ×2.2",
+          "_note": "API 변종 확인: 908.61 → 1998.93 (×2.2)",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "mvBoost",
+              "value": 120,
+              "scope": {
+                "skillIds": [
+                  "circuit-5"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "도망치며, 찾아내며",
@@ -551,17 +764,102 @@
     {
       "name": "잃어가며, 얻어가며",
       "description": "파티 내 캐릭터가 에코 어빌리티 발동 시, 파티 내 캐릭터의 공격력을 20% 증가시키고, 20초간 지속된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C4 에코 어빌리티 발동 시 파티 공격력 +20%",
+          "condition": "20초",
+          "target": "team",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "atkPercent",
+              "value": 20
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "그림자 속에 잠길 때까지",
       "description": "공명 해방 바라던 대로!의 피해 배율이 30% 상승된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C5 해방 배율 ×1.3",
+          "_note": "API 변종 확인: 861.43 → 1119.86 (×1.3)",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "mvBoost",
+              "value": 30,
+              "scope": {
+                "skillIds": [
+                  "liberation-1"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "함의가 빛나면, 광휘가 떠오르니",
       "description": "목표가 시그리카로부터 받는 피해가 30% 증가된다.\n「타고난 재능?」은 다음과 같은 추가 효과를 획득한다.\n· 스택마다 시그리카가 룬 · 폭발, 룬 · 뒤얽힌 사슬, 룬 · 태양의 정령과 공명 회로 · 나 곧 함의이니로 입히는 피해를 15% 부스트시키고, 최대 60%까지 부스트시킬 수 있다.\n· 스택마다 시그리카가 룬 · 폭발, 룬 · 뒤얽힌 사슬, 룬 · 태양의 정령과 공명 회로 · 나 곧 함의이니로 입히는 피해는 목표의 7.5% 방어력을 무시시키고, 최대 30%까지 무시시킬 수 있다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C6 받는 피해 +30%",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "dmgBoost",
+              "value": 30
+            }
+          ]
+        },
+        {
+          "label": "C6 타고난 재능?: 룬 피해 부스트 15%·방어 7.5% 무시 (스택)",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "stacks": {
+            "max": 4,
+            "default": 4
+          },
+          "effects": [
+            {
+              "stat": "dmgBoost",
+              "value": 15,
+              "scope": {
+                "skillIds": [
+                  "circuit-2",
+                  "circuit-3",
+                  "circuit-4",
+                  "circuit-5"
+                ]
+              }
+            },
+            {
+              "stat": "defIgnore",
+              "value": 7.5,
+              "scope": {
+                "skillIds": [
+                  "circuit-2",
+                  "circuit-3",
+                  "circuit-4",
+                  "circuit-5"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     }
   ],
   "_innateSkills": [

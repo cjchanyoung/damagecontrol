@@ -708,13 +708,25 @@
       "nodes": [
         {
           "name": "풀리지 않는 운명",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "파티 내 캐릭터가 공허히 얽힌 흔적이 있는 목표를 격파할 시, 치사의 공명 스킬 해답의 눈빛의 쿨타임이 리셋되며, 해당 효과는 3초마다 최대 1회 발생할 수 있다"
+          "effects": [],
+          "_note": "공명 스킬 쿨타임 리셋 — 스탯 효과 없음"
         },
         {
           "name": "모든 것의 종점",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "변주 스킬 굉음 · 재림 혹은 공명 해방 즉시 · 초기화 발동 시, 인멸 피해 보너스가 20% 증가되고, 치료 효과 보너스가 20% 증가되며, 12초간 지속된다.\n파티 내 파멸의 선이 있는 캐릭터가 공허히 얽힌 흔적이 있는 목표를 격파할 시, 치사는 현을 꿰뚫는 시야를 획득하고 3초간 지속된다.\n현을 꿰뚫는 시야에 있을 경우, 파티 내 파멸의 선이 있는 캐릭터가 피해를 입힐 시, 치사는 목표에게 공허히 얽힌 흔적을 추가하고 30초간 지속된다"
+          "buff": {
+            "label": "변주·해방 후 인멸 피해 +20%",
+            "condition": "12초",
+            "trigger": {
+              "mode": "toggle",
+              "default": true
+            },
+            "effects": [
+              {
+                "stat": "havocDmgBonus",
+                "value": 20
+              }
+            ]
+          }
         }
       ]
     },
@@ -723,23 +735,202 @@
       "entries": []
     }
   },
-  "buffs": [],
-  "rotation": null,
+  "buffs": [
+    {
+      "id": "doom-line",
+      "label": "파멸의 선: 공허히 얽힌 흔적 대상 방어력 18% 무시",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "defIgnore",
+          "value": 18
+        }
+      ]
+    },
+    {
+      "id": "entangle",
+      "label": "얽힘 · 결말: 톱니바퀴 · 속공/종결·전기톱 회피 반격 배율 +120%",
+      "condition": "해방 후 15초, 종결 발동 시 종료",
+      "_note": "API 변종 확인: 206.13 → 453.48 (×2.2), C3와 '서로 중첩' → 같은 그룹(tangle), C3까지 ×3.4 확인. 잔향 소모로 붙는 종결 배율 증가는 소모량 미상이라 미반영",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "mvBoost",
+          "value": 120,
+          "group": "tangle",
+          "scope": {
+            "skillIds": [
+              "circuit-1",
+              "circuit-2",
+              "circuit-3",
+              "circuit-4",
+              "circuit-5",
+              "circuit-6",
+              "circuit-7",
+              "circuit-8",
+              "circuit-9",
+              "circuit-10"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "outro-doom",
+      "label": "반주 종말의 현 연주: 파티 파멸의 선 (방어 18% 무시)",
+      "condition": "20초, 이상 효과 추가 후 파멸의 선 획득",
+      "target": "others",
+      "trigger": {
+        "mode": "toggle",
+        "default": false
+      },
+      "effects": [
+        {
+          "stat": "defIgnore",
+          "value": 18
+        }
+      ]
+    }
+  ],
+  "rotation": {
+    "name": "기본 사이클",
+    "draft": true,
+    "duration": 20,
+    "steps": [
+      {
+        "pending": true,
+        "note": "에코 (Q) — 메인 에코 계수/버프 추가 예정"
+      },
+      {
+        "note": "변주",
+        "skillId": "intro-1"
+      },
+      {
+        "note": "해답의 눈빛 — 공허히 얽힌 흔적",
+        "skillId": "skill-1"
+      },
+      {
+        "note": "일반 공격 1·2단 → 파열 관통 → 운명을 가르는 가위",
+        "skillIds": [
+          "normal-1",
+          "normal-2",
+          "normal-6",
+          "normal-3",
+          "normal-4"
+        ]
+      },
+      {
+        "note": "톱니바퀴 궤도 회전 → 전기톱 모드",
+        "skillId": "skill-2"
+      },
+      {
+        "note": "즉시 · 초기화 → 얽힘 · 결말",
+        "skillId": "liberation-1"
+      },
+      {
+        "note": "톱니바퀴 · 속공 1단 → 2·3단 길게 누르기 → 종결",
+        "skillIds": [
+          "circuit-1",
+          "circuit-5",
+          "circuit-6",
+          "circuit-4"
+        ]
+      }
+    ]
+  },
   "chain": [
     {
       "name": "폐허의 장랑을 지나며",
       "description": "치사가 톱니바퀴 · 속공, 톱니바퀴 · 종결, 전기톱 모드 · 회피 반격을 발동하는 기간 동안, 적의 공격에 의해 자신의 공격이 중단되지 않는다.\n\n치사가 목표에게 공허히 얽힌 흔적을 추가할 시 다음과 같은 효과를 발생시킨다.\n· 자신의 공격력이 30% 증가되고 15초간 지속된다.\n· 목표에게 61803pt의 고정 인멸 피해를 입히고, 목표의 HP를 최대 61.80%로 감소시킬 수 있으며, 해당 피해는 동일한 목표에게 최대 1회만 적용된다. 해당 피해는 일반 공격 피해로 적용되며, 피해 보너스의 영향을 받지 않는다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C1 흔적 추가 시 공격력 +30%",
+          "_note": "61803 고정 인멸 피해는 미반영",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "atkPercent",
+              "value": 30
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "인연의 실타래를 엮어내",
       "description": "입히는 피해가 목표의 10% 인멸 피해 저항을 무시한다.\n근처 파티 내 캐릭터가 파멸의 선 상태에 있을 시, 전체 속성 피해 보너스가 50% 증가된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C2 인멸 저항 10% 무시",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "resShred",
+              "value": 10
+            }
+          ]
+        },
+        {
+          "label": "C2 파멸의 선 상태: 파티 전체 속성 피해 +50%",
+          "condition": "파멸의 선 상태인 캐릭터",
+          "target": "team",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "dmgBonus",
+              "value": 50
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "긴 밤의 혼돈을 넘어서",
       "description": "톱니바퀴 · 속공, 전기톱 모드 · 회피 반격, 톱니바퀴 · 종결의 피해 배율이 120% 상승되며, 해당 배율 상승 효과는 얽힘 · 결말의 배율 상승 효과와 서로 중첩된다.\n톱니바퀴 · 속공, 전기톱 모드 · 회피 반격으로 「톱니바퀴의 잔향」을 소모하여 제공되는 톱니바퀴 · 종결의 피해 배율 증가 효과가 120% 상승되며, 해당 배율 상승 효과는 얽힘 · 결말의 배율 상승 효과와 서로 중첩된다.\n톱니바퀴 · 속공, 전기톱 모드 · 회피 반격, 톱니바퀴 · 종결의 공진 수치 감소 효과가 50% 증가된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C3 톱니바퀴 배율 +120% (얽힘 · 결말과 덧셈)",
+          "_note": "API 변종 확인: 206.13 → 700.83 (×3.4 = 1+1.2+1.2)",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "mvBoost",
+              "value": 120,
+              "group": "tangle",
+              "scope": {
+                "skillIds": [
+                  "circuit-1",
+                  "circuit-2",
+                  "circuit-3",
+                  "circuit-4",
+                  "circuit-5",
+                  "circuit-6",
+                  "circuit-7",
+                  "circuit-8",
+                  "circuit-9",
+                  "circuit-10"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "끊임없는 반복을 잘라내",
@@ -749,12 +940,44 @@
     {
       "name": "수많은 불빛이 귀로를 환히 밝히니",
       "description": "공명 해방 즉시 · 초기화의 피해 보너스가 100% 증가된다.\n생명의 현 · 질주의 「생명의 현 · 본류」 소모량이 50% 감소된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C5 즉시 · 초기화 피해 +100%",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "dmgBonus",
+              "value": 100,
+              "scope": {
+                "skillIds": [
+                  "liberation-1"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "이제 잃었던 희망의 빛을 되찾으리",
       "description": "치사가 톱니바퀴 · 속공, 톱니바퀴 · 종결, 전기톱 모드 · 회피 반격을 발동하는 기간 동안, 치명적인 피해를 입을 시 의식을 잃지 않고, 최소 1pt의 HP를 유지한다.\n\n공허히 얽힌 흔적이 공허히 얽힌 흔적 · 종말로 강화되며, 다음과 같은 효과를 획득한다.\n· 공허히 얽힌 흔적 · 종말은 공허히 얽힌 흔적의 모든 효과를 이어받는다.\n· 공허히 얽힌 흔적 · 종말이 있는 목표가 받는 이상 효과 피해가 30% 부스트된다.\n· 공허히 얽힌 흔적 · 종말이 있는 목표가 치사로부터 받는 피해가 40% 증가된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C6 흔적 · 종말: 받는 피해 +40%",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "dmgBoost",
+              "value": 40
+            }
+          ]
+        }
+      ]
     }
   ],
   "_innateSkills": [

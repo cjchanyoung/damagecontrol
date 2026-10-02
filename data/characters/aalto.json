@@ -393,13 +393,30 @@
       "nodes": [
         {
           "name": "퍼펙트 퍼포먼스",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "알토의 강공격은 반드시 크리티컬을 발동하며, 30초마다 1번 발동할 수 있다"
+          "buff": {
+            "label": "강공격 확정 크리 (30초마다 1회)",
+            "trigger": {
+              "mode": "toggle",
+              "default": true
+            },
+            "effects": [
+              {
+                "stat": "critRate",
+                "value": 100,
+                "scope": {
+                  "skillIds": [
+                    "normal-6",
+                    "normal-7"
+                  ]
+                }
+              }
+            ]
+          }
         },
         {
           "name": "하프 타임",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "알토가 공명 회로 안개의 잠복에 진입하면 스태미나가 지속적으로 회복된다"
+          "effects": [],
+          "_note": "스태미나 회복 — 피해 계산 무관"
         }
       ]
     },
@@ -408,8 +425,87 @@
       "entries": []
     }
   },
-  "buffs": [],
-  "rotation": null,
+  "buffs": [
+    {
+      "id": "gate",
+      "label": "허공의 문: 통과하는 공격 공격력 +10%",
+      "condition": "해방 후 10초, 문을 통과하는 공격",
+      "target": "team",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "atkPercent",
+          "value": 10
+        }
+      ]
+    },
+    {
+      "id": "outro",
+      "label": "반주: 다음 캐릭터 기류 피해 부스트 23%",
+      "condition": "14초",
+      "target": "others",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "dmgBoost",
+          "value": 23,
+          "scope": {
+            "elements": [
+              "기류"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "rotation": {
+    "name": "기본 사이클",
+    "draft": true,
+    "duration": 15,
+    "steps": [
+      {
+        "pending": true,
+        "note": "에코 (Q) — 메인 에코 계수/버프 추가 예정"
+      },
+      {
+        "note": "변주",
+        "skillId": "intro-1"
+      },
+      {
+        "note": "순간이동 — 안개 팬텀, 안개탄 6개",
+        "skillId": "skill-1",
+        "count": 6
+      },
+      {
+        "note": "일반 공격 1~5단 (안개 통과 — 안개 방울)",
+        "skillIds": [
+          "normal-1",
+          "normal-2",
+          "normal-3",
+          "normal-4",
+          "normal-5"
+        ]
+      },
+      {
+        "note": "안개의 잠복 — 안개탄 6개",
+        "skillId": "circuit-1",
+        "count": 6
+      },
+      {
+        "note": "안개속의 꽃구경 → 풀 차지 강공격 (확정 크리)",
+        "skillIds": [
+          "liberation-1",
+          "normal-7"
+        ]
+      }
+    ]
+  },
   "chain": [
     {
       "name": "장난의 시작",
@@ -419,27 +515,133 @@
     {
       "name": "안개 매직 쇼타임",
       "description": "「안개 분신」이 계승한 HP 100% 증가, 알토가 분신에 의해 도발당한 목표를 공격할 경우 공격력이 15% 증가한다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C2 분신에 도발당한 대상 공격 시 공격력 +15%",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "atkPercent",
+              "value": 15
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "안개의 마법",
       "description": "알토의 일반 공격 또는 공중 공격이 「안개」를 통과할 때 2개의 총알이 추가로 생성되어 총 일반 공격 또는 공중 공격 피해량의 50%에 해당하는 피해를 입힌다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C3 안개 통과 평타 추가 총알 50%",
+          "_note": "같은 판정이라 평타 배율 ×1.5 로 처리 (안개를 통과하는 평타만 해당)",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "mvBoost",
+              "value": 50,
+              "scope": {
+                "skillIds": [
+                  "normal-1",
+                  "normal-2",
+                  "normal-3",
+                  "normal-4",
+                  "normal-5"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "종막의 검은 꽃",
       "description": "공명 스킬 안개탄의 피해가 30% 증가하며, 공명 회로 안개의 잠복 상태 하에 알토가 받은 피해가 30% 감소한다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C4 안개탄 피해 +30%",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "dmgBonus",
+              "value": 30,
+              "scope": {
+                "skillIds": [
+                  "skill-1",
+                  "circuit-1"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "미로의 갈채",
       "description": "공명 회로 안개의 잠복 상태에 있을 시, 알토의 기류 피해 보너스가 25% 증가하며, 6초간 지속된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C5 안개의 잠복 중 기류 피해 +25%",
+          "condition": "6초",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "aeroDmgBonus",
+              "value": 25
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "엘리트 상인",
       "description": "공명 해방 안개속의 꽃구경의 효과로 크리티컬이 추가로 8% 증가되며 알토의 강공격이 「허공의 문」을 통과할 시 피해가 추가로 50% 증가된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C6 허공의 문: 크리 +8%",
+          "target": "team",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "critRate",
+              "value": 8
+            }
+          ]
+        },
+        {
+          "label": "C6 허공의 문 통과 강공격 피해 +50%",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "dmgBonus",
+              "value": 50,
+              "scope": {
+                "skillIds": [
+                  "normal-6",
+                  "normal-7"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     }
   ],
   "_innateSkills": [

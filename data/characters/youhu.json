@@ -412,13 +412,25 @@
       "nodes": [
         {
           "name": "편옥",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "공명 스킬 보물의 은혜 발동 시, 근처 파티 내 모든 캐릭터의 HP를 회복한다. 회복량은 공명 스킬 상자 속 축복의 치료량의 30%에 해당한다"
+          "effects": [],
+          "_note": "보물의 은혜 치료 — 피해 계산 무관"
         },
         {
           "name": "구슬",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "변주 스킬 마음의 상자 발동 시 유호의 응결 피해 보너스가 15% 증가하고 14초간 지속된다"
+          "buff": {
+            "label": "변주 후 응결 피해 +15%",
+            "condition": "14초",
+            "trigger": {
+              "mode": "toggle",
+              "default": true
+            },
+            "effects": [
+              {
+                "stat": "glacioDmgBonus",
+                "value": 15
+              }
+            ]
+          }
         }
       ]
     },
@@ -427,8 +439,73 @@
       "entries": []
     }
   },
-  "buffs": [],
-  "rotation": null,
+  "buffs": [
+    {
+      "id": "poem-pearls",
+      "label": "시의 형상화 연주(聯珠): 피해 +175%",
+      "condition": "같은 길조 3개 (대우=1쌍이면 70%)",
+      "_note": "반주의 협동 공격 피해 +100% 부스트는 협동 공격 판정이 없어 미반영",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "dmgBonus",
+          "value": 175,
+          "scope": {
+            "skillIds": [
+              "circuit-1"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "rotation": {
+    "name": "기본 사이클",
+    "draft": true,
+    "duration": 15,
+    "steps": [
+      {
+        "pending": true,
+        "note": "에코 (Q) — 메인 에코 계수/버프 추가 예정"
+      },
+      {
+        "note": "변주 마음의 상자 — 길상",
+        "skillId": "intro-1"
+      },
+      {
+        "note": "보물의 은혜 (여의 가정)",
+        "skillId": "skill-4"
+      },
+      {
+        "note": "상자 속 축복 → 보물의 은혜",
+        "skillIds": [
+          "skill-1",
+          "skill-4"
+        ]
+      },
+      {
+        "note": "강공격 · 추락하는 서리 → 보물의 은혜",
+        "skillIds": [
+          "normal-5",
+          "skill-4"
+        ]
+      },
+      {
+        "note": "여의점 → 보물의 은혜 (길조 4)",
+        "skillIds": [
+          "liberation-1",
+          "skill-4"
+        ]
+      },
+      {
+        "note": "시의 형상화",
+        "skillId": "circuit-1"
+      }
+    ]
+  },
   "chain": [
     {
       "name": "항구에서의 휴식",
@@ -438,12 +515,44 @@
     {
       "name": "편안한 숙면",
       "description": "대우(對偶), 연주(聯珠), 합설(合說)은 공명 회로 시의 형상화의 피해 증가 효과를 추가로 1회 발생시킨다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C2 연주 피해 증가 1회 추가 (+175%)",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "dmgBonus",
+              "value": 175,
+              "scope": {
+                "skillIds": [
+                  "circuit-1"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "화염의 악몽",
       "description": "유호의 공격력이 20% 증가한다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C3 공격력 +20%",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "atkPercent",
+              "value": 20
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "설야의 꿈나라",
@@ -453,12 +562,46 @@
     {
       "name": "만리의 수면",
       "description": "변주 스킬 마음의 상자 발동 시 유호의 크리티컬이 15% 증가하고 14초간 지속된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C5 변주 후 크리 +15%",
+          "condition": "14초",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "critRate",
+              "value": 15
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "천년의 단잠",
       "description": "공명 스킬 보물의 은혜 발동 시 1스택의 맑은 푸른빛 효과를 획득하고 최대 4스택 중첩이 가능하며 7초간 지속된다. 매 스택의 맑은 푸른빛은 유호의 크리티컬 피해를 15% 증가시킨다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C6 맑은 푸른빛: 크리 피해 +15% (스택)",
+          "condition": "보물의 은혜마다 1스택, 최대 4, 7초",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "stacks": {
+            "max": 4,
+            "default": 4
+          },
+          "effects": [
+            {
+              "stat": "critDmg",
+              "value": 15
+            }
+          ]
+        }
+      ]
     }
   ],
   "_innateSkills": [

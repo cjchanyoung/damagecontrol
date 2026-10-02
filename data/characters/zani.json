@@ -423,7 +423,7 @@
           "id": "circuit-1",
           "name": "중참 · 파효 피해",
           "damageType": [
-            "normal"
+            "heavy"
           ],
           "parts": [
             {
@@ -441,13 +441,14 @@
               ]
             }
           ],
-          "_todoDamageType": true
+          "_note": "중참은 강공격 피해로 적용 (광학 효과 피해로도 간주)",
+          "_fixed": true
         },
         {
           "id": "circuit-2",
           "name": "중참 · 해오름 피해",
           "damageType": [
-            "normal"
+            "heavy"
           ],
           "parts": [
             {
@@ -465,13 +466,13 @@
               ]
             }
           ],
-          "_todoDamageType": true
+          "_fixed": true
         },
         {
           "id": "circuit-3",
           "name": "중참 · 온밤 피해",
           "damageType": [
-            "normal"
+            "heavy"
           ],
           "parts": [
             {
@@ -481,13 +482,13 @@
               "mv": 262.43
             }
           ],
-          "_todoDamageType": true
+          "_fixed": true
         },
         {
           "id": "circuit-4",
           "name": "중참 · 섬광 피해",
           "damageType": [
-            "normal"
+            "heavy"
           ],
           "parts": [
             {
@@ -505,19 +506,31 @@
               ]
             }
           ],
-          "_todoDamageType": true
+          "_fixed": true
         }
       ],
       "nodes": [
         {
           "name": "빠른 응답",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "변주 스킬 즉시 집행 발동 시, 회절 피해 보너스가 12% 증가되고 14초간 지속된다"
+          "buff": {
+            "label": "변주 후 회절 피해 +12%",
+            "condition": "14초",
+            "trigger": {
+              "mode": "toggle",
+              "default": true
+            },
+            "effects": [
+              {
+                "stat": "spectroDmgBonus",
+                "value": 12
+              }
+            ]
+          }
         },
         {
           "name": "고통에 대한 저항",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "준비 태세 기간 동안 받는 피해가 40% 감소된다"
+          "effects": [],
+          "_note": "받는 피해 감소 — 피해 계산 무관"
         }
       ]
     },
@@ -539,38 +552,348 @@
       ]
     }
   },
-  "buffs": [],
-  "rotation": null,
+  "buffs": [
+    {
+      "id": "tragedy",
+      "label": "참극: 광학 효과 판정 피해 부스트 20%",
+      "condition": "집중 압박·습격 반격 후 14초. 집중 압박·습격 반격·중참은 광학 효과 피해로 간주됨",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "dmgBoost",
+          "value": 20,
+          "scope": {
+            "skillIds": [
+              "skill-3",
+              "skill-4",
+              "circuit-1",
+              "circuit-2",
+              "circuit-3",
+              "circuit-4"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "blaze-normal",
+      "label": "화염 형태: 일반 공격 배율 ×1.25",
+      "condition": "화염 형태 중 불빛 30 미만일 때의 일반 공격",
+      "_note": "API 변종 확인: 79.53 → 99.41 (×1.25)",
+      "trigger": {
+        "mode": "toggle",
+        "default": false
+      },
+      "effects": [
+        {
+          "stat": "mvBoost",
+          "value": 25,
+          "scope": {
+            "skillIds": [
+              "normal-1",
+              "normal-2",
+              "normal-3",
+              "normal-4",
+              "normal-5"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "light-spend",
+      "label": "불빛 소모: 중참 · 온밤 배율 +9.95% (pt당)",
+      "condition": "온밤 명중 시 최대 40pt 소모",
+      "_note": "원문 기타수치 '불빛 1pt 당 배율 증가량 9.95%' (덧셈). C6 ×1.4가 이 가산분까지 곱해져 'C6: 불빛당 효과 40% 증가'와 일치",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "stacks": {
+        "max": 40,
+        "default": 40
+      },
+      "effects": [
+        {
+          "stat": "mvFlat",
+          "value": 9.95,
+          "scope": {
+            "skillIds": [
+              "circuit-3"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "outro-blaze",
+      "label": "반주: 강렬한 불기운당 받는 피해 +10% (스택)",
+      "condition": "파티가 광학 효과를 쌓는 경우, 최대 60스택",
+      "trigger": {
+        "mode": "toggle",
+        "default": false
+      },
+      "stacks": {
+        "max": 60,
+        "default": 20
+      },
+      "effects": [
+        {
+          "stat": "dmgBoost",
+          "value": 10,
+          "scope": {
+            "skillIds": [
+              "outro-1"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "outro-team",
+      "label": "반주: 강렬한 불기운 대상 회절 피해 부스트 20%",
+      "condition": "젠니 외 파티원, 20초",
+      "target": "others",
+      "trigger": {
+        "mode": "toggle",
+        "default": false
+      },
+      "effects": [
+        {
+          "stat": "dmgBoost",
+          "value": 20,
+          "scope": {
+            "elements": [
+              "회절"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "rotation": {
+    "name": "기본 사이클",
+    "draft": true,
+    "duration": 25,
+    "steps": [
+      {
+        "pending": true,
+        "note": "에코 (Q) — 메인 에코 계수/버프 추가 예정"
+      },
+      {
+        "note": "변주",
+        "skillId": "intro-1"
+      },
+      {
+        "note": "일반 공격 1~3단 → 핵심적 진전 → 4단 (잉여 에너지)",
+        "skillIds": [
+          "normal-1",
+          "normal-2",
+          "normal-3",
+          "normal-5",
+          "normal-4"
+        ]
+      },
+      {
+        "note": "표준 방위 예방책",
+        "skillId": "skill-1"
+      },
+      {
+        "note": "위기 처리 예방책 → 집중 압박 (참극, 불빛 10)",
+        "skillId": "skill-3"
+      },
+      {
+        "note": "재연소 → 화염 형태 (불빛 50)",
+        "skillId": "liberation-1"
+      },
+      {
+        "note": "중참 · 파효 → 해오름 → 온밤 ×2",
+        "repeat": 2,
+        "skillIds": [
+          "circuit-1",
+          "circuit-2",
+          "circuit-3"
+        ]
+      },
+      {
+        "note": "중참 · 섬광 → 온밤",
+        "skillIds": [
+          "circuit-4",
+          "circuit-3"
+        ]
+      },
+      {
+        "note": "최후의 순간",
+        "skillId": "liberation-2"
+      },
+      {
+        "note": "반주",
+        "skillId": "outro-1"
+      }
+    ]
+  },
   "chain": [
     {
       "name": "아침 알람이 울릴 때",
       "description": "집중 압박 혹은 습격 반격 발동 시, 회절 피해 보너스가 50% 증가되고, 14초간 지속된다.\n중참 · 온밤은 적의 공격에 의해 중단되지 않는다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C1 집중 압박·습격 반격 후 회절 피해 +50%",
+          "condition": "14초",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "spectroDmgBonus",
+              "value": 50
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "차가운 빵과 음료",
       "description": "크리티컬이 20% 증가한다.\n집중 압박, 습격 반격의 배율이 80% 상승된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C2 크리 +20%",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "critRate",
+              "value": 20
+            }
+          ]
+        },
+        {
+          "label": "C2 집중 압박·습격 반격 배율 ×1.8",
+          "_note": "API 변종 확인: 172.37 → 310.27 (×1.8)",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "mvBoost",
+              "value": 80,
+              "scope": {
+                "skillIds": [
+                  "skill-3",
+                  "skill-4"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "매일 반복되는 통근",
       "description": "화염 형태에 있을 경우, 1pt의 「불빛」을 소모할 때마다 이번 공명 해방 최후의 순간의 마지막 1단 배율이 8% 상승하며, 최대 1200% 상승된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C3 불빛 소모당 최후의 순간 배율 +8% (최대 1200%)",
+          "condition": "화염 형태에서 소모한 불빛 pt, 최대 150",
+          "_note": "원문은 마지막 1단만 대상인데 엔트리가 한 덩어리라 전체에 적용됨 (191.12 부분까지 과대평가)",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "stacks": {
+            "max": 150,
+            "default": 150
+          },
+          "effects": [
+            {
+              "stat": "mvBoost",
+              "value": 8,
+              "scope": {
+                "skillIds": [
+                  "liberation-2"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "고효율 에너지 절약 주의자",
       "description": "변주 스킬 즉시 집행 발동 시, 파티 내 캐릭터의 공격력이 20% 증가하며, 30초간 지속된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C4 변주 후 파티 공격력 +20%",
+          "condition": "30초",
+          "target": "team",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "atkPercent",
+              "value": 20
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "모든 일은 제때 처리",
       "description": "공명 해방 재연소 배율이 120% 상승된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C5 재연소 배율 ×2.2",
+          "_note": "API 변종 확인: 318.52 → 700.74 (×2.2)",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "mvBoost",
+              "value": 120,
+              "scope": {
+                "skillIds": [
+                  "liberation-1"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "급한 일? 퇴근!",
       "description": "중참 · 파효, 중참 · 해오름, 중참 · 온밤, 중참 · 섬광의 배율이 40% 상승된다. 중참 · 온밤으로 목표 명중 시 소모된 「불빛」 1pt마다 추가로 배율 상승 효과를 40% 증가시킨다.\n화염 형태일 경우 다음과 같은 효과를 획득한다.\n· 「불빛」이 70pt 이하 시 즉시 70pt를 회복하며, 화염 형태 기간 동안 1회 발생할 수 있다.\n· 화염 형태 진입 후 8초 이내에 치명적인 피해를 입을 시 의식을 잃지 않고, 최소 1pt의 HP를 유지한다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C6 중참 배율 ×1.4",
+          "_note": "API 변종 확인: 중참 구성 타격 49.71 → 69.59, 119.29 → 167.01 (×1.4)",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "mvBoost",
+              "value": 40,
+              "scope": {
+                "skillIds": [
+                  "circuit-1",
+                  "circuit-2",
+                  "circuit-3",
+                  "circuit-4"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     }
   ],
   "_innateSkills": [

@@ -22,7 +22,7 @@
         { "id": "heavy", "name": "강공격", "damageType": ["heavy"], "parts": [{ "mv": 22.2, "hits": 6 }] },
         { "id": "heavy-ascent", "name": "강공격·용의 승천", "damageType": ["heavy"], "parts": [{ "mv": 105.96 }] },
         { "id": "heavy-stealth", "name": "강공격·은신참", "damageType": ["heavy"], "parts": [{ "mv": 81.71 }] },
-        { "id": "plunge", "name": "공중 공격", "damageType": ["normal"], "_note": "공중 공격/회피 반격을 일반 공격 판정으로 넣어뒀습니다. 인게임 판정 확인 후 필요하면 heavy로 바꾸세요.", "parts": [{ "mv": 123.26 }] },
+        { "id": "plunge", "name": "공중 공격", "damageType": ["normal"], "parts": [{ "mv": 123.26 }] },
         { "id": "plunge-dragonfall", "name": "공중 공격·청룡의 낙하", "damageType": ["normal"], "parts": [{ "mv": 79.52 }] },
         { "id": "plunge-extra", "name": "공중 공격 추가 공격", "damageType": ["normal"], "parts": [{ "mv": 155.66 }] },
         { "id": "dodge", "name": "회피 반격", "damageType": ["normal"], "parts": [{ "mv": 125.84, "hits": 2 }] }
@@ -180,11 +180,12 @@
       "name": "무적",
       "description": "「예리한 기세」 1스택마다 처형의 피해 배율 +120%, 최대 2스택",
       "buffs": [{
-        "label": "C6 처형 배율 +120% (스택)",
+        "label": "C6 처형 배율 ×(1+120%) (스택)",
         "condition": "강공격·청룡의 습격·돌진의 창 사용마다 1스택, 최대 2스택",
+        "_note": "API 변종 계수로 확인: 1스택 142.91→314.4(×2.2), 2스택 →485.89(×3.4). 덧셈이 아니라 곱셈(mvBoost).",
         "trigger": { "mode": "toggle", "default": true },
         "stacks": { "max": 2, "default": 2 },
-        "effects": [{ "stat": "mvFlat", "value": 120, "scope": { "skillIds": ["forte"] } }]
+        "effects": [{ "stat": "mvBoost", "value": 120, "scope": { "skillIds": ["forte"] } }]
       }]
     }
   ]

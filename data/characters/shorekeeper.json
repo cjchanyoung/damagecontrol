@@ -444,13 +444,18 @@
       "nodes": [
         {
           "name": "흐르는 생사",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "파티 내의 파수인을 제외한 캐릭터가 치명적인 피해를 입었을 경우, 해당 피해로 인해 캐릭터는 의식을 잃지 않고 파수인 현재 HP의 50%에 해당하는 HP를 회복하게 되며, 파수인은 그에 상응하는 양의 HP를 상실하게 된다. 파수인은 최소 HP 1pt를 유지하며, 해당 효과는 10분마다 1회 발생할 수 있다"
+          "effects": [],
+          "_note": "치명상 방지 — 피해 계산 무관"
         },
         {
           "name": "자아의 이끌림",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "파티 내 등장 캐릭터가 별의 영역 효과 범위 내에 있을 시 파수인의 공명 효율이 10% 증가된다. 방랑자가 같은 파티에 있는 경우, 방랑자의 공명 효율이 10% 증가된다"
+          "effects": [
+            {
+              "stat": "energyRegen",
+              "value": 10
+            }
+          ],
+          "_note": "별의 영역 안에서 공명 효율 +10%"
         }
       ]
     },
@@ -459,8 +464,114 @@
       "entries": []
     }
   },
-  "buffs": [],
-  "rotation": null,
+  "buffs": [
+    {
+      "id": "stellarealm-deep",
+      "label": "별의 영역 · 심층: 파티 크리 +12.5% (공명 효율 250% 기준)",
+      "condition": "해방 후 파티원 변주 1회, 공명 효율 0.2%당 0.01% (최대 12.5%)",
+      "target": "team",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "critRate",
+          "value": 12.5
+        }
+      ]
+    },
+    {
+      "id": "stellarealm-unlock",
+      "label": "별의 영역 · 해금: 파티 크리 피해 +25% (공명 효율 250% 기준)",
+      "condition": "해방 후 파티원 변주 2회, 공명 효율 0.1%당 0.01% (최대 25%)",
+      "target": "team",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "critDmg",
+          "value": 25
+        }
+      ]
+    },
+    {
+      "id": "insight-crit",
+      "label": "통찰: 확정 크리티컬",
+      "trigger": {
+        "mode": "always"
+      },
+      "effects": [
+        {
+          "stat": "critRate",
+          "value": 100,
+          "scope": {
+            "skillIds": [
+              "intro-2"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "outro",
+      "label": "반주: 파티 전체 피해 부스트 15%",
+      "condition": "30초",
+      "target": "team",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "dmgBoost",
+          "value": 15
+        }
+      ]
+    }
+  ],
+  "rotation": {
+    "name": "기본 사이클",
+    "draft": true,
+    "duration": 15,
+    "steps": [
+      {
+        "pending": true,
+        "note": "에코 (Q) — 메인 에코 계수/버프 추가 예정"
+      },
+      {
+        "note": "변주 계발",
+        "skillId": "intro-1"
+      },
+      {
+        "note": "혼돈의 이론",
+        "skillId": "skill-1"
+      },
+      {
+        "note": "일반 공격 1~4단 — 실증 데이터 5",
+        "skillIds": [
+          "normal-1",
+          "normal-2",
+          "normal-3",
+          "normal-4"
+        ]
+      },
+      {
+        "note": "연역",
+        "skillId": "circuit-2"
+      },
+      {
+        "note": "결말의 순환 (별의 영역) — 피해 없음",
+        "pending": true
+      },
+      {
+        "note": "해금 상태에서 재등장 시 통찰",
+        "skillId": "intro-2"
+      }
+    ]
+  },
   "chain": [
     {
       "name": "말없는 자의 가설",
@@ -470,7 +581,22 @@
     {
       "name": "야밤의 선물과 거절",
       "description": "별의 영역 · 표층 신규 효과 추가: 근처 파티 내 캐릭터의 공격력이 40% 증가된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C2 별의 영역: 파티 공격력 +40%",
+          "target": "team",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "atkPercent",
+              "value": 40
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "끝없는 기다림",
@@ -490,7 +616,35 @@
     {
       "name": "새로운 세상으로",
       "description": "변주 스킬 통찰의 피해 배율이 42% 상승된다. 변주 스킬 통찰 발동 시, 파수인의 크리티컬 피해가 500% 증가된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C6 통찰 배율 ×1.42, 크리 피해 +500%",
+          "_note": "API 변종 확인: 19.64 → 27.89 (×1.42)",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "mvBoost",
+              "value": 42,
+              "scope": {
+                "skillIds": [
+                  "intro-2"
+                ]
+              }
+            },
+            {
+              "stat": "critDmg",
+              "value": 500,
+              "scope": {
+                "skillIds": [
+                  "intro-2"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     }
   ],
   "_innateSkills": [

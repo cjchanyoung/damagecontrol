@@ -554,28 +554,145 @@
       "nodes": [
         {
           "name": "화난 그늘이",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "공명 해방 그늘이의 대폭주가 지속되는 동안, 앙코의 HP가 70% 이상일 때, 피해가 10% 증가한다"
+          "buff": {
+            "label": "대폭주 중 HP 70% 이상: 피해 +10%",
+            "trigger": {
+              "mode": "toggle",
+              "default": true
+            },
+            "effects": [
+              {
+                "stat": "dmgBonus",
+                "value": 10
+              }
+            ]
+          }
         },
         {
           "name": "음메음메 응원가",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "공명 스킬 불꽃 양 또는 공명 스킬 그늘이·광란 발동 시, 앙코의 용융 피해 보너스가 10% 증가하며, 10초간 지속된다"
+          "buff": {
+            "label": "불꽃 양·광란 후 용융 피해 +10%",
+            "condition": "10초",
+            "trigger": {
+              "mode": "toggle",
+              "default": true
+            },
+            "effects": [
+              {
+                "stat": "fusionDmgBonus",
+                "value": 10
+              }
+            ]
+          }
         }
       ]
     },
     "outro": {
       "name": "워밍업",
-      "entries": []
+      "entries": [
+        {
+          "id": "outro-1",
+          "name": "워밍업",
+          "damageType": [
+            "outro"
+          ],
+          "parts": [
+            {
+              "mv": 176.76
+            }
+          ],
+          "_fromDescription": true
+        }
+      ]
     }
   },
   "buffs": [],
-  "rotation": null,
+  "rotation": {
+    "name": "기본 사이클",
+    "draft": true,
+    "duration": 20,
+    "steps": [
+      {
+        "pending": true,
+        "note": "에코 (Q) — 메인 에코 계수/버프 추가 예정"
+      },
+      {
+        "note": "변주",
+        "skillId": "intro-1"
+      },
+      {
+        "note": "일반 공격 1~4단 → 메에메에",
+        "skillIds": [
+          "normal-1",
+          "normal-2",
+          "normal-3",
+          "normal-4",
+          "normal-5"
+        ]
+      },
+      {
+        "note": "불꽃 양 → 열렬한 환영식",
+        "skillIds": [
+          "skill-1",
+          "skill-2"
+        ]
+      },
+      {
+        "note": "강공격 · 제어불가의 화염 (무질서)",
+        "skillId": "circuit-1"
+      },
+      {
+        "note": "그늘이의 대폭주: 난리법석 1~4단 → 광란 ×2",
+        "skillIds": [
+          "liberation-1",
+          "liberation-2",
+          "liberation-3",
+          "liberation-4",
+          "liberation-6",
+          "liberation-6"
+        ]
+      },
+      {
+        "note": "난리법석 1~4단 → 폭주하는 화염",
+        "skillIds": [
+          "liberation-1",
+          "liberation-2",
+          "liberation-3",
+          "liberation-4",
+          "circuit-2"
+        ]
+      },
+      {
+        "note": "반주 대지의 불길 (1.5초마다 6초 → 4회)",
+        "skillId": "outro-1",
+        "count": 4
+      }
+    ]
+  },
   "chain": [
     {
       "name": "그늘이와 구름이의 동화책",
       "description": "일반 공격이 목표에 명중 시 용융 피해 보너스가 추가로 3% 증가되고, 4스택 중첩이 가능하며, 6초간 지속된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C1 일반 공격 명중 시 용융 피해 +3% (스택)",
+          "condition": "6초, 최대 4",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "stacks": {
+            "max": 4,
+            "default": 4
+          },
+          "effects": [
+            {
+              "stat": "fusionDmgBonus",
+              "value": 3
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "양세기 수면곡",
@@ -585,22 +702,90 @@
     {
       "name": "안개? 검은해안!",
       "description": "강공격 구름이 · 제어불가의 화염 및 강공격 그늘이 · 폭주하는 화염의 피해 배율이 40% 상승한다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C3 제어불가의 화염·폭주하는 화염 배율 ×1.4",
+          "_note": "API 변종 확인: 334 → 467.6, 495.21 → 693.29 (×1.4)",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "mvBoost",
+              "value": 40,
+              "scope": {
+                "skillIds": [
+                  "circuit-1",
+                  "circuit-2"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "모험? 재밌어!",
       "description": "강공격 그늘이·폭주하는 화염 발동 시, 파티 내의 캐릭터 용융 피해가 추가로 20% 증가하며, 30초간 지속된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C4 폭주하는 화염 후 파티 용융 피해 +20%",
+          "condition": "30초",
+          "target": "team",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "fusionDmgBonus",
+              "value": 20
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "주목주목, 용사 등장!",
       "description": "공명 스킬 피해 보너스가 35% 증가한다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C5 공명 스킬 피해 +35%",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "skillDmgBonus",
+              "value": 35
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "그늘이와 구름이가 세계를 구한다!",
       "description": "공명 해방 그늘이의 대폭주 기간 동안 입히는 피해마다 자신에게 1스택의 「길 잃은 새끼양」을 중첩하며 매 스택의 공격력이 5% 증가하며 최대 5스택까지 중첩이 가능하며, 10초간 지속된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C6 대폭주 중 공격력 +5% (스택)",
+          "condition": "10초, 최대 5",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "stacks": {
+            "max": 5,
+            "default": 5
+          },
+          "effects": [
+            {
+              "stat": "atkPercent",
+              "value": 5
+            }
+          ]
+        }
+      ]
     }
   ],
   "_innateSkills": [

@@ -524,53 +524,256 @@
       "nodes": [
         {
           "name": "예지",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "공명 스킬 발동 시, 전도 피해 보너스가 5% 증가되고, 8초간 지속되며, 최대 4스택 중첩이 가능하다"
+          "buff": {
+            "label": "공명 스킬 발동 시 전도 피해 +5% (스택)",
+            "condition": "8초, 최대 4",
+            "trigger": {
+              "mode": "toggle",
+              "default": true
+            },
+            "stacks": {
+              "max": 4,
+              "default": 4
+            },
+            "effects": [
+              {
+                "stat": "electroDmgBonus",
+                "value": 5
+              }
+            ]
+          }
         },
         {
           "name": "집중",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "공명 해방 통찰 기간 경직 저항력이 증가된다"
+          "effects": [],
+          "_note": "경직 저항 — 피해 계산 무관"
         }
       ]
     },
     "outro": {
       "name": "연쇄 법칙",
-      "entries": []
+      "entries": [
+        {
+          "id": "outro-1",
+          "name": "연쇄 법칙",
+          "damageType": [
+            "outro"
+          ],
+          "parts": [
+            {
+              "mv": 237.63
+            }
+          ],
+          "_fromDescription": true
+        }
+      ]
     }
   },
   "buffs": [],
-  "rotation": null,
+  "rotation": {
+    "name": "기본 사이클",
+    "draft": true,
+    "duration": 25,
+    "steps": [
+      {
+        "pending": true,
+        "note": "에코 (Q) — 메인 에코 계수/버프 추가 예정"
+      },
+      {
+        "note": "변주",
+        "skillId": "intro-1"
+      },
+      {
+        "note": "일반 공격 1~5단 → 기본 추론 (연산 효과 100)",
+        "skillIds": [
+          "normal-1",
+          "normal-2",
+          "normal-3",
+          "normal-4",
+          "normal-5",
+          "skill-1"
+        ]
+      },
+      {
+        "note": "해답 → 해체와 재구성",
+        "skillIds": [
+          "circuit-1",
+          "circuit-3"
+        ]
+      },
+      {
+        "note": "사고의 배열 → 통찰 (판타지 큐브 3)",
+        "skillId": "liberation-1"
+      },
+      {
+        "note": "논리 · 간파 1~3단 → 하나의 이치 → 만물의 법칙 → 해체와 재구성 ×3",
+        "repeat": 3,
+        "skillIds": [
+          "liberation-2",
+          "liberation-3",
+          "liberation-4",
+          "liberation-5",
+          "circuit-2",
+          "circuit-3"
+        ]
+      },
+      {
+        "note": "반주 연쇄 법칙 (최대 3회)",
+        "skillId": "outro-1",
+        "count": 3
+      }
+    ]
+  },
   "chain": [
     {
       "name": "청출어람",
       "description": "공명 스킬 만물의 법칙 발동 시, 추가로 6개의 회선 매트릭스를 생성하여 목표를 공격하고, 피해 배율은 공명 스킬 만물의 법칙의 8%에 해당하며, 해당 피해는 공명 해방 피해로 적용된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C1 회선 매트릭스 6개 (만물의 법칙 8%씩 → ×1.48)",
+          "_note": "API 변종 확인: 매트릭스 1개 51.06 = 만물의 법칙 합계 638.2 × 0.08",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "mvBoost",
+              "value": 48,
+              "scope": {
+                "skillIds": [
+                  "circuit-2"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "선구자의 발자취",
       "description": "공명 스킬 혹은 공명 해방 사고의 배열 발동 시, 자신의 크리티컬 피해가 30% 증가되며, 8초간 지속된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C2 공명 스킬·해방 후 크리 피해 +30%",
+          "condition": "8초",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "critDmg",
+              "value": 30
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "고대 유적지",
       "description": "공명 해방 사고의 배열 발동 후, 다음 효과를 얻을 수 있다. \n공명 스킬 해답, 공명 스킬 기본 추론, 공명 스킬 하나의 이치 혹은 공명 스킬 만물의 법칙의 피해가 63% 증가되며, 24초간 지속되고, 최대 5회 발생할 수 있다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C3 해방 후 공명 스킬 계열 피해 +63%",
+          "condition": "24초, 최대 5회",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "dmgBonus",
+              "value": 63,
+              "scope": {
+                "skillIds": [
+                  "skill-1",
+                  "circuit-1",
+                  "liberation-5",
+                  "circuit-2"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "육체 재구성",
       "description": "공명 해방 사고의 배열 발동 시, 파티 내 캐릭터의 공명 해방 피해 보너스가 25% 증가되며, 30초간 지속된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C4 해방 후 파티 공명 해방 피해 +25%",
+          "condition": "30초",
+          "target": "team",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "liberationDmgBonus",
+              "value": 25
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "뭇별의 가장자리",
       "description": "반주 스킬 연쇄 법칙 피해 배율이 222% 증가되며, 공명 해방 사고의 배열 피해 배율이 100% 상승된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C5 반주 배율 +222%, 사고의 배열 ×2",
+          "_note": "API 변종 확인: 1466.06 → 2932.11 (×2). 반주는 '배율 222% 증가'라 덧셈",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "mvFlat",
+              "value": 222,
+              "scope": {
+                "skillIds": [
+                  "outro-1"
+                ]
+              }
+            },
+            {
+              "stat": "mvBoost",
+              "value": 100,
+              "scope": {
+                "skillIds": [
+                  "liberation-1"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "도시의 연기",
       "description": "공명 해방 사고의 배열 발동 시 획득한 판타지 큐브를 강화하고, 공명 스킬 만물의 법칙 피해 배율을 76% 상승시킨다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C6 만물의 법칙 배율 ×1.76",
+          "_note": "API 변종 확인: 255.28 → 449.28 (×1.76)",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "mvBoost",
+              "value": 76,
+              "scope": {
+                "skillIds": [
+                  "circuit-2"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     }
   ],
   "_innateSkills": [

@@ -243,6 +243,12 @@ function buildCharacter(api, warnings, label) {
       const scaling = meta && meta.scaling;
       if (scaling && scaling !== 'atk') entry.scaling = scaling;
 
+      // 같은 트리에 스킬이 두 번 들어있는 경우가 있음(회절 방랑자: 해방·회로의 구버전/신버전).
+      // 이름·계수가 똑같으면 건너뛰고, 다르면 id가 겹치지 않게 접미사를 붙임.
+      const sameAs = group.entries.find(e => e.name === entry.name && JSON.stringify(e.parts) === JSON.stringify(entry.parts));
+      if (sameAs) return;
+      while (group.entries.some(e => e.id === entry.id)) entry.id += '-b';
+
       group.entries.push(entry);
     });
 
@@ -272,6 +278,28 @@ function buildCharacter(api, warnings, label) {
           entry._variants = seen.slice(1).map(s => s.mv);
           warnings.push(`${label} / ${skill.SkillName}: 계수 변종 ${entry._variants.join(', ')} — 체인 강화판인지 확인 필요`);
         }
+        group.entries.push(entry);
+      }
+    }
+
+    // 반주 스킬은 계수가 설명문에만 있는 경우가 많음 — "공격력의 795%에 해당하는 용융 피해"
+    if (group.entries.length === 0 && tree === 'outro') {
+      const text = stripHtml(skill.SkillDescribe);
+      // 반드시 '...피해'로 끝나야 함 — "공격력의 18%에 해당하는 HP를 회복" 같은 치료량을 거르기 위해
+      // '공격력의 795%' / '공격력 587.94%' 둘 다 있음
+      const withStat = text.match(/(공격력|HP 최대치|HP|방어력)의?\s*([\d.]+%(?:\s*\+\s*[\d.]+%)*)에\s*해당하는\s*\S+\s*피해/);
+      const bare = text.match(/([\d.]+%)의\s*\S+\s*피해를\s*입/);
+      const m = withStat || bare;
+      if (m) {
+        const entry = {
+          id: 'outro-1',
+          name: skill.SkillName,
+          damageType: ['outro'],
+          parts: parseParts(withStat ? m[2] : m[1]),
+        };
+        const scaling = withStat ? ({ '공격력': 'atk', 'HP 최대치': 'hp', 'HP': 'hp', '방어력': 'def' })[m[1]] : 'atk';
+        if (scaling !== 'atk') entry.scaling = scaling;
+        entry._fromDescription = true;
         group.entries.push(entry);
       }
     }
@@ -374,6 +402,28 @@ async function main() {
       const missing = mine.filter(v => !theirs.some(t => Math.abs(t - v) < 0.011));
       curated.push({ name: char.name, mine: mine.length, theirs: theirs.length, missing });
       continue;
+    }
+
+    // 손으로 채운 부분은 재실행해도 살림:
+    // - 연결점: 기존 노드에 _todo가 하나도 없으면(= 버프로 옮겨 둠) 그대로 유지
+    // - 판정: 생성기가 못 정한(_todoDamageType) 엔트리를 손으로 고쳐 뒀으면 그 판정 유지
+    for (const [tree, group] of Object.entries(generated.skills)) {
+      const old = (existing.skills || {})[tree];
+      if (!old) continue;
+      if ((old.nodes || []).length && !old.nodes.some(n => n._todo)) group.nodes = old.nodes;
+      group.entries.forEach((entry, i) => {
+        const prev = (old.entries || []).find(e => e.id === entry.id);
+        if (!prev) return;
+        // 손으로 고친 엔트리(_fixed)는 통째로 유지 — 판정·계수를 사람이 확인한 값이라서
+        if (prev._fixed) { group.entries[i] = prev; return; }
+        if (entry._todoDamageType && !prev._todoDamageType) {
+          entry.damageType = prev.damageType;
+          delete entry._todoDamageType;
+        }
+      });
+      // 계수 행 이름에 '피해'가 없어서 생성기가 못 잡은 엔트리를 손으로 추가해 둔 것(_manual)도 유지
+      (old.entries || []).filter(e => e._manual && !group.entries.some(g => g.id === e.id))
+        .forEach(e => group.entries.push(e));
     }
 
     const merged = {

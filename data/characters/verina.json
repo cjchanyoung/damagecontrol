@@ -539,13 +539,26 @@
       "nodes": [
         {
           "name": "생명의 은혜",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "파티 내의 캐릭터가 치명적인 피해를 입을 때, 해당 피해는 캐릭터를 쓰러뜨리지 않고, 10초간 지속되는 실드를 획득하며, 실드의 양은 벨리나의 공격력의 120%에 해당하며, 해당 효과는 10분마다 1번 발생할 수 있다"
+          "effects": [],
+          "_note": "치명상 방지 — 피해 계산 무관"
         },
         {
           "name": "자연의 선물",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "강공격 별꽃의 개화, 공중 공격 별꽃의 개화, 공명 해방 자라난 초목 또는 반주 스킬 꽃의 만발을 발동할 때, 파티 내의 캐릭터의 공격력이 20% 증가하며, 20초 동안 지속된다"
+          "buff": {
+            "label": "파티 공격력 +20%",
+            "condition": "별꽃의 개화·해방·반주 발동 후 20초",
+            "target": "team",
+            "trigger": {
+              "mode": "toggle",
+              "default": true
+            },
+            "effects": [
+              {
+                "stat": "atkPercent",
+                "value": 20
+              }
+            ]
+          }
         }
       ]
     },
@@ -554,8 +567,61 @@
       "entries": []
     }
   },
-  "buffs": [],
-  "rotation": null,
+  "buffs": [
+    {
+      "id": "outro",
+      "label": "반주: 파티 전체 피해 부스트 15%",
+      "condition": "30초",
+      "target": "team",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "dmgBoost",
+          "value": 15
+        }
+      ]
+    }
+  ],
+  "rotation": {
+    "name": "기본 사이클",
+    "draft": true,
+    "duration": 12,
+    "steps": [
+      {
+        "pending": true,
+        "note": "에코 (Q) — 메인 에코 계수/버프 추가 예정"
+      },
+      {
+        "note": "변주 확산 — 광합성 에너지",
+        "skillId": "intro-1"
+      },
+      {
+        "note": "식물 실험 — 광합성 에너지",
+        "skillId": "skill-1"
+      },
+      {
+        "note": "강공격 · 별꽃의 개화 → 공중 공격 · 별꽃의 개화 1~3단",
+        "skillIds": [
+          "circuit-1",
+          "circuit-2",
+          "circuit-3",
+          "circuit-4"
+        ]
+      },
+      {
+        "note": "자라난 초목 → 광합성 표식",
+        "skillId": "liberation-1"
+      },
+      {
+        "note": "광합성 표식 협동 공격 (초당 1회, 사이클 내 추정 10회)",
+        "skillId": "liberation-2",
+        "count": 10
+      }
+    ]
+  },
   "chain": [
     {
       "name": "싹이 트는 순간",
@@ -575,7 +641,23 @@
     {
       "name": "만발한 꽃의 포옹",
       "description": "강공격 별꽃의 개화, 공중 공격 별꽃의 개화, 공명 해방 자라난 초목 또는 반주 스킬 꽃의 만발을 발동할 경우, 파티 내 캐릭터의 회절 피해 보너스가 15% 증가하며, 24초간 지속된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C4 파티 회절 피해 +15%",
+          "condition": "별꽃의 개화·해방·반주 발동 후 24초",
+          "target": "team",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "spectroDmgBonus",
+              "value": 15
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "결실의 기적",
@@ -585,7 +667,29 @@
     {
       "name": "수확의 희열",
       "description": "강공격 별꽃의 개화 및 공중 공격 별꽃의 개화의 피해가 20% 증가하며, 목표 명중 시 협동 공격 1회를 발동시키고 근처 파티 내 모든 캐릭터의 HP를 회복시킨다. 이번 협동 공격의 피해량과 HP 회복량은 공명 해방 광합성 표식과 동일하다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C6 별꽃의 개화 피해 +20%",
+          "_note": "명중 시 협동 공격 1회 추가는 로테이션 횟수로 조정",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "dmgBonus",
+              "value": 20,
+              "scope": {
+                "skillIds": [
+                  "circuit-1",
+                  "circuit-2",
+                  "circuit-3",
+                  "circuit-4"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     }
   ],
   "_innateSkills": [

@@ -463,13 +463,44 @@
       "nodes": [
         {
           "name": "빙결",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "변주 스킬 발동 시, 산화의 공명 스킬 피해가 20% 증가하며, 8초간 지속된다"
+          "buff": {
+            "label": "변주 후 공명 스킬 피해 +20%",
+            "condition": "8초",
+            "trigger": {
+              "mode": "toggle",
+              "default": true
+            },
+            "effects": [
+              {
+                "stat": "skillDmgBonus",
+                "value": 20
+              }
+            ]
+          }
         },
         {
           "name": "폭설",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "5단 일반 공격 발동 후，산화의 공명 회로 얼음 파편으로 인한 피해가 20% 증가하며, 8초간 지속된다"
+          "buff": {
+            "label": "5단 후 얼음 파편 피해 +20%",
+            "condition": "8초",
+            "trigger": {
+              "mode": "toggle",
+              "default": true
+            },
+            "effects": [
+              {
+                "stat": "dmgBonus",
+                "value": 20,
+                "scope": {
+                  "skillIds": [
+                    "circuit-2",
+                    "circuit-3",
+                    "circuit-4"
+                  ]
+                }
+              }
+            ]
+          }
         }
       ]
     },
@@ -478,13 +509,81 @@
       "entries": []
     }
   },
-  "buffs": [],
-  "rotation": null,
+  "buffs": [
+    {
+      "id": "outro",
+      "label": "반주: 다음 캐릭터 일반 공격 피해 부스트 38%",
+      "condition": "14초",
+      "target": "others",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "dmgBoost",
+          "value": 38,
+          "scope": {
+            "damageTypes": [
+              "normal"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "rotation": {
+    "name": "기본 사이클",
+    "draft": true,
+    "duration": 10,
+    "steps": [
+      {
+        "pending": true,
+        "note": "에코 (Q) — 메인 에코 계수/버프 추가 예정"
+      },
+      {
+        "note": "변주 매서운 가시 — 얼음 가시",
+        "skillId": "intro-1"
+      },
+      {
+        "note": "만년적설 — 얼음 기둥",
+        "skillId": "skill-1"
+      },
+      {
+        "note": "죽음의 눈보라 — 얼음산",
+        "skillId": "liberation-1"
+      },
+      {
+        "note": "강공격 · 폭발 → 얼음산·기둥·가시 폭발",
+        "skillIds": [
+          "circuit-1",
+          "circuit-2",
+          "circuit-3",
+          "circuit-4"
+        ]
+      }
+    ]
+  },
   "chain": [
     {
       "name": "고독한 자",
       "description": "일반 공격 제5단계 발동 후, 산화 자신의 크리티컬이 15% 증가하며, 10초간 지속된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C1 5단 후 크리 +15%",
+          "condition": "10초",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "critRate",
+              "value": 15
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "순결한 눈 결정",
@@ -494,22 +593,96 @@
     {
       "name": "통찰의 눈동자",
       "description": "산화는 HP가 70%보다 낮은 목표 공격 시, 가하는 피해가 35% 증가한다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C3 HP 70% 미만 대상 피해 +35%",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "dmgBonus",
+              "value": 35
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "오온의 수행",
       "description": "공명 해방 죽음의 눈보라 발동 시, 공명 에너지 10pt를 회복한다.\n5초내의 다음 강공격 폭발의 피해가 120% 증가한다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C4 해방 후 다음 폭발 피해 +120%",
+          "condition": "5초",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "dmgBonus",
+              "value": 120,
+              "scope": {
+                "skillIds": [
+                  "circuit-1"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "끊이지 않는 변화",
       "description": "공명 회로 얼음 파편의 크리티컬 피해가 100% 증가된다.\n폭발에 성공하지 못했더라도 「얼음 가시」, 「얼음 기둥」, 「얼음산」은 사라질 때 바로 폭발한다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C5 얼음 파편 크리 피해 +100%",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "critDmg",
+              "value": 100,
+              "scope": {
+                "skillIds": [
+                  "circuit-2",
+                  "circuit-3",
+                  "circuit-4"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "새벽의 햇빛",
       "description": "「얼음 기둥」 또는 「얼음산」을 폭발시킨 후, 파티 내 캐릭터의 공격력이 10% 증가되고, 최대 2스택 중첩이 가능하며, 20초간 지속된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C6 얼음 기둥·얼음산 폭발 후 파티 공격력 +10% (스택)",
+          "condition": "20초, 최대 2",
+          "target": "team",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "stacks": {
+            "max": 2,
+            "default": 2
+          },
+          "effects": [
+            {
+              "stat": "atkPercent",
+              "value": 10
+            }
+          ]
+        }
+      ]
     }
   ],
   "_innateSkills": [

@@ -371,13 +371,26 @@
       "nodes": [
         {
           "name": "하모닉 구간",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "공명 스킬 응급대비책 발동 시, 우담은 15초간 지속되는 천뢰 한 조각을 남긴다.\n \n\n천뢰\n\n천뢰를 줍는 캐릭터의 공격력이 15% 증가하며, 20초간 지속된다"
+          "buff": {
+            "label": "천뢰: 줍는 캐릭터 공격력 +15%",
+            "condition": "공명 스킬 후 생성, 20초",
+            "target": "team",
+            "trigger": {
+              "mode": "toggle",
+              "default": true
+            },
+            "effects": [
+              {
+                "stat": "atkPercent",
+                "value": 15
+              }
+            ]
+          }
         },
         {
           "name": "격려의 피드백",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "강공격으로 목표 명중 시마다, 근처 파티 내의 HP가 가장 적은 캐릭터의 HP를 회복시키며, 회복량은 설지의 HP 최대치의 0.25%에 해당한다"
+          "effects": [],
+          "_note": "강공격 치료 — 피해 계산 무관"
         }
       ]
     },
@@ -386,8 +399,57 @@
       "entries": []
     }
   },
-  "buffs": [],
-  "rotation": null,
+  "buffs": [
+    {
+      "id": "outro",
+      "label": "반주: 다음 캐릭터 전체 피해 부스트 15%",
+      "condition": "치료받을 때마다 6초",
+      "target": "others",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "dmgBoost",
+          "value": 15
+        }
+      ]
+    }
+  ],
+  "rotation": {
+    "name": "기본 사이클",
+    "draft": true,
+    "duration": 12,
+    "steps": [
+      {
+        "pending": true,
+        "note": "에코 (Q) — 메인 에코 계수/버프 추가 예정"
+      },
+      {
+        "note": "변주 뒤덮인 눈꽃",
+        "skillId": "intro-1"
+      },
+      {
+        "note": "일반 공격 1~4단 — 염원 4",
+        "skillIds": [
+          "normal-1",
+          "normal-2",
+          "normal-3",
+          "normal-4"
+        ]
+      },
+      {
+        "note": "응급대비책 — 천뢰",
+        "skillId": "skill-1"
+      },
+      {
+        "note": "찰나의 순간 → 빈틈의 울림 4단",
+        "skillId": "liberation-1",
+        "count": 4
+      }
+    ]
+  },
   "chain": [
     {
       "name": "미니멀리즘 및 맥시멀리즘",
@@ -397,17 +459,66 @@
     {
       "name": "침묵의 빙원",
       "description": "공명 스킬 응급대비책 발동 시, 「염원」 4pt가 있을 경우, 설지의 응결 피해 보너스가 15% 증가되고, 치료 효과 보너스가 15% 증가되며, 12초간 지속된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C2 염원 4 응급대비책 후 응결 피해 +15%",
+          "condition": "12초",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "glacioDmgBonus",
+              "value": 15
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "진리의 추구",
       "description": "변주 스킬 뒤덮인 눈꽃 발동 시, 설지의 HP 최대치가 12% 증가한다 10초간 지속된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C3 변주 후 HP +12%",
+          "condition": "10초",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "hpPercent",
+              "value": 12
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "근원을 찾아서",
       "description": "공명 해방 찰나의 순간 발동 시, 공명 해방 빈틈의 울림이 강화된다. \n빈틈의 울림 2단 증가한다.\n빈틈의 울림 치료 배율 20% 상승한다.\n빈틈의 울림이 추가로 설지 HP 최대치 1.20%의 응결 피해를 가한다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C4 빈틈의 울림 추가 피해 HP 1.2%",
+          "_note": "같은 판정·같은 HP 스케일링이라 계수에 더해서 처리. 빈틈의 울림 +2단은 로테이션 횟수로 조정",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "mvFlat",
+              "value": 1.2,
+              "scope": {
+                "skillIds": [
+                  "liberation-1"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "기원에서 받은 응답",
@@ -417,7 +528,23 @@
     {
       "name": "추구의 각오",
       "description": "캐릭터가 고유 스킬 천뢰를 주울 시, 근처 파티 내 모든 캐릭터의 응결 피해 보너스가 12% 증가되며, 20초간 지속된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C6 천뢰 획득 시 파티 응결 피해 +12%",
+          "condition": "20초",
+          "target": "team",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "glacioDmgBonus",
+              "value": 12
+            }
+          ]
+        }
+      ]
     }
   ],
   "_innateSkills": [

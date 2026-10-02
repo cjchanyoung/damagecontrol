@@ -172,7 +172,7 @@
           "id": "normal-8",
           "name": "일반 공격 · 환멸의 모습 1단 피해",
           "damageType": [
-            "normal"
+            "liberation"
           ],
           "parts": [
             {
@@ -189,13 +189,15 @@
                 36.51
               ]
             }
-          ]
+          ],
+          "_note": "환멸의 모습 기본 공격은 보이드매터 입자 소모 시 공명 해방 피해로 적용",
+          "_fixed": true
         },
         {
           "id": "normal-9",
           "name": "일반 공격 · 환멸의 모습 2단 피해",
           "damageType": [
-            "normal"
+            "liberation"
           ],
           "parts": [
             {
@@ -205,13 +207,14 @@
               "mv": 14.07,
               "hits": 4
             }
-          ]
+          ],
+          "_fixed": true
         },
         {
           "id": "normal-10",
           "name": "일반 공격 · 환멸의 모습 3단 피해",
           "damageType": [
-            "normal"
+            "liberation"
           ],
           "parts": [
             {
@@ -228,13 +231,14 @@
                 62.39
               ]
             }
-          ]
+          ],
+          "_fixed": true
         },
         {
           "id": "normal-11",
           "name": "일반 공격 · 환멸의 모습 4단 피해",
           "damageType": [
-            "normal"
+            "liberation"
           ],
           "parts": [
             {
@@ -243,13 +247,14 @@
             {
               "mv": 82.92
             }
-          ]
+          ],
+          "_fixed": true
         },
         {
           "id": "normal-12",
           "name": "강공격 · 환멸의 모습 피해",
           "damageType": [
-            "heavy"
+            "liberation"
           ],
           "parts": [
             {
@@ -266,13 +271,14 @@
                 137.06
               ]
             }
-          ]
+          ],
+          "_fixed": true
         },
         {
           "id": "normal-13",
           "name": "공중 강공격 · 환멸의 모습 피해",
           "damageType": [
-            "normal"
+            "liberation"
           ],
           "parts": [
             {
@@ -281,13 +287,14 @@
             {
               "mv": 44.38
             }
-          ]
+          ],
+          "_fixed": true
         },
         {
           "id": "normal-14",
           "name": "회피 반격 · 환멸의 모습 피해",
           "damageType": [
-            "normal"
+            "liberation"
           ],
           "parts": [
             {
@@ -304,13 +311,14 @@
                 108.08
               ]
             }
-          ]
+          ],
+          "_fixed": true
         },
         {
           "id": "normal-15",
           "name": "공중 공격 · 환멸의 모습 1단 피해",
           "damageType": [
-            "normal"
+            "liberation"
           ],
           "parts": [
             {
@@ -327,13 +335,14 @@
                 36.51
               ]
             }
-          ]
+          ],
+          "_fixed": true
         },
         {
           "id": "normal-16",
           "name": "공중 공격 · 환멸의 모습 2단 피해",
           "damageType": [
-            "normal"
+            "liberation"
           ],
           "parts": [
             {
@@ -343,13 +352,14 @@
               "mv": 14.07,
               "hits": 4
             }
-          ]
+          ],
+          "_fixed": true
         },
         {
           "id": "normal-17",
           "name": "공중 공격 · 환멸의 모습 3단 피해",
           "damageType": [
-            "normal"
+            "liberation"
           ],
           "parts": [
             {
@@ -366,13 +376,14 @@
                 62.39
               ]
             }
-          ]
+          ],
+          "_fixed": true
         },
         {
           "id": "normal-18",
           "name": "공중 공격 · 환멸의 모습 4단 피해",
           "damageType": [
-            "normal"
+            "liberation"
           ],
           "parts": [
             {
@@ -381,7 +392,8 @@
             {
               "mv": 82.92
             }
-          ]
+          ],
+          "_fixed": true
         }
       ],
       "nodes": [
@@ -468,7 +480,7 @@
           "id": "skill-4",
           "name": "추방 · 환멸의 모습 2단 피해",
           "damageType": [
-            "skill"
+            "liberation"
           ],
           "parts": [
             {
@@ -486,7 +498,7 @@
               ]
             }
           ],
-          "_todoDamageType": true
+          "_fixed": true
         }
       ],
       "nodes": [
@@ -684,13 +696,26 @@
       "nodes": [
         {
           "name": "남겨진 거짓말",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "연극의 모습에서 전투 진입 시, 「어둠의 핵심」이 2개 미만인 경우 2개까지 회복되고, 「보이드매터 입자」가 20pt 미만인 경우 20pt까지 회복된다. 해당 효과는 12초마다 1회 발생할 수 있다"
+          "effects": [],
+          "_note": "전투 진입 시 자원 보충 — 스탯 효과 없음"
         },
         {
           "name": "새겨진 찬란한 빛깔",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "엔트로피 변이 강화에 있을 시, 공명 모드에 따라 다음과 같은 효과를 획득한다.\n· 공명 모드 · 불꽃에 있을 시, 파티 내 캐릭터의 용융 피해 보너스가 30% 증가된다.\n· 공명 모드 · 조화 밀집에 있을 시, 파티 내 캐릭터의 조화도 파괴 증폭이 10pt 증가된다. 파티 내 캐릭터의 부조화 수치 누적 효율이 100%를 초과 시, 초과한 부조화 수치 누적 효율 10% 당, 해당되는 캐릭터의 조화도 파괴 증폭을 8pt 증가시키고, 최대 40pt까지 증가시킬 수 있다"
+          "buff": {
+            "label": "[불꽃] 엔트로피 변이 강화: 파티 용융 피해 +30%",
+            "condition": "엔트로피 변이 강화 중, 공명 모드 · 불꽃. 조화 밀집 모드의 조화도 파괴 증폭은 미반영",
+            "target": "team",
+            "trigger": {
+              "mode": "toggle",
+              "default": true
+            },
+            "effects": [
+              {
+                "stat": "fusionDmgBonus",
+                "value": 30
+              }
+            ]
+          }
         }
       ]
     },
@@ -699,23 +724,271 @@
       "entries": []
     }
   },
-  "buffs": [],
-  "rotation": null,
+  "buffs": [
+    {
+      "id": "entropy-disillusion",
+      "label": "엔트로피 변이 강화 · 환멸: 공격력 +30%",
+      "condition": "막이 내리는 순간 · 연극 / 변주 똑똑 후 12초",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "atkPercent",
+          "value": 30
+        }
+      ]
+    },
+    {
+      "id": "voidmatter",
+      "label": "보이드매터 입자: 환멸 기본 공격 배율 ×1.5",
+      "condition": "환멸의 모습에서 입자 보유 시",
+      "_note": "API 변종 확인: 36.51 → 54.76, 137.06 → 205.59 (×1.5)",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "mvBoost",
+          "value": 50,
+          "scope": {
+            "skillIds": [
+              "normal-8",
+              "normal-9",
+              "normal-10",
+              "normal-11",
+              "normal-12",
+              "normal-13",
+              "normal-14",
+              "normal-15",
+              "normal-16",
+              "normal-17",
+              "normal-18"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "dark-core",
+      "label": "어둠의 핵심: 추방 2단 배율 +150% (스택)",
+      "condition": "소모한 핵심 개수, 기본 최대 3 (C3에서 5)",
+      "_note": "API 변종 확인: 112.01 → 280.03 / 448.04 / 616.06 / 784.07 / 952.09 (1~5개, 선형)",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "stacks": {
+        "max": 5,
+        "default": 3
+      },
+      "effects": [
+        {
+          "stat": "mvBoost",
+          "value": 150,
+          "scope": {
+            "skillIds": [
+              "skill-4"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "outro-concerto",
+      "label": "[조화 밀집] 반주: 다음 캐릭터 전체 피해 부스트 15%",
+      "condition": "16초, 조화 밀집 · 이탈 추가 시 40%까지. [불꽃] 반주의 불꽃 효과 피해 +60%는 미모델링",
+      "target": "others",
+      "trigger": {
+        "mode": "toggle",
+        "default": false
+      },
+      "effects": [
+        {
+          "stat": "dmgBoost",
+          "value": 15
+        }
+      ]
+    }
+  ],
+  "rotation": {
+    "name": "기본 사이클 (불꽃)",
+    "draft": true,
+    "duration": 25,
+    "steps": [
+      {
+        "pending": true,
+        "note": "에코 (Q) — 메인 에코 계수/버프 추가 예정"
+      },
+      {
+        "note": "변주 오랜만이야! → 연극 4단",
+        "skillIds": [
+          "intro-1",
+          "normal-4"
+        ]
+      },
+      {
+        "note": "흉내낸 거품 — 보이드매터 25",
+        "skillId": "skill-1"
+      },
+      {
+        "note": "연극 평타 1~4단 — 보이드매터 충전",
+        "skillIds": [
+          "normal-1",
+          "normal-2",
+          "normal-3",
+          "normal-4"
+        ]
+      },
+      {
+        "note": "막이 내리는 순간 · 연극 → 환멸 전환",
+        "skillId": "liberation-1"
+      },
+      {
+        "note": "환멸 평타 1~4단 (보이드매터 → 해방 판정)",
+        "skillIds": [
+          "normal-8",
+          "normal-9",
+          "normal-10",
+          "normal-11"
+        ]
+      },
+      {
+        "note": "추방 1단 → 2단 (어둠의 핵심 소모)",
+        "skillIds": [
+          "skill-3",
+          "skill-4"
+        ]
+      },
+      {
+        "note": "막이 내리는 순간 · 환멸",
+        "skillId": "liberation-2"
+      },
+      {
+        "note": "침식 영역 (4초마다)",
+        "skillId": "circuit-1",
+        "count": 3
+      }
+    ]
+  },
   "chain": [
     {
       "name": "희미한 꿈, 고요한 빛",
       "description": "크리티컬 피해가 30% 증가된다.\n\n공명 스킬 흉내낸 거품 · 연극의 모습, 공명 스킬 추방 · 환멸의 모습, 일반 공격 · 환멸의 모습 3단, 일반 공격 · 환멸의 모습 4단, 공중 공격 · 환멸의 모습 3단, 공중 공격 · 환멸의 모습 4단 발동 기간 동안, 적의 공격에 의해 중단되지 않는다.\n\n연극의 모습에서 전투 진입 시, 엔트로피 변이 강화 · 연극의 모습을 획득하고, 30초간 지속된다.\n환멸의 모습에서 전투 진입 시, 엔트로피 변이 강화 · 환멸의 모습을 획득하고, 12초간 지속된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C1 크리 피해 +30%",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "critDmg",
+              "value": 30
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "이 세계에 추락한 조수 하나",
       "description": "공명 모드 · 불꽃에 있을 시, 파티 내 캐릭터가 「불꽃 효과」를 추가한 후, 해당 캐릭터의 용융 피해 보너스가 50% 증가되고, 15초간 지속된다. 등장 캐릭터 주변 목표의 「불꽃 효과」가 폭발 후, 데니아는 1스택의 타락한 보이드매터를 획득하고 15초간 지속되며, 최대치는 10스택이다. 타락한 보이드매터 1스택마다 데니아가 입히는 피해가 목표의 1% 용융 피해 저항을 무시한다.\n데니아가 모드 전환 시, 해당 효과는 즉시 종료된다.\n\n공명 모드 · 조화 밀집에 있을 시, 공명 회로 효과가 향상된다. 파티 내 캐릭터가 「조화 밀집 · 이탈」을 추가한 후, 해당 캐릭터의 조화도 파괴 증폭이 20pt 증가되고, 15초간 지속된다. 목표는 부조화 수치 최대치의 100%에 해당하는 「부조화 수치」가 누적되고, 「부조화 수치」 누적 효과는 동일한 목표에게 300초 내에 1회만 발생할 수 있다.\n데니아가 모드 전환 시, 해당 효과는 즉시 종료된다.\n\n공명 스킬 추방 · 환멸의 모습의 피해 배율이 40% 상승된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C2 추방 배율 ×1.4",
+          "_note": "API 변종 확인: 34.68 → 48.55, 280.03 → 392.04 (핵심 효과와 곱해짐)",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "mvBoost",
+              "value": 40,
+              "scope": {
+                "skillIds": [
+                  "skill-3",
+                  "skill-4"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "label": "C2 [불꽃] 불꽃 효과 추가 후 파티 용융 피해 +50%",
+          "condition": "15초",
+          "target": "team",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "fusionDmgBonus",
+              "value": 50
+            }
+          ]
+        },
+        {
+          "label": "C2 [불꽃] 타락한 보이드매터: 용융 저항 10% 무시",
+          "condition": "불꽃 효과 폭발마다 1스택, 최대 10",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "resShred",
+              "value": 10
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "밤바람을 가르는 붉은 버들",
       "description": "공명 해방 막이 내리는 순간 · 환멸의 모습의 피해 배율이 80% 상승된다.\n\n「어둠의 핵심」 최대치가 5개로 증가되고, 엔트로피 변이 강화에 있을 시 「어둠의 핵심」의 획득 간격이 6초로 단축된다.\n엔트로피 변이 강화 · 연극의 모습 효과 강화: 1초마다 획득하는 「보이드매터 입자」가 4pt로 증가된다.\n엔트로피 변이 강화 · 환멸의 모습 효과 강화: 공명 해방 막이 내리는 순간 · 환멸의 모습 발동 시, 추가로 30pt의 협주 에너지를 회복한다.\n\n고유 스킬 남겨진 거짓말 효과 강화:\n전투 진입 시, 「어둠의 핵심」과 「보이드매터 입자」가 최대치까지 회복된다. 해당 효과는 12초마다 1회 발생할 수 있다.\n\n「어둠의 핵심」 수량이 최대치에 도달 시, 일반 공격 · 연극의 모습 4단, 공명 스킬 흉내낸 거품 · 연극의 모습을 발동할 경우, 모든 「어둠의 핵심」을 소모하여 이번 스킬 피해 배율을 1200% 증가시킨다. 이번 피해는 공명 해방 피해로 적용된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C3 막이 내리는 순간 · 환멸 배율 ×1.8",
+          "_note": "API 변종 확인: 198.81 → 357.86 (×1.8)",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "mvBoost",
+              "value": 80,
+              "scope": {
+                "skillIds": [
+                  "liberation-2"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "label": "C3 핵심 최대 시 연극 4단·흉내낸 거품 배율 +1200%",
+          "_note": "API 변종 확인: 128 → 1328, 17.42 → 217.42, 52.25 → 652.25 (덧셈). 이 피해는 공명 해방 판정으로 바뀌는데 엔트리 판정은 그대로라 해방 보너스가 빠짐",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "mvFlat",
+              "value": 1200,
+              "scope": {
+                "skillIds": [
+                  "normal-4",
+                  "skill-1"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "먼 곳에서, 먼 곳으로",
@@ -725,12 +998,48 @@
     {
       "name": "거짓말로 심장을 꿰맬 수 있다면",
       "description": "공명 해방 막이 내리는 순간 · 연극의 모습으로 입히는 피해가 100% 증가된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C5 막이 내리는 순간 · 연극 피해 +100%",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "dmgBonus",
+              "value": 100,
+              "scope": {
+                "skillIds": [
+                  "liberation-1"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "침묵 속에서 태양을 얻기를",
       "description": "엔트로피 변이 강화에 있을 시, 공격력이 60% 증가되고 용융 피해 보너스가 60% 증가된다.\n\n공명 모드 · 불꽃에 있을 시, 침식 영역이 목표에게 피해를 입힌 후 「불꽃 효과」 스택 최대치에 따라 「불꽃 효과」를 폭발시키고, 이번 폭발이 「불꽃 효과」의 메인 목표에게 입히는 피해 배율이 200% 상승되며 「불꽃 효과」 스택이 제거되지 않는다. 해당 효과는 동일한 목표에게 최대 1회만 적용되며 목표가 공명 해방 막이 내리는 순간 · 환멸의 모습의 피해를 받은 후 해당 횟수가 리셋된다. 리셋 효과는 동일한 목표에게 2초 내에 1회만 발생할 수 있다.\n\n공명 모드 · 조화 밀집에 있을 시, 파티 내 캐릭터가 「조화 밀집 · 이탈」을 보유하고 「조화 소실」 상태에 빠진 목표에게 조화도 파괴 피해를 입힐 시, 추가로 1스택의 「조화 밀집 · 간섭」을 추가하고, 해당 효과는 동일한 목표에게 3초 내에 1회만 발생할 수 있다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C6 엔트로피 변이 강화: 공격력 +60%, 용융 피해 +60%",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "atkPercent",
+              "value": 60
+            },
+            {
+              "stat": "fusionDmgBonus",
+              "value": 60
+            }
+          ]
+        }
+      ]
     }
   ],
   "_innateSkills": [

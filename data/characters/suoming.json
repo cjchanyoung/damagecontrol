@@ -551,7 +551,7 @@
               ]
             }
           ],
-          "_todoDamageType": true
+          "_fixed": true
         },
         {
           "id": "circuit-4",
@@ -574,13 +574,25 @@
       "nodes": [
         {
           "name": "비에 젖은 옛 약속",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "변주 스킬 · 접은 우산 형태 · 섬광 파열, 변주 스킬 · 펼친 우산 형태 · 낙뢰 분쇄, 변주 스킬 · 접은 우산 형태 · 망념의 자물쇠 · 합일 혹은 변주 스킬 · 펼친 우산 형태 · 회전 뇌격 · 합일 발동 시, 전도 피해 보너스가 50% 증가되고, 15초간 지속된다. 다른 캐릭터로 전환하면 해당 효과는 즉시 종료된다.\n· 쇄명이 변주 스킬 · 접은 우산 형태 · 망념의 자물쇠 · 합일 혹은 변주 스킬 · 펼친 우산 형태 · 회전 뇌격 · 합일 발동 시, 협주 에너지를 추가로 10pt 획득하고, 25초마다 1회만 획득할 수 있다"
+          "buff": {
+            "label": "변주 후 전도 피해 +50%",
+            "condition": "변주 스킬 발동 후 15초",
+            "trigger": {
+              "mode": "toggle",
+              "default": true
+            },
+            "effects": [
+              {
+                "stat": "electroDmgBonus",
+                "value": 50
+              }
+            ]
+          }
         },
         {
           "name": "약속의 족쇄",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "쇄명이 합일을 보유하고, 반주 스킬을 발동할 시, 쇄명은 함께한 약속 효과를 획득하며, 30초간 지속된다.\n쇄명이 공명 해방 혹은 일반 공격 · 어두운 우산 형태 · 새겨진 염원 발동 후 8초 내에 반주 스킬 발동 시, 함께한 약속 효과를 획득하거나 혹은 함께한 약속 효과 기간에 있을 경우, 다음 등장 캐릭터의 전도 피해 보너스가 30% 증가되고, 「합일 버프」 1스택을 보유할 때마다 전도 피해 보너스가 추가로 20% 증가되며, 최대 40%까지 추가로 증가되고, 8초간 지속된다. 다른 캐릭터로 전환하면 해당 효과는 즉시 종료된다.\n\n쇄명이 합일 보유 시, 공명 스킬 · 접은 우산 형태 · 허점 파괴를 발동할 경우 합일 및 자신의 「합일 버프」가 제거되고, 20pt의 협주 에너지가 소모되며 「그릇된 집착」이 제거된다. 이후 금쇄계주 효과를 획득하게 되어, 일반 공격 · 펼친 우산 형태와 일반 공격 · 펼친 우산 형태 · 회전 뇌격의 피해 배율을 100% 상승시키고, 각 단의 스킬로 목표를 명중할 때마다 추가로 5pt의 협주 에너지를 회복한다. 동시에 자신의 크리티컬 피해를 100% 증가시키고, 12초간 지속된다. 다른 캐릭터로 전환하면 해당 효과는 즉시 종료된다.\n· 자신이 합일 획득 시, 해당 효과는 즉시 종료된다.\n· 함께한 약속 효과 획득 시, 해당 효과는 즉시 종료된다.\n· 함께한 약속 효과가 지속되는 기간 동안, 금쇄계주 효과를 획득할 수 없다.\n· 금쇄계주 효과 기간 동안, 일반 공격 · 펼친 우산 형태 4단 발동 후, 일반 공격을 짧게 누르거나 혹은 길게 누르면 일반 공격 · 펼친 우산 형태 2단을 연계할 수 있다"
+          "effects": [],
+          "_note": "금쇄계주(딜러 운용)·함께한 약속(서포터 운용)으로 나뉨 — 각각 캐릭터 버프로 분리"
         }
       ]
     },
@@ -589,38 +601,333 @@
       "entries": []
     }
   },
-  "buffs": [],
-  "rotation": null,
+  "buffs": [
+    {
+      "id": "golden-lock",
+      "label": "금쇄계주: 펼친 우산 평타·회전 뇌격 배율 ×2, 크리 피해 +100%",
+      "condition": "합일 보유 중 공명 스킬 허점 파괴 → 12초 (딜러 운용)",
+      "_note": "API 변종 확인: 65.42 → 130.84, 114.4 → 228.8 (×2)",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "mvBoost",
+          "value": 100,
+          "scope": {
+            "skillIds": [
+              "normal-4",
+              "normal-5",
+              "normal-6",
+              "normal-7",
+              "normal-11",
+              "normal-12"
+            ]
+          }
+        },
+        {
+          "stat": "critDmg",
+          "value": 100
+        }
+      ]
+    },
+    {
+      "id": "promise",
+      "label": "함께한 약속: 다음 캐릭터 전도 피해 +30%",
+      "condition": "합일 보유 + 해방/새겨진 염원 후 8초 내 반주 (서포터 운용)",
+      "target": "others",
+      "trigger": {
+        "mode": "toggle",
+        "default": false
+      },
+      "effects": [
+        {
+          "stat": "electroDmgBonus",
+          "value": 30
+        }
+      ]
+    },
+    {
+      "id": "outro-electro",
+      "label": "반주: 다음 캐릭터 전도 피해 부스트 20%",
+      "condition": "8초",
+      "target": "others",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "dmgBoost",
+          "value": 20,
+          "scope": {
+            "elements": [
+              "전도"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "outro-union-skill",
+      "label": "반주: 합일 버프 보유 시 공명 스킬 피해 부스트 25%",
+      "target": "others",
+      "trigger": {
+        "mode": "toggle",
+        "default": false
+      },
+      "effects": [
+        {
+          "stat": "dmgBoost",
+          "value": 25,
+          "scope": {
+            "damageTypes": [
+              "skill"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "union-buff",
+      "label": "합일 버프: 최종 피해 +3% (스택)",
+      "condition": "합일 대응 가능한 캐릭터끼리 파티, 스택당 3%, 최대 2스택",
+      "_note": "최종 피해 증가 → 피해 부스트 항으로 처리",
+      "target": "team",
+      "trigger": {
+        "mode": "toggle",
+        "default": false
+      },
+      "stacks": {
+        "max": 2,
+        "default": 1
+      },
+      "effects": [
+        {
+          "stat": "dmgBoost",
+          "value": 3
+        }
+      ]
+    }
+  ],
+  "rotation": {
+    "name": "기본 사이클 (금쇄계주)",
+    "draft": true,
+    "duration": 22,
+    "steps": [
+      {
+        "pending": true,
+        "note": "에코 (Q) — 메인 에코 계수/버프 추가 예정"
+      },
+      {
+        "note": "변주 섬광 파열 → 깊은 염원",
+        "skillId": "intro-1"
+      },
+      {
+        "note": "펼친 우산 평타 1~4단 — 그릇된 집착 충전",
+        "skillIds": [
+          "normal-4",
+          "normal-5",
+          "normal-6",
+          "normal-7"
+        ]
+      },
+      {
+        "note": "공명 해방 — 합일, 그릇된 집착 200",
+        "skillId": "liberation-1"
+      },
+      {
+        "note": "합일 상태로 허점 파괴 → 금쇄계주",
+        "skillId": "skill-1"
+      },
+      {
+        "note": "금쇄계주: 펼친 우산 평타 + 회전 뇌격",
+        "skillIds": [
+          "normal-4",
+          "normal-5",
+          "normal-11",
+          "normal-12"
+        ]
+      },
+      {
+        "note": "불굴의 염원 → 새겨진 염원",
+        "skillIds": [
+          "circuit-2",
+          "circuit-3"
+        ]
+      },
+      {
+        "note": "합일 해제 시 벼락의 흔적 6회 협동 공격",
+        "skillId": "liberation-2",
+        "count": 6
+      }
+    ]
+  },
   "chain": [
     {
       "name": "스산한 빗속에 몸을 던지고",
       "description": "공명 스킬 · 펼친 우산 형태 · 불굴의 염원은 적의 공격에 의해 중단되지 않는다.\n변주 스킬 · 접은 우산 형태 · 섬광 파열, 변주 스킬 · 펼친 우산 형태 · 낙뢰 분쇄, 변주 스킬 · 접은 우산 형태 · 망념의 자물쇠 · 합일, 변주 스킬 · 펼친 우산 형태 · 회전 뇌격 · 합일의 피해 배율이 60% 상승된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C1 변주 배율 ×1.6",
+          "_note": "API 변종 확인: 110.89 → 177.42, 131.43 → 210.28 (×1.6)",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "mvBoost",
+              "value": 60,
+              "scope": {
+                "skillIds": [
+                  "intro-1",
+                  "intro-2",
+                  "intro-3",
+                  "intro-4"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "벼락을 가르고 악을 베어내",
       "description": "크리티컬 피해가 40% 증가된다.\n반주 스킬 발동 시, 다음 등장 캐릭터의 크리티컬 피해가 10% 증가되고, 「합일 버프」 1스택을 보유할 때마다 크리티컬 피해가 추가로 6% 증가되며, 최대 24%까지 추가로 증가되고, 30초간 지속된다. 다른 캐릭터로 전환하면 해당 효과는 즉시 종료된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C2 크리 피해 +40%",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "critDmg",
+              "value": 40
+            }
+          ]
+        },
+        {
+          "label": "C2 반주: 다음 캐릭터 크리 피해 +10%",
+          "target": "others",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "critDmg",
+              "value": 10
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "고독한 우산과 홀로 내디뎌",
       "description": "변주 스킬 · 접은 우산 형태 · 섬광 파열 혹은 변주 스킬 · 펼친 우산 형태 · 낙뢰 분쇄 발동 시, 1스택의 「합일 버프」를 획득하고, 30초간 지속되며, 해당 효과는 25초마다 1회 적용된다.\n· 쇄명이 이미 「합일 버프」를 제공했었고 「합일 버프」 지속 기간에 있을 경우, 지속 시간만 리셋된다.\n\n공명 해방 발동 시, 쇄명 자신의 일반 공격 피해가 30% 부스트되고, 25초간 지속된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C3 해방 후 일반 공격 피해 부스트 30%",
+          "condition": "공명 해방 후 25초",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "dmgBoost",
+              "value": 30,
+              "scope": {
+                "damageTypes": [
+                  "normal"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "받들은 인장을 품에 감싸고",
       "description": "쇄명의 공격력이 20% 증가된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C4 공격력 +20%",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "atkPercent",
+              "value": 20
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "무거운 약속을 잊지 않으니",
       "description": "공명 해방 · 어두운 우산 형태 · 속박의 장기의 피해 배율이 40% 상승된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C5 속박의 장기 배율 ×1.4",
+          "_note": "API 변종 확인: 208.76 → 292.26 (×1.4)",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "mvBoost",
+              "value": 40,
+              "scope": {
+                "skillIds": [
+                  "liberation-1"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "아홉개 그림자 함께 따르리",
       "description": "파티 내 캐릭터의 「합일 버프」 1스택 당 효과가 50% 증가되고, 최대 4스택의 「합일 버프」에 적용된다.\n일반 공격 · 어두운 우산 형태 · 새겨진 염원의 피해 배율이 50% 상승된다.\n금쇄계주 효과 보유 시, 쇄명의 크리티컬 피해가 추가로 200% 증가된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C6 새겨진 염원 배율 ×1.5",
+          "_note": "API 변종 확인: 620.55 → 930.82 (×1.5)",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "mvBoost",
+              "value": 50,
+              "scope": {
+                "skillIds": [
+                  "circuit-3",
+                  "circuit-4"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "label": "C6 금쇄계주 중 크리 피해 +200%",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "critDmg",
+              "value": 200
+            }
+          ]
+        }
+      ]
     }
   ],
   "_innateSkills": [

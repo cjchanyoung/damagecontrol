@@ -507,13 +507,24 @@
       "nodes": [
         {
           "name": "존재",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "매번 공중 강공격 발동 가능 횟수가 1회 증가된다"
+          "effects": [],
+          "_note": "공중 강공격 횟수 — 피해 계산 무관"
         },
         {
           "name": "계시",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "사죄 상태, 고해 상태에 있을 시, 회절 피해 보너스가 12% 증가된다"
+          "buff": {
+            "label": "사죄·고해 상태: 회절 피해 +12%",
+            "trigger": {
+              "mode": "toggle",
+              "default": true
+            },
+            "effects": [
+              {
+                "stat": "spectroDmgBonus",
+                "value": 12
+              }
+            ]
+          }
         }
       ]
     },
@@ -528,48 +539,320 @@
           ],
           "parts": [
             {
-              "mv": 234.5
+              "mv": 528.41
             }
           ],
-          "_variants": [
-            66.06
-          ]
+          "_note": "원문 '총 528.41%' 기준으로 합산 (API 첫 항목 234.5는 일부 타격)",
+          "_fixed": true
         }
       ]
     }
   },
-  "buffs": [],
-  "rotation": null,
+  "buffs": [
+    {
+      "id": "absolution-lib",
+      "label": "[사죄] 샛별의 소원 배율 +255%",
+      "_note": "API 변종 확인: 401.6 → 1425.67 (×3.55). C1 강화와 같은 효과라 같은 그룹(lib)",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "mvBoost",
+          "value": 255,
+          "group": "lib",
+          "scope": {
+            "skillIds": [
+              "liberation-1"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "absolution-outro",
+      "label": "[사죄] 반주 배율 ×3.55",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "mvBoost",
+          "value": 255,
+          "scope": {
+            "skillIds": [
+              "outro-1"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "absolution-starflash",
+      "label": "[사죄] 광학 효과 대상 별빛 피해 부스트 256%",
+      "condition": "사죄 상태, 광학 효과 보유 목표 (사죄의 기도가 1스택 부여)",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "dmgBoost",
+          "value": 256,
+          "scope": {
+            "skillIds": [
+              "circuit-1"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "confession-silence",
+      "label": "[고해] 반주 묵념: 회절 저항 -10%",
+      "condition": "고해 상태 반주 후 30초. 광학 효과 피해 +100% 부스트는 이상 효과라 미모델링",
+      "target": "team",
+      "trigger": {
+        "mode": "toggle",
+        "default": false
+      },
+      "effects": [
+        {
+          "stat": "resShred",
+          "value": 10,
+          "scope": {
+            "elements": [
+              "회절"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "rotation": {
+    "name": "기본 사이클 (사죄)",
+    "draft": true,
+    "duration": 25,
+    "steps": [
+      {
+        "pending": true,
+        "note": "에코 (Q) — 메인 에코 계수/버프 추가 예정"
+      },
+      {
+        "note": "변주",
+        "skillId": "intro-1"
+      },
+      {
+        "note": "거울의 고리 → 전송",
+        "skillId": "skill-1"
+      },
+      {
+        "note": "기원 가득 → 사죄의 기도 (사죄 상태, 복음 60)",
+        "skillId": "circuit-2"
+      },
+      {
+        "note": "샤무엘의 별 1~3단 → 별빛 ×4 (복음 15씩)",
+        "repeat": 4,
+        "skillIds": [
+          "skill-3",
+          "skill-4",
+          "skill-5",
+          "circuit-1"
+        ]
+      },
+      {
+        "note": "샛별의 소원",
+        "skillId": "liberation-1"
+      },
+      {
+        "note": "반주",
+        "skillId": "outro-1"
+      }
+    ]
+  },
   "chain": [
     {
       "name": "불빛과 베개의 축복",
       "description": "사죄 상태에서는 공명 해방 샛별의 소원의 피해 배율이 255%에서 480%로 상승된다. \n고해 상태에서는 공명 해방 샛별의 소원의 피해 배율이 90% 상승되며, 동시에 추가된 「광학 효과」 스택은 목표에게 추가 가능한 스택 최대치까지 증가된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C1 [사죄] 샛별의 소원 배율 255% → 480%",
+          "_note": "API 변종 확인: 401.6 → 2329.26 (×5.8)",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "mvBoost",
+              "value": 225,
+              "group": "lib",
+              "scope": {
+                "skillIds": [
+                  "liberation-1"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "label": "C1 [고해] 샛별의 소원 배율 ×1.9",
+          "_note": "API 변종 확인: 401.6 → 763.04 (×1.9)",
+          "trigger": {
+            "mode": "toggle",
+            "default": false
+          },
+          "effects": [
+            {
+              "stat": "mvBoost",
+              "value": 90,
+              "scope": {
+                "skillIds": [
+                  "liberation-1"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "눈물 속에 흔들리는 외로운 배",
       "description": "사죄 상태에서는 반주 스킬로 「광학 효과」가 있는 목표에게 입히는 피해가 120% 부스트된다. \n고해 상태에서는 묵념의 「광학 효과」 피해 부스트 효과가 추가로 120% 증가된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C2 [사죄] 광학 효과 대상 반주 피해 부스트 120%",
+          "_note": "[고해] 묵념 강화는 이상 효과라 미모델링",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "dmgBoost",
+              "value": 120,
+              "scope": {
+                "skillIds": [
+                  "outro-1"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "데이지로 만들어진 화환과 꿈",
       "description": "사죄 상태에서는 강공격 별빛의 피해 배율이 91% 상승된다.\n고해 상태에서는 강공격 별빛의 피해 배율이 249% 상승된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C3 [사죄] 별빛 배율 ×1.91",
+          "_note": "API 변종 확인: 82.69 → 157.92 (×1.91)",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "mvBoost",
+              "value": 91,
+              "scope": {
+                "skillIds": [
+                  "circuit-1"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "label": "C3 [고해] 별빛 배율 ×3.49",
+          "_note": "API 변종 확인: 82.69 → 288.56 (×3.49)",
+          "trigger": {
+            "mode": "toggle",
+            "default": false
+          },
+          "effects": [
+            {
+              "stat": "mvBoost",
+              "value": 249,
+              "scope": {
+                "skillIds": [
+                  "circuit-1"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "다시 울려 퍼지는 날갯짓의 종소리",
       "description": "일반 공격, 일반 공격 샤무엘의 별, 회피 반격, 샤무엘의 별 · 회피 반격으로 목표 명중 시, 목표의 회절 피해 저항이 10% 감소되고, 30초간 지속된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C4 평타 명중 시 회절 저항 -10%",
+          "condition": "30초",
+          "target": "team",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "resShred",
+              "value": 10,
+              "scope": {
+                "elements": [
+                  "회절"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "머나먼 빛을 향한 기도",
       "description": "변주 스킬 금빛의 은혜 발동 시, 페비의 회절 피해 보너스가 12% 증가되고, 15초간 지속된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C5 변주 후 회절 피해 +12%",
+          "condition": "15초",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "spectroDmgBonus",
+              "value": 12
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "고요한 창가에서 들려오는 노랫소리",
       "description": "「거울의 고리」의 정체 효과가 2초 증가된다. 「거울의 고리」가 지속되는 동안, 「거울의 고리」에 진입하는 목표에게 정체 효과를 부여한다. 동일한 「거울의 고리」는 최대 12개의 목표에게 정체 효과를 부여할 수 있고, 목표마다 1회의 정체 효과만 부여할 수 있다.\n사죄 상태, 고해 상태에서 페비가 공명 스킬을 발동하여 「거울의 고리」를 소환 시, 공격력이 10% 증가되고, 20초간 지속되며, 동시에 「거울의 고리」 위치로 강공격 별빛 1회를 발동한다. 이번 강공격 별빛은 「복음」을 소모하지 않고, 강공격 발동으로 간주되지 않는다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C6 거울의 고리 소환 시 공격력 +10%",
+          "_note": "추가 별빛 1회는 로테이션 횟수로 조정",
+          "condition": "20초",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "atkPercent",
+              "value": 10
+            }
+          ]
+        }
+      ]
     }
   ],
   "_innateSkills": [

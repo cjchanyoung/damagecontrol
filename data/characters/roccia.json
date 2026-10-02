@@ -411,13 +411,25 @@
       "nodes": [
         {
           "name": "몰입형 공연",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "공명 스킬 혹은 강공격 발동 시, 로코코의 공격력이 20% 증가되며, 12초간 지속된다"
+          "buff": {
+            "label": "공명 스킬·강공격 후 공격력 +20%",
+            "condition": "12초",
+            "trigger": {
+              "mode": "toggle",
+              "default": true
+            },
+            "effects": [
+              {
+                "stat": "atkPercent",
+                "value": 20
+              }
+            ]
+          }
         },
         {
           "name": "끌리는 진기한 상자",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "반주 스킬 발동 후, 다음 등장 캐릭터의 탐색 도구는 「진기한 상자」로 대체된다.\n \n\n「진기한 상자」\n\n· 사용 후 「진기한 상자」를 중심으로 주변 목표를 끌어당기고, 총 100pt의 인멸 피해를 입히며, 해당 피해는 탐색 도구 피해로 적용된다. 해당 스킬 발동 시, 에코 어빌리티를 발동한 것으로 간주된다.\n· 「진기한 상자」는 14초간 지속된다. 다른 캐릭터로 전환하면 「진기한 상자」는 즉시 사라진다"
+          "effects": [],
+          "_note": "탐색 도구 100 고정 피해 — 미반영"
         }
       ]
     },
@@ -426,8 +438,109 @@
       "entries": []
     }
   },
-  "buffs": [],
-  "rotation": null,
+  "buffs": [
+    {
+      "id": "lib-team-atk",
+      "label": "즉흥 공연: 파티 공격력 +200 (로코코 크리 70% 기준)",
+      "condition": "크리 50% 초과 0.1%당 1, 최대 200, 30초",
+      "target": "team",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "atkFlat",
+          "value": 200
+        }
+      ]
+    },
+    {
+      "id": "outro-havoc",
+      "label": "반주: 다음 캐릭터 인멸 피해 부스트 20%",
+      "condition": "14초",
+      "target": "others",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "dmgBoost",
+          "value": 20,
+          "scope": {
+            "elements": [
+              "인멸"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "outro-normal",
+      "label": "반주: 다음 캐릭터 일반 공격 피해 부스트 25%",
+      "target": "others",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "dmgBoost",
+          "value": 25,
+          "scope": {
+            "damageTypes": [
+              "normal"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "rotation": {
+    "name": "기본 사이클",
+    "draft": true,
+    "duration": 15,
+    "steps": [
+      {
+        "pending": true,
+        "note": "에코 (Q) — 메인 에코 계수/버프 추가 예정"
+      },
+      {
+        "note": "변주 — 상상력 100",
+        "skillId": "intro-1"
+      },
+      {
+        "note": "일반 공격 1~4단 — 상상력",
+        "skillIds": [
+          "normal-1",
+          "normal-2",
+          "normal-3",
+          "normal-4"
+        ]
+      },
+      {
+        "note": "고난이도 설정 — 상상력 100, 비약의 환상",
+        "skillId": "skill-1"
+      },
+      {
+        "note": "현실에 비추는 환상 1~3단",
+        "skillIds": [
+          "circuit-1",
+          "circuit-2",
+          "circuit-3"
+        ]
+      },
+      {
+        "note": "즉흥 공연, 시작",
+        "skillId": "liberation-1"
+      },
+      {
+        "note": "강공격 (차지)",
+        "skillId": "normal-5"
+      }
+    ]
+  },
   "chain": [
     {
       "name": "선실로 몰려오는 캄캄한 어둠",
@@ -437,27 +550,136 @@
     {
       "name": "미약하게 반짝이는 바다반디석",
       "description": "일반 공격 현실에 비추는 환상 발동 시, 파티 내 캐릭터의 인멸 피해 보너스가 10% 증가되고, 최대 3스택 중첩이 가능하며, 30초간 지속된다. 스택 최대치까지 중첩 시, 파티 내 캐릭터의 인멸 피해 보너스가 추가로 10% 증가되며, 30초간 지속된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C2 파티 인멸 피해 +40% (3스택 + 최대 스택 보너스)",
+          "condition": "현실에 비추는 환상마다 10%, 최대 3 + 최대 시 추가 10%, 30초",
+          "target": "team",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "havocDmgBonus",
+              "value": 40
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "마음으로 보고, 손으로 측정하기",
       "description": "변주 스킬 펠로, 도와줘 발동 시, 로코코의 크리티컬이 10% 증가되고, 크리티컬 피해가 30% 증가되며, 15초간 지속된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C3 변주 후 크리 +10%, 크리 피해 +30%",
+          "condition": "15초",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "critRate",
+              "value": 10
+            },
+            {
+              "stat": "critDmg",
+              "value": 30
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "수많은 「보물」로 가득 찬 상자",
       "description": "공명 스킬 고난이도 설정 발동 시, 일반 공격 현실에 비추는 환상의 피해 배율이 60% 상승되며, 12초간 지속된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C4 공명 스킬 후 현실에 비추는 환상 배율 ×1.6",
+          "_note": "API 변종 확인: 322.08 → 515.32, 357.86 → 572.58 (×1.6)",
+          "condition": "12초",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "mvBoost",
+              "value": 60,
+              "scope": {
+                "skillIds": [
+                  "circuit-1",
+                  "circuit-2",
+                  "circuit-3"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "무대 위의 낙원 재건",
       "description": "공명 해방 즉흥 공연, 시작의 피해 배율이 20% 상승되며, 강공격의 피해 배율이 80% 상승된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C5 해방 ×1.2, 강공격 ×1.8",
+          "_note": "API 변종 확인: 278.34 → 334.01 (×1.2), 168.99 → 304.18 (×1.8)",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "mvBoost",
+              "value": 20,
+              "scope": {
+                "skillIds": [
+                  "liberation-1"
+                ]
+              }
+            },
+            {
+              "stat": "mvBoost",
+              "value": 80,
+              "scope": {
+                "skillIds": [
+                  "normal-5"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "금빛 날개 타고 비상",
       "description": "공명 해방 즉흥 공연, 시작 발동 시, 12초 내에 다음과 같은 효과를 획득한다.\n· 일반 공격 현실에 비추는 환상으로 목표 공격 시, 목표의 60% 방어력을 무시한다.\n· 일반 공격 현실에 비추는 환상 3단 착지 후, 로코코를 공중으로 띄워 비약의 환상 상태에 진입하고, 이때 일반 공격을 짧게 누르면 일반 공격 현실 구축을 발동하여, 일반 공격 현실 구축 상태는 적의 공격에 의해 중단되지 않는다. 일반 공격 현실에 비추는 환상 3단 피해량의 100%에 해당하는 피해를 입힐 수 있으며, 해당 피해는 강공격 피해로 적용된다.\n· 일반 공격 현실 구축 착지 후, 로코코를 공중으로 띄워 비약의 환상 상태에 진입한다. 일반 공격 현실 구축은 비약의 환상 상태일 때만 발동할 수 있다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C6 해방 후 현실에 비추는 환상 방어력 60% 무시",
+          "_note": "현실 구축(3단 100% 추가타)은 체인 의존이라 기본 로테이션엔 미포함 — C6이면 3단 1회 추가 필요",
+          "condition": "12초",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "defIgnore",
+              "value": 60,
+              "scope": {
+                "skillIds": [
+                  "circuit-1",
+                  "circuit-2",
+                  "circuit-3"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     }
   ],
   "_innateSkills": [

@@ -563,13 +563,25 @@
       "nodes": [
         {
           "name": "칼날의 빛",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "회피 반격·그림자 추격을 통해 발생한 공명 스킬 주식의 피해가 20% 증가되며, 그에 따른 HP 소모량과 회복되는 「단화」가 두 배가 된다"
+          "effects": [],
+          "_note": "회피 반격 · 그림자 추격 주식 +20% — 회피 의존이라 미반영"
         },
         {
           "name": "영예",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "공명 스킬 신멸 발동 후, 단근의 강공격 피해가 30% 증가하며, 효과는 5초간 지속된다"
+          "buff": {
+            "label": "신멸 후 강공격 피해 +30%",
+            "condition": "5초",
+            "trigger": {
+              "mode": "toggle",
+              "default": true
+            },
+            "effects": [
+              {
+                "stat": "heavyAtkDmgBonus",
+                "value": 30
+              }
+            ]
+          }
         }
       ]
     },
@@ -578,38 +590,209 @@
       "entries": []
     }
   },
-  "buffs": [],
-  "rotation": null,
+  "buffs": [
+    {
+      "id": "crimson-mark",
+      "label": "주식의 각인 대상 피해 +20%",
+      "condition": "주식 2단 명중 후 12초",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "dmgBonus",
+          "value": 20
+        }
+      ]
+    },
+    {
+      "id": "outro",
+      "label": "반주: 다음 캐릭터 인멸 피해 부스트 23%",
+      "condition": "14초",
+      "target": "others",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "dmgBoost",
+          "value": 23,
+          "scope": {
+            "elements": [
+              "인멸"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "rotation": {
+    "name": "기본 사이클",
+    "draft": true,
+    "duration": 18,
+    "steps": [
+      {
+        "pending": true,
+        "note": "에코 (Q) — 메인 에코 계수/버프 추가 예정"
+      },
+      {
+        "note": "변주 → 주식 1·2단 (각인)",
+        "skillIds": [
+          "intro-1",
+          "skill-2",
+          "skill-3"
+        ]
+      },
+      {
+        "note": "일반 공격 1~3단 → 신멸 1~3단 ×2 (단화 120)",
+        "repeat": 2,
+        "skillIds": [
+          "normal-1",
+          "normal-2",
+          "normal-3",
+          "skill-4",
+          "skill-5",
+          "skill-6"
+        ]
+      },
+      {
+        "note": "풀 에너지 혼란 → 분락",
+        "skillIds": [
+          "circuit-3",
+          "circuit-4"
+        ]
+      },
+      {
+        "note": "피어나는 주홍",
+        "skillIds": [
+          "liberation-1",
+          "liberation-2"
+        ]
+      }
+    ]
+  },
   "chain": [
     {
       "name": "일편단심",
       "description": "단근이 공명 스킬 주식의 각인을 가지고 있는 목표를 공격할 경우 자신의 공격력이 5% 증가되며, 6초간 지속된다. 최대 6스택 중첩이 가능하며, 피해를 입을 때마다 1스택 감소한다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C1 각인 대상 공격 시 공격력 +5% (스택)",
+          "condition": "6초, 최대 6, 피격 시 1스택 감소",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "stacks": {
+            "max": 6,
+            "default": 6
+          },
+          "effects": [
+            {
+              "stat": "atkPercent",
+              "value": 5
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "먼지 묻은 거울",
       "description": "단근이 공명 스킬 주식의 각인을 가지고 있는 목표를 공격할 경우, 목표에게 가한 피해가 추가로 20% 증가된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C2 각인 대상 피해 추가 +20%",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "dmgBonus",
+              "value": 20
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "찰나의 적화",
       "description": "공명 해방 피해 보너스가 30% 증가한다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C3 공명 해방 피해 +30%",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "liberationDmgBonus",
+              "value": 30
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "고독한 붉은 칼날",
       "description": "「단화」 60pt 이상 적립 시, 단근의 크리티컬이 15% 증가한다.\n강공격 · 혼란 발동 시, 모든 「단화」를 소모하고 해당 효과는 강공격 · 분락 때까지 이어진 후 사라진다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C4 단화 60 이상 시 크리 +15%",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "critRate",
+              "value": 15
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "멈추지 않는 검객",
       "description": "단근의 인멸 피해 보너스가 15% 증가한다. HP가 60% 미만인 경우 인멸 피해 보너스가 추가로 15% 증가한다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C5 인멸 피해 +15% (HP 60% 미만이면 +30%)",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "havocDmgBonus",
+              "value": 30
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "남겨진 붉은빛 옥패",
       "description": "강공격 혼란을 발동 후 파티 내 캐릭터의 공격력이 20% 증가하며, 20초간 지속된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C6 혼란 후 파티 공격력 +20%",
+          "condition": "20초",
+          "target": "team",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "atkPercent",
+              "value": 20
+            }
+          ]
+        }
+      ]
     }
   ],
   "_innateSkills": [

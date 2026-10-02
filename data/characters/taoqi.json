@@ -32,7 +32,8 @@
               ]
             }
           ],
-          "_todoDamageType": true
+          "_note": "API 확인: 일반 공격 · 공격력",
+          "_fixed": true
         },
         {
           "id": "normal-2",
@@ -79,7 +80,7 @@
               ]
             }
           ],
-          "_todoDamageType": true
+          "_fixed": true
         },
         {
           "id": "normal-4",
@@ -108,7 +109,7 @@
           "id": "normal-5",
           "name": "강공격 공격 피해",
           "damageType": [
-            "normal"
+            "heavy"
           ],
           "parts": [
             {
@@ -126,7 +127,8 @@
               ]
             }
           ],
-          "_todoDamageType": true
+          "_note": "API 확인: 강공격 · 공격력",
+          "_fixed": true
         },
         {
           "id": "normal-6",
@@ -445,13 +447,24 @@
       "nodes": [
         {
           "name": "마음 보호",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "공명 스킬 철벽의 실드가 지속되는 동안 캐릭터의 방어력이 15% 증가한다"
+          "buff": {
+            "label": "철벽의 실드 중 방어력 +15%",
+            "trigger": {
+              "mode": "toggle",
+              "default": true
+            },
+            "effects": [
+              {
+                "stat": "defPercent",
+                "value": 15
+              }
+            ]
+          }
         },
         {
           "name": "우뚝 솟은 산",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "강공격 후발제인을 성공적으로 발동 시, 25 스태미나가 회복된다"
+          "effects": [],
+          "_note": "스태미나 회복 — 피해 계산 무관"
         }
       ]
     },
@@ -460,8 +473,76 @@
       "entries": []
     }
   },
-  "buffs": [],
-  "rotation": null,
+  "buffs": [
+    {
+      "id": "outro",
+      "label": "반주: 다음 캐릭터 공명 스킬 피해 부스트 38%",
+      "condition": "14초",
+      "target": "others",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "dmgBoost",
+          "value": 38,
+          "scope": {
+            "damageTypes": [
+              "skill"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "rotation": {
+    "name": "기본 사이클",
+    "draft": true,
+    "duration": 14,
+    "steps": [
+      {
+        "pending": true,
+        "note": "에코 (Q) — 메인 에코 계수/버프 추가 예정"
+      },
+      {
+        "note": "변주 → 방어의 틈새 1~3단",
+        "skillIds": [
+          "intro-1",
+          "circuit-1",
+          "circuit-2",
+          "circuit-3"
+        ]
+      },
+      {
+        "note": "난공불락 — 철벽의 실드 3",
+        "skillId": "skill-1"
+      },
+      {
+        "note": "일반 공격 1~4단 — 내유외강 3",
+        "skillIds": [
+          "normal-1",
+          "normal-2",
+          "normal-3",
+          "normal-4"
+        ]
+      },
+      {
+        "note": "강공격 → 후발제인 → 방어의 틈새 1~3단",
+        "skillIds": [
+          "normal-5",
+          "normal-6",
+          "circuit-1",
+          "circuit-2",
+          "circuit-3"
+        ]
+      },
+      {
+        "note": "불굴의 의지",
+        "skillId": "liberation-1"
+      }
+    ]
+  },
   "chain": [
     {
       "name": "여유로운 마음",
@@ -471,7 +552,34 @@
     {
       "name": "숨겨진 실력",
       "description": "공명 해방 불굴의 의지의 크리티컬이 20%, 크리티컬 피해가 20% 증가한다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C2 불굴의 의지 크리 +20%, 크리 피해 +20%",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "critRate",
+              "value": 20,
+              "scope": {
+                "skillIds": [
+                  "liberation-1"
+                ]
+              }
+            },
+            {
+              "stat": "critDmg",
+              "value": 20,
+              "scope": {
+                "skillIds": [
+                  "liberation-1"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "만물의 통찰",
@@ -481,17 +589,72 @@
     {
       "name": "막중한 책임",
       "description": "강공격 후발제인을 성공적으로 발동 시, 도기의 25% HP를 회복하는 동시에 방어력이 50% 증가한다. 5초간 지속되고 15초마다 1회 발동된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C4 후발제인 성공 시 방어력 +50%",
+          "condition": "5초, 15초마다 1회",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "defPercent",
+              "value": 50
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "고민해결사",
       "description": "공명 회로 공방전환의 피해가 50% 증가하며, 공명 회로 공방전환이 목표에 명중 시 공명 에너지 20pt를 회복한다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C5 방어의 틈새 피해 +50%",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "dmgBonus",
+              "value": 50,
+              "scope": {
+                "skillIds": [
+                  "circuit-1",
+                  "circuit-2",
+                  "circuit-3"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "수호의 성벽",
       "description": "공명 스킬 철벽의 실드로 획득한 실드의 지속 기간 동안 도기의 일반 공격 및 강공격의 피해가 40% 증가한다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C6 철벽의 실드 중 일반 공격·강공격 피해 +40%",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "dmgBonus",
+              "value": 40,
+              "scope": {
+                "damageTypes": [
+                  "normal",
+                  "heavy"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     }
   ],
   "_innateSkills": [

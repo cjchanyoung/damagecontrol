@@ -521,13 +521,18 @@
       "nodes": [
         {
           "name": "청사진",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "모니에의 공명 효율이 10% 증가된다.\n변주 스킬 · 컨버전스 발동 시, 자신의 협주 에너지를 20pt 회복하고, 20초마다 1회 발생할 수 있다.\n일반 공격 · 광역 관측 모드 3단 발동 시, 자신의 협주 에너지를 20pt 회복하고, 20초마다 1회 발생할 수 있다"
+          "effects": [
+            {
+              "stat": "energyRegen",
+              "value": 10
+            }
+          ],
+          "_note": "공명 효율 +10% (협주 에너지 회복 부분은 계산 무관)"
         },
         {
           "name": "유계",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "공명 스킬 · 기대 오차, 공명 스킬 · 분산 배열 발동 시, 파티 내 캐릭터는 유계성 증명을 획득한다.\n· 유계성 증명은 60초간 지속되며, 5분마다 1회 획득할 수 있다.\n· 파티 내 등장 캐릭터가 피해를 받을 시, 해당 피해가 등장 캐릭터의 HP 최대치의 30%를 초과할 경우, 해당 캐릭터는 HP 최대치의 30%에 해당하는 피해만 받는다. 해당 효과는 최대 3회 발생할 수 있으며, 누적 3회 발생 후 유계성 증명이 제거된다.\n· 파티 내 등장 캐릭터가 치명적인 피해를 입은 경우, 해당 피해로 인해 해당 캐릭터는 의식을 잃지 않는다. 해당 효과는 최대 1회 발생할 수 있으며, 누적 1회 발생 후 유계성 증명이 제거된다.\n· 유계성 증명이 제거될 시, 파티 내 등장 캐릭터는 모니에 방어력의 150%에 해당하는 HP를 회복한다"
+          "effects": [],
+          "_note": "피해 상한·치명상 방지 — 피해 계산 무관"
         }
       ]
     },
@@ -536,8 +541,110 @@
       "entries": []
     }
   },
-  "buffs": [],
-  "rotation": null,
+  "buffs": [
+    {
+      "id": "lib-er-crit",
+      "label": "임계 프로토콜: 크리 +80%, 크리 피해 +160% (공명 효율 260% 기준)",
+      "condition": "공명 효율 100% 초과 1%당 크리 0.5%(최대 80)·크리 피해 1%(최대 160)",
+      "_note": "공명 효율에 비례 — 260% 미만이면 직접 조정 필요",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "critRate",
+          "value": 80,
+          "scope": {
+            "skillIds": [
+              "liberation-1"
+            ]
+          }
+        },
+        {
+          "stat": "critDmg",
+          "value": 160,
+          "scope": {
+            "skillIds": [
+              "liberation-1"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "strong-field",
+      "label": "강력 공진 필드: 파티 방어력 +20%",
+      "condition": "해방으로 공진 필드 강화, 25초",
+      "target": "team",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "defPercent",
+          "value": 20
+        }
+      ]
+    },
+    {
+      "id": "outro",
+      "label": "반주: 파티 전체 피해 부스트 25%",
+      "condition": "30초",
+      "_note": "간섭 표기의 피해 증가(공명 효율 비례)는 수치가 원문에서 잘려 미반영",
+      "target": "team",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "dmgBoost",
+          "value": 25
+        }
+      ]
+    }
+  ],
+  "rotation": {
+    "name": "기본 사이클",
+    "draft": true,
+    "duration": 15,
+    "steps": [
+      {
+        "pending": true,
+        "note": "에코 (Q) — 메인 에코 계수/버프 추가 예정"
+      },
+      {
+        "note": "변주 컨버전스 → 광역 관측 모드, 공진 필드",
+        "skillIds": [
+          "intro-1",
+          "circuit-1"
+        ]
+      },
+      {
+        "note": "분산 배열",
+        "skillId": "skill-2"
+      },
+      {
+        "note": "광역 관측 평타 1~3단 ×2",
+        "repeat": 2,
+        "skillIds": [
+          "normal-5",
+          "normal-6",
+          "normal-7"
+        ]
+      },
+      {
+        "note": "강공격 · 반전 — 관측 표기",
+        "skillId": "circuit-3"
+      },
+      {
+        "note": "임계 프로토콜 → 강력 공진 필드",
+        "skillId": "liberation-1"
+      }
+    ]
+  },
   "chain": [
     {
       "name": "침묵의 관측자",
@@ -547,7 +654,23 @@
     {
       "name": "엔트로피의 샛별",
       "description": "근처 파티 내 모든 캐릭터가 간섭 표기가 있는 목표에게 입히는 크리티컬 피해가 증가된다: 모니에 자신의 공명 효율이 100%를 초과할 경우, 초과한 공명 효율 1% 당 크리티컬 피해를 0.2% 증가시키고, 최대 32%까지 증가시킬 수 있다.\n공진 필드, 강력 공진 필드는 효과 범위 내에 있는 근처 파티 내 모든 캐릭터의 부조화 수치 누적 효율을 추가로 20% 증가시킨다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C2 간섭 표기 대상 크리 피해 +32% (공명 효율 260% 기준)",
+          "condition": "관측 표기 대상에 조화도 파괴 → 간섭 표기",
+          "target": "team",
+          "trigger": {
+            "mode": "toggle",
+            "default": false
+          },
+          "effects": [
+            {
+              "stat": "critDmg",
+              "value": 32
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "돌아온 청사진",
@@ -562,12 +685,58 @@
     {
       "name": "느리게 흐르는 시간",
       "description": "공명 해방 · 임계 프로토콜의 피해 배율이 40% 상승된다.\n조화 파동 대응 · 입자 분사의 피해 배율이 160% 상승된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C5 임계 프로토콜 ×1.4, 입자 분사 ×2.6",
+          "_note": "API 변종 확인: 522.33 → 731.26 (×1.4), 298.22 → 775.36 (×2.6)",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "mvBoost",
+              "value": 40,
+              "scope": {
+                "skillIds": [
+                  "liberation-1"
+                ]
+              }
+            },
+            {
+              "stat": "mvBoost",
+              "value": 160,
+              "scope": {
+                "skillIds": [
+                  "circuit-4"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "뭇별의 끝에 닿을 때까지",
       "description": "공명 해방 · 임계 프로토콜로 입히는 피해가 400% 증가된다.\n모니에의 비전투 상태 지속 시간이 4초를 초과한 후, 0.2초마다 공명 에너지 최대치의 10%에 해당하는 공명 에너지를 회복한다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C6 임계 프로토콜 피해 +400%",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "dmgBonus",
+              "value": 400,
+              "scope": {
+                "skillIds": [
+                  "liberation-1"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     }
   ],
   "_innateSkills": [

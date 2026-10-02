@@ -471,13 +471,36 @@
       "nodes": [
         {
           "name": "길 찾기",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "「빨간 불 모드」 기간, 루미의 전도 피해 보너스가 10% 증가된다"
+          "buff": {
+            "label": "빨간 불 모드: 전도 피해 +10%",
+            "trigger": {
+              "mode": "toggle",
+              "default": true
+            },
+            "effects": [
+              {
+                "stat": "electroDmgBonus",
+                "value": 10
+              }
+            ]
+          }
         },
         {
           "name": "달리기",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "강화 · 덮치기 혹은 강화 · 후퇴 발동 시, 5초 내에 루미의 공격력이 10% 증가된다"
+          "buff": {
+            "label": "강화 덮치기·후퇴 후 공격력 +10%",
+            "condition": "5초",
+            "trigger": {
+              "mode": "toggle",
+              "default": true
+            },
+            "effects": [
+              {
+                "stat": "atkPercent",
+                "value": 10
+              }
+            ]
+          }
         }
       ]
     },
@@ -486,8 +509,81 @@
       "entries": []
     }
   },
-  "buffs": [],
-  "rotation": null,
+  "buffs": [
+    {
+      "id": "outro",
+      "label": "반주: 다음 캐릭터 공명 스킬 피해 부스트 38%",
+      "condition": "10초",
+      "target": "others",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "dmgBoost",
+          "value": 38,
+          "scope": {
+            "damageTypes": [
+              "skill"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "rotation": {
+    "name": "기본 사이클",
+    "draft": true,
+    "duration": 18,
+    "steps": [
+      {
+        "pending": true,
+        "note": "에코 (Q) — 메인 에코 계수/버프 추가 예정"
+      },
+      {
+        "note": "변주 → 노란 불 모드",
+        "skillId": "intro-1"
+      },
+      {
+        "note": "덮치기 → 빨간 불 평타 1~3단",
+        "skillIds": [
+          "skill-1",
+          "normal-1",
+          "normal-2",
+          "normal-3"
+        ]
+      },
+      {
+        "note": "강화 · 덮치기 → 빨간 불 스포트라이트 평타 1~3단 + 강공격",
+        "skillIds": [
+          "circuit-6",
+          "circuit-2",
+          "circuit-3",
+          "circuit-4",
+          "circuit-5"
+        ]
+      },
+      {
+        "note": "강화 · 후퇴 → 노란 불 스포트라이트 강한 빛 6회",
+        "skillId": "circuit-7"
+      },
+      {
+        "note": "강한 빛",
+        "skillId": "circuit-1",
+        "count": 6
+      },
+      {
+        "note": "찍찍 특송",
+        "skillId": "liberation-1"
+      },
+      {
+        "note": "반주 시 강한 빛의 투사 (최대 4단)",
+        "skillId": "circuit-8",
+        "count": 4
+      }
+    ]
+  },
   "chain": [
     {
       "name": "소포 픽업 대기 중",
@@ -497,27 +593,113 @@
     {
       "name": "무무물류 픽업 완료",
       "description": "강화 · 덮치기와 강화 · 후퇴로 적 공격 시 , 적의 20% 방어력을 무시한다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C2 강화 덮치기·후퇴 방어력 20% 무시",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "defIgnore",
+              "value": 20,
+              "scope": {
+                "skillIds": [
+                  "circuit-6",
+                  "circuit-7"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "빠른 배송 진행 중",
       "description": "공명 해방 찍찍 특송으로 입히는 피해가 30% 증가한다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C3 찍찍 특송 피해 +30%",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "dmgBonus",
+              "value": 30,
+              "scope": {
+                "skillIds": [
+                  "liberation-1"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "루미가 배송 진행 중",
       "description": "루미의 일반 공격 피해 보너스가 30% 증가한다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C4 일반 공격 피해 +30%",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "normalAtkDmgBonus",
+              "value": 30
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "무사히 배송 완료",
       "description": "「불빛 에너지」가 가득 찰 시, 강한 빛의 투사로 입히는 피해 배율이 100% 상승된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C5 빛 에너지 가득 시 강한 빛의 투사 배율 ×2",
+          "_note": "API 변종 확인: 74.56 → 149.11 (×2)",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "mvBoost",
+              "value": 100,
+              "scope": {
+                "skillIds": [
+                  "circuit-8"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "별점 5개 꼭이요",
       "description": "공명 해방 찍찍 특송 발동 시, 파티 내 캐릭터의 공격력이 20% 증가하고, 20초간 지속된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C6 해방 후 파티 공격력 +20%",
+          "condition": "20초",
+          "target": "team",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "atkPercent",
+              "value": 20
+            }
+          ]
+        }
+      ]
     }
   ],
   "_innateSkills": [

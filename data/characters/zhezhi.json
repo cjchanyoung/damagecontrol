@@ -438,13 +438,29 @@
       "nodes": [
         {
           "name": "일필휘지",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "공명 스킬 천재의 붓놀림 혹은 공명 스킬 궁극 · 천재의 붓놀림 발동 시, 공격력이 6% 증가되고, 최대 3스택 중첩이 가능하며, 27초간 지속된다"
+          "buff": {
+            "label": "천재의 붓놀림 발동 시 공격력 +6% (스택)",
+            "condition": "27초, 최대 3",
+            "trigger": {
+              "mode": "toggle",
+              "default": true
+            },
+            "stacks": {
+              "max": 3,
+              "default": 3
+            },
+            "effects": [
+              {
+                "stat": "atkPercent",
+                "value": 6
+              }
+            ]
+          }
         },
         {
           "name": "화룡점정",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "반주 스킬 발동 후 다음 등장 캐릭터의 공명 에너지 15pt를 회복시킨다"
+          "effects": [],
+          "_note": "다음 캐릭터 공명 에너지 회복 — 피해 계산 무관"
         }
       ]
     },
@@ -453,13 +469,125 @@
       "entries": []
     }
   },
-  "buffs": [],
-  "rotation": null,
+  "buffs": [
+    {
+      "id": "ultimate-stroke",
+      "label": "궁극 · 천재의 붓놀림: 일반 공격 피해 +18%",
+      "condition": "27초",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "normalAtkDmgBonus",
+          "value": 18
+        }
+      ]
+    },
+    {
+      "id": "outro-glacio",
+      "label": "반주: 다음 캐릭터 응결 피해 부스트 20%",
+      "condition": "14초",
+      "target": "others",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "dmgBoost",
+          "value": 20,
+          "scope": {
+            "elements": [
+              "응결"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "outro-skill",
+      "label": "반주: 다음 캐릭터 공명 스킬 피해 부스트 25%",
+      "target": "others",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "dmgBoost",
+          "value": 25,
+          "scope": {
+            "damageTypes": [
+              "skill"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "rotation": {
+    "name": "기본 사이클",
+    "draft": true,
+    "duration": 20,
+    "steps": [
+      {
+        "pending": true,
+        "note": "에코 (Q) — 메인 에코 계수/버프 추가 예정"
+      },
+      {
+        "note": "변주 — 영감",
+        "skillId": "intro-1"
+      },
+      {
+        "note": "일반 공격 1~3단 → 강공격 · 구성 (두루미의 그림자 · 중)",
+        "skillIds": [
+          "normal-1",
+          "normal-2",
+          "normal-3",
+          "circuit-1"
+        ]
+      },
+      {
+        "note": "무형의 형상화 (좌·우)",
+        "skillId": "skill-1"
+      },
+      {
+        "note": "천재의 붓놀림 ×2 → 궁극 · 천재의 붓놀림",
+        "skillIds": [
+          "circuit-2",
+          "circuit-2",
+          "circuit-3"
+        ]
+      },
+      {
+        "note": "상상과 현실 — 재두루미 21마리 (사이클 밖으로 이어짐)",
+        "skillId": "liberation-1",
+        "count": 21
+      }
+    ]
+  },
   "chain": [
     {
       "name": "골법용필(骨法用筆)",
       "description": "절지가 공명 스킬 궁극 · 천재의 붓놀림을 발동할 시 공명 에너지 15pt가 회복되고, 자신의 크리티컬이 10% 증가되며, 27초간 지속된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C1 궁극 후 크리 +10%",
+          "condition": "27초",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "critRate",
+              "value": 10
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "기운생동(氣韻生動)",
@@ -469,22 +597,96 @@
     {
       "name": "응물상형(應物象形)",
       "description": "절지가 공명 스킬 무형의 형상화, 공명 스킬 천재의 붓놀림 혹은 공명 스킬 궁극 · 천재의 붓놀림을 발동할 시 공격력이 15% 증가되고, 최대 3스택 중첩이 가능하며, 27초간 지속된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C3 공명 스킬 발동 시 공격력 +15% (스택)",
+          "condition": "27초, 최대 3",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "stacks": {
+            "max": 3,
+            "default": 3
+          },
+          "effects": [
+            {
+              "stat": "atkPercent",
+              "value": 15
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "수류부채(隨類賦彩)",
       "description": "절지가 공명 해방 상상과 현실을 발동할 시 파티 내 캐릭터의 공격력이 20% 증가되며, 30초간 지속된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C4 해방 후 파티 공격력 +20%",
+          "condition": "30초",
+          "target": "team",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "atkPercent",
+              "value": 20
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "경영위치(經營位置)",
       "description": "공명 해방 상상과 현실이 지속되는 동안, 재두루미 3마리를 소환할 때마다 재두루미 1마리를 추가로 소환하여 협동 공격을 가하고 재두루미 피해량의 140%에 해당하는 피해를 입힐 수 있다. 해당 피해는 일반 공격 피해로 적용되고, 재두루미 소환 효과를 발생시키지 않는다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C5 재두루미 3마리마다 140% 추가 (×1.467)",
+          "_note": "API 변종 확인: 65.21 → 91.3 (140%). 21마리 기준 7마리 추가 × 1.4 = 9.8마리분 → 배율 ×(30.8/21). C2의 +6마리는 로테이션 횟수로 반영해야 함",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "mvBoost",
+              "value": 46.67,
+              "scope": {
+                "skillIds": [
+                  "liberation-1"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "전이모사(傳移模寫)",
       "description": "공명 스킬 천재의 붓놀림 혹은 공명 스킬 궁극 · 천재의 붓놀림을 발동할 시 흰두루미 1마리를 추가로 소환하여 공명 스킬 천재의 붓놀림 피해량의 120%에 해당하는 피해를 입힐 수 있으며, 해당 피해는 일반 공격 피해로 적용된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C6 천재의 붓놀림 흰두루미 추가 120% (×2.2)",
+          "_note": "API 변종 확인: 298.22 → 357.86 (120%)",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "mvBoost",
+              "value": 120,
+              "scope": {
+                "skillIds": [
+                  "circuit-2",
+                  "circuit-3"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     }
   ],
   "_innateSkills": [

@@ -403,28 +403,131 @@
       "nodes": [
         {
           "name": "뜨거운 탄창",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "「열압탄」의 최대 용량이 10발 증가하고, 공명 스킬 폭격의 천둥소리의 피해가 50% 증가된다"
+          "effects": [
+            {
+              "stat": "dmgBonus",
+              "value": 50,
+              "scope": {
+                "skillIds": [
+                  "circuit-2"
+                ]
+              }
+            }
+          ],
+          "_note": "열압탄 +10발, 폭격의 천둥소리 피해 +50%"
         },
         {
           "name": "극도로 매운맛",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "공명 스킬 억압 지속 기간 동안, 「열압탄」을 발사해 명중할 때마다 공격력이 1% 증가되고, 10초간 지속되며, 최대 30스택 중첩이 가능하다"
+          "buff": {
+            "label": "억압 중 열압탄 명중마다 공격력 +1% (스택)",
+            "condition": "10초, 최대 30",
+            "trigger": {
+              "mode": "toggle",
+              "default": true
+            },
+            "stacks": {
+              "max": 30,
+              "default": 30
+            },
+            "effects": [
+              {
+                "stat": "atkPercent",
+                "value": 1
+              }
+            ]
+          }
         }
       ]
     },
     "outro": {
       "name": "도약의 불빛",
-      "entries": []
+      "entries": [
+        {
+          "id": "outro-1",
+          "name": "도약의 불빛",
+          "damageType": [
+            "outro"
+          ],
+          "parts": [
+            {
+              "mv": 530
+            }
+          ],
+          "_fromDescription": true
+        }
+      ]
     }
   },
   "buffs": [],
-  "rotation": null,
+  "rotation": {
+    "name": "기본 사이클",
+    "draft": true,
+    "duration": 18,
+    "steps": [
+      {
+        "pending": true,
+        "note": "에코 (Q) — 메인 에코 계수/버프 추가 예정"
+      },
+      {
+        "note": "변주 — 열압탄",
+        "skillId": "intro-1"
+      },
+      {
+        "note": "투쟁의 마음 2회",
+        "skillId": "skill-1",
+        "count": 2
+      },
+      {
+        "note": "일반 공격 1~4단 — 열압탄",
+        "skillIds": [
+          "normal-6",
+          "normal-7",
+          "normal-1",
+          "normal-2"
+        ]
+      },
+      {
+        "note": "억압: 열압탄 30발",
+        "skillId": "circuit-1",
+        "count": 30
+      },
+      {
+        "note": "폭격의 천둥소리",
+        "skillId": "circuit-2"
+      },
+      {
+        "note": "뜨거운 불길",
+        "skillId": "liberation-1"
+      },
+      {
+        "note": "반주",
+        "skillId": "outro-1"
+      }
+    ]
+  },
   "chain": [
     {
       "name": "극장의 영웅극",
       "description": "공명 스킬 폭격의 천둥소리 발동 시, 반드시 크리티컬이 발동한다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C1 폭격의 천둥소리 확정 크리",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "critRate",
+              "value": 100,
+              "scope": {
+                "skillIds": [
+                  "circuit-2"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "도약의 불꽃",
@@ -434,7 +537,26 @@
     {
       "name": "불멸의 횃불",
       "description": "공명 해방 뜨거운 불길은 HP가 50%보다 낮은 목표에 대한 피해가 40%증가한다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C3 HP 50% 미만 대상 해방 피해 +40%",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "dmgBonus",
+              "value": 40,
+              "scope": {
+                "skillIds": [
+                  "liberation-1"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "영웅의 필살기",
@@ -444,12 +566,42 @@
     {
       "name": "승리의 불꽃 총알",
       "description": "고유 스킬 극도로 매운맛이 스택 최대치까지 중첩 시 공격력이 추가로 30% 증가한다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C5 극도로 매운맛 최대 시 공격력 +30%",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "atkPercent",
+              "value": 30
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "종영의 컴백 쿠키영상",
       "description": "공명 스킬 폭격의 천둥소리 발동 후, 파티 내의 캐릭터의 일반 공격 피해 보너스가 25% 증가하며, 15초간 지속된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C6 폭격의 천둥소리 후 파티 일반 공격 피해 +25%",
+          "condition": "15초",
+          "target": "team",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "normalAtkDmgBonus",
+              "value": 25
+            }
+          ]
+        }
+      ]
     }
   ],
   "_innateSkills": [

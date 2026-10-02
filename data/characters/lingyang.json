@@ -538,23 +538,135 @@
       "nodes": [
         {
           "name": "사자왕의 강림",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "변주 스킬 출동·사자의 기상의 피해가 50% 증가한다"
+          "effects": [
+            {
+              "stat": "dmgBonus",
+              "value": 50,
+              "scope": {
+                "skillIds": [
+                  "intro-1"
+                ]
+              }
+            }
+          ],
+          "_note": "변주 피해 +50%"
         },
         {
           "name": "꾸준한 수행",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "공명 회로 사자의 길 상태에서, 일반 공격 발동 후 3초 내에 다음번의 공명 회로 질주 · 초원을 향해는 추가로 응결 피해를 1회 입히며, 피해량은 공명 회로 질주 · 초원을 향해의 150%에 해당하며, 해당 피해는 공명 스킬 피해로 적용된다"
+          "buff": {
+            "label": "사자의 길: 평타 후 초원을 향해 추가타 150%",
+            "condition": "일반 공격 후 3초 안의 질주 · 초원을 향해",
+            "_note": "API 변종 확인: 165.76 → 248.64 (150% 추가타) → 같은 판정이라 배율 ×2.5",
+            "trigger": {
+              "mode": "toggle",
+              "default": true
+            },
+            "effects": [
+              {
+                "stat": "mvBoost",
+                "value": 150,
+                "scope": {
+                  "skillIds": [
+                    "circuit-4"
+                  ]
+                }
+              }
+            ]
+          }
         }
       ]
     },
     "outro": {
       "name": "흔적·의지의 발자취",
-      "entries": []
+      "entries": [
+        {
+          "id": "outro-1",
+          "name": "흔적 · 의지의 발자취",
+          "damageType": [
+            "outro"
+          ],
+          "parts": [
+            {
+              "mv": 587.94
+            }
+          ],
+          "_note": "반주 설명문 '공격력 587.94%' (임포터가 문구 형태를 못 잡아 수동 추가)",
+          "_manual": true
+        }
+      ]
     }
   },
-  "buffs": [],
-  "rotation": null,
+  "buffs": [
+    {
+      "id": "lion-spirit",
+      "label": "사자 분신: 응결 피해 +50%",
+      "condition": "해방 후 14초",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "glacioDmgBonus",
+          "value": 50
+        }
+      ]
+    }
+  ],
+  "rotation": {
+    "name": "기본 사이클",
+    "draft": true,
+    "duration": 20,
+    "steps": [
+      {
+        "pending": true,
+        "note": "에코 (Q) — 메인 에코 계수/버프 추가 예정"
+      },
+      {
+        "note": "변주 출동 · 사자의 기상 — 사자의 혼",
+        "skillId": "intro-1"
+      },
+      {
+        "note": "일반 공격 1~5단 → 도약 · 분노의 추격",
+        "skillIds": [
+          "normal-1",
+          "normal-2",
+          "normal-3",
+          "normal-4",
+          "normal-5",
+          "skill-2"
+        ]
+      },
+      {
+        "note": "돌진 · 사자의 질주 (사자 분신)",
+        "skillId": "liberation-1"
+      },
+      {
+        "note": "기세 · 대각선의 금빛 → 사자의 길",
+        "skillId": "circuit-1"
+      },
+      {
+        "note": "금사자의 곡예 1·2단 → 초원을 향해 ×3",
+        "repeat": 3,
+        "skillIds": [
+          "circuit-2",
+          "circuit-3",
+          "circuit-4"
+        ]
+      },
+      {
+        "note": "능운 · 연환 발차기 → 등루 · 천근추",
+        "skillIds": [
+          "circuit-5",
+          "circuit-6"
+        ]
+      },
+      {
+        "note": "반주",
+        "skillId": "outro-1"
+      }
+    ]
+  },
   "chain": [
     {
       "name": "늘 평안하시길",
@@ -569,22 +681,94 @@
     {
       "name": "모두의 축제",
       "description": "공명 해방 사자의 질주 지속 기간 동안, 능양의 일반 공격 피해 보너스가 20% 증가하며, 공명 스킬 피해 보너스가 10% 증가한다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C3 사자 분신 중 일반 공격 +20%, 공명 스킬 +10%",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "normalAtkDmgBonus",
+              "value": 20
+            },
+            {
+              "stat": "skillDmgBonus",
+              "value": 10
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "열정적인 춤사위",
       "description": "능양이 반주 스킬 흔적 · 의지의 발자취를 발동할 시, 파티 내 캐릭터의 응결 피해 보너스가 20% 증가하며, 30초간 지속된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C4 반주 후 파티 응결 피해 +20%",
+          "condition": "30초",
+          "target": "team",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "glacioDmgBonus",
+              "value": 20
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "울려퍼지는 칠성북",
       "description": "공명 해방 돌진 · 사자의 질주 발동 시 추가로 능양의 200% 응결 피해를 가한다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C5 해방 추가 피해 200%",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "mvFlat",
+              "value": 200,
+              "scope": {
+                "skillIds": [
+                  "liberation-1"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "사자의 위엄",
       "description": "공명 회로 사자의 길 상태 시, 능양이 매번 공명 스킬 질주 · 초원을 향해 발동 후 3초 내 다음 1회의 일반 공격 피해 보너스가 100% 증가된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C6 초원을 향해 후 다음 평타 피해 +100%",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "dmgBonus",
+              "value": 100,
+              "scope": {
+                "skillIds": [
+                  "circuit-2",
+                  "circuit-3"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     }
   ],
   "_innateSkills": [

@@ -379,6 +379,19 @@
               ]
             }
           ]
+        },
+        {
+          "id": "normal-18",
+          "name": "빛의 화려한 순례 · 회피 반격 피해",
+          "damageType": [
+            "normal"
+          ],
+          "parts": [
+            {
+              "mv": 184.2
+            }
+          ],
+          "_manual": true
         }
       ],
       "nodes": [
@@ -653,58 +666,394 @@
               ]
             }
           ]
+        },
+        {
+          "id": "circuit-4",
+          "name": "일반 공격 · 환각빛 1단 피해",
+          "damageType": [
+            "normal"
+          ],
+          "parts": [
+            {
+              "mv": 33.8,
+              "hits": 3
+            }
+          ],
+          "_note": "원문 기타수치에서 추가 (Lv.10 기준)",
+          "_manual": true
+        },
+        {
+          "id": "circuit-5",
+          "name": "일반 공격 · 환각빛 2단 피해",
+          "damageType": [
+            "normal"
+          ],
+          "parts": [
+            {
+              "mv": 16.9,
+              "hits": 6
+            }
+          ],
+          "_manual": true
+        },
+        {
+          "id": "circuit-6",
+          "name": "일반 공격 · 환각빛 3단 피해",
+          "damageType": [
+            "normal"
+          ],
+          "parts": [
+            {
+              "mv": 13.1,
+              "hits": 8
+            }
+          ],
+          "_manual": true
         }
       ],
       "nodes": [
         {
           "name": "영원히 빛바래지 않는 색채!",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "일반 공격 · 시각적 충격 발동 후, 린네는 지면에 페인트를 남긴다. 페인트 내에 있는 목표는 지속적으로 포토크로미즘이 추가되고, 2초마다 1회 발생하며 5초간 지속된다. 페인트가 있을 시, 공명 모드를 전환해도 해당 포토크로미즘의 추가 효과에는 영향을 미치지 않는다.\n\n린네가 파티 내에 있을 시, 탐사 바이크의 에너지 탱크 최대치가 600pt 증가된다. 탐사 바이크를 운전 시, 자동으로 빛의 화려한 순례 상태에 진입하며 1초마다 20%의 「흐르는 빛」을 회복한다"
+          "effects": [],
+          "_note": "페인트 — 포토크로미즘 부여, 스탯 효과 없음"
         },
         {
           "name": "『적응형 광학의 생활 속 실제 응용』",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "변주 스킬 · 너의 색깔을 보여줘! 발동 시, 9초 동안 자신의 회절 피해 보너스가 25% 증가된다.\n\n빛의 화려한 순례 상태 기간 동안, 린네가 전투 상태가 아닐 경우, 지면에서 방향 키를 누르지 않은 채 회피 발동 시, 자신에게 광학 은신을 추가하고, 15초간 지속된다. 해당 효과는 회피 외의 다른 스킬을 발동하거나 혹은 다른 캐릭터로 전환 시 제거된다. 필드, 플레이, 상호 작용 기능 진행 혹은 전투 진입 시, 광학 은신이 강제로 제거된다. 광학 은신 보유 시, 린네는 목표의 경계 범위에 들어가도 전투 상태에 진입하지 않는다"
+          "buff": {
+            "label": "변주 후 회절 피해 +25%",
+            "condition": "9초",
+            "trigger": {
+              "mode": "toggle",
+              "default": true
+            },
+            "effects": [
+              {
+                "stat": "spectroDmgBonus",
+                "value": 25
+              }
+            ]
+          }
         }
       ]
     },
     "outro": {
       "name": "시간 날땐 함께 드라이브!",
-      "entries": []
+      "entries": [
+        {
+          "id": "outro-1",
+          "name": "시간 날땐 함께 드라이브!",
+          "damageType": [
+            "outro"
+          ],
+          "parts": [
+            {
+              "mv": 100
+            }
+          ],
+          "_fromDescription": true
+        }
+      ]
     }
   },
-  "buffs": [],
-  "rotation": null,
+  "buffs": [
+    {
+      "id": "lib-team",
+      "label": "컬러 스프레이 폭발: 파티 피해 +24%",
+      "condition": "해방 후 30초",
+      "_note": "시각적 충격의 파티 조화도 파괴 증폭 +40은 공식 미정이라 미반영",
+      "target": "team",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "dmgBonus",
+          "value": 24
+        }
+      ]
+    },
+    {
+      "id": "outro",
+      "label": "반주: 다음 캐릭터 피해 부스트 15%",
+      "target": "others",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "dmgBoost",
+          "value": 15
+        }
+      ]
+    },
+    {
+      "id": "outro-lib",
+      "label": "반주: 다음 캐릭터 공명 해방 피해 부스트 25%",
+      "target": "others",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "dmgBoost",
+          "value": 25,
+          "scope": {
+            "damageTypes": [
+              "liberation"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "rotation": {
+    "name": "기본 사이클 (조화 파동)",
+    "draft": true,
+    "duration": 25,
+    "steps": [
+      {
+        "pending": true,
+        "note": "에코 (Q) — 메인 에코 계수/버프 추가 예정"
+      },
+      {
+        "note": "변주 — 스펙트럼 100",
+        "skillId": "intro-1"
+      },
+      {
+        "note": "린네식 아이디어 → 일반 공격 2·3단",
+        "skillIds": [
+          "skill-1",
+          "normal-2",
+          "normal-3"
+        ]
+      },
+      {
+        "note": "영감의 폭발 3단계 → 빛의 화려한 순례",
+        "skillId": "normal-8"
+      },
+      {
+        "note": "환각빛 1~3단 — 본연의 색 3",
+        "skillIds": [
+          "circuit-4",
+          "circuit-5",
+          "circuit-6"
+        ]
+      },
+      {
+        "note": "시각적 충격",
+        "skillId": "circuit-2"
+      },
+      {
+        "note": "색 더하기",
+        "skillId": "skill-2"
+      },
+      {
+        "note": "컬러 스프레이 폭발 → 무지갯빛의 내일을 향해!",
+        "skillIds": [
+          "liberation-1",
+          "liberation-2"
+        ]
+      },
+      {
+        "note": "환각빛 1~3단 → 레인보우 스플래시",
+        "skillIds": [
+          "circuit-4",
+          "circuit-5",
+          "circuit-6",
+          "circuit-1"
+        ]
+      },
+      {
+        "note": "조화 파동 대응 · 스펙트럼 분석",
+        "skillId": "circuit-3"
+      },
+      {
+        "note": "반주",
+        "skillId": "outro-1"
+      }
+    ]
+  },
   "chain": [
     {
       "name": "마음껏 날뛰었어야 했을 찬란한 나날들",
       "description": "일반 공격 · 환각빛의 피해 배율이 120% 상승된다.\n페인트의 지속 시간이 100% 증가되고, 6초마다 페인트 범위 내에 있는 목표를 페인트 중심으로 1회 끌어당긴다.\n일반 공격 · 환각빛과 일반 공격 · 시각적 충격 발동 기간 동안, 적의 공격에 의해 중단되지 않는다.\n「옵티컬 샘플링」 단계 기간 동안, 비전투 상태 지속 시간이 2초를 초과할 시, 120pt의 「스펙트럼」을 회복하고 2초마다 1회 발생한다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C1 환각빛 배율 ×2.2",
+          "_note": "API 변종 확인: 33.8 → 74.36, 13.1 → 28.82 (×2.2)",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "mvBoost",
+              "value": 120,
+              "scope": {
+                "skillIds": [
+                  "circuit-4",
+                  "circuit-5",
+                  "circuit-6"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "빛이 엮이는 저편을 향해",
       "description": "전체 피해가 25% 부스트된다.\n반주 스킬은 다음과 같은 효과를 추가로 획득한다.\n· 반주 스킬 발동 시, 다음 등장 캐릭터의 전체 피해가 25% 부스트되고, 14초간 지속된다. 다른 캐릭터로 전환하면 해당 효과는 즉시 종료된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C2 전체 피해 부스트 25%",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "dmgBoost",
+              "value": 25
+            }
+          ]
+        },
+        {
+          "label": "C2 반주: 다음 캐릭터 피해 부스트 +25%",
+          "target": "others",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "dmgBoost",
+              "value": 25
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "찰나의 반짝임을 위하여",
       "description": "일반 공격 · 시각적 충격과 일반 공격 · 레인보우 스플래시의 피해 배율이 90% 상승된다.\n전투 상태 기간 동안, 「흐르는 빛」이 120pt 이상일 시, 1초마다 1스택의 컬러 프리믹싱을 획득하고, 최대치는 25스택이다. 컬러 프리믹싱 1스택 당 색 더하기의 회절 피해 보너스를 55% 증가시킨다. 색 더하기 발동 기간 동안, 컬러 프리믹싱을 획득할 수 없으며, 색 더하기 종료 시, 모든 컬러 프리믹싱이 제거된다. 「흐르는 빛」이 120pt 미만일 시, 0.5초마다 컬러 프리믹싱 1스택이 감소된다.\n비전투 상태 기간 동안, 「흐르는 빛」이 120pt 이상일 시, 0.5초마다 1스택의 컬러 프리믹싱을 획득하고, 「흐르는 빛」이 120pt 미만일 시, 1초마다 컬러 프리믹싱 1스택이 감소된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C3 시각적 충격·레인보우 스플래시 배율 ×1.9",
+          "_note": "API 변종 확인: 1216.72 → 2311.77, 304.18 → 577.95 (×1.9)",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "mvBoost",
+              "value": 90,
+              "scope": {
+                "skillIds": [
+                  "circuit-1",
+                  "circuit-2"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "label": "C3 컬러 프리믹싱: 색 더하기 회절 피해 +55% (스택)",
+          "condition": "흐르는 빛 120 이상일 때 1초마다 1스택, 최대 25",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "stacks": {
+            "max": 25,
+            "default": 25
+          },
+          "effects": [
+            {
+              "stat": "dmgBonus",
+              "value": 55,
+              "scope": {
+                "skillIds": [
+                  "skill-2"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "바람결에 흐르는 어두운 그림자",
       "description": "공격력이 20% 증가된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C4 공격력 +20%",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "atkPercent",
+              "value": 20
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "자유롭게 그리는 미래",
       "description": "공명 해방 · 컬러 스프레이 폭발의 피해 배율이 70% 상승된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C5 컬러 스프레이 폭발 배율 ×1.7",
+          "_note": "API 변종 확인: 87.48 → 148.71 (×1.7)",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "mvBoost",
+              "value": 70,
+              "scope": {
+                "skillIds": [
+                  "liberation-1"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "「나」라는 이름으로 그려진 진정한 빛",
       "description": "빛의 화려한 순례 · 찬란한 도약 혹은 빛의 화려한 순례 · 공중 강공격을 발동할 때마다, 자신에게 1스택의 마음의 색을 추가하고, 최대 3스택까지 중첩이 가능하다. 마음의 색 1스택 당 목표가 받는 일반 공격 · 레인보우 스플래시와 일반 공격 · 시각적 충격의 피해를 30% 증가시킨다. 일반 공격 · 레인보우 스플래시 혹은 일반 공격 · 시각적 충격 발동 후, 모든 마음의 색이 제거된다.\n일반 공격 · 환각빛 발동 시, 빛의 화려한 순례 · 공중 강공격의 발동 가능 횟수가 리셋된다.\n빛의 화려한 순례 · 공중 강공격 발동 기간, 적의 공격에 의해 중단되지 않으며, 받는 피해가 30% 감소된다.\n반주 스킬 · 시간 날땐 함께 드라이브! 발동 시, 린네의 빛의 화려한 순례 상태가 종료되지 않는다.\n「흐르는 빛」 최대치가 120에서 360으로 증가된다. 「흐르는 빛」이 최대치에 도달 시, 스케이트 속도가 한층 더 증가된다.\n변주 스킬 발동 시, 빛의 화려한 순례 상태에 있을 경우, 120pt의 「흐르는 빛」을 회복한다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C6 마음의 색: 시각적 충격·레인보우 스플래시 받는 피해 +30% (스택)",
+          "condition": "찬란한 도약·공중 강공격마다 1스택, 최대 3",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "stacks": {
+            "max": 3,
+            "default": 3
+          },
+          "effects": [
+            {
+              "stat": "dmgBoost",
+              "value": 30,
+              "scope": {
+                "skillIds": [
+                  "circuit-1",
+                  "circuit-2"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     }
   ],
   "_innateSkills": [

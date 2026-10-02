@@ -597,28 +597,112 @@
       "nodes": [
         {
           "name": "변격",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "다크 서지 상태일 경우, 인멸 피해 보너스가 20% 증가된다"
+          "buff": {
+            "label": "다크 서지: 인멸 피해 +20%",
+            "trigger": {
+              "mode": "toggle",
+              "default": true
+            },
+            "effects": [
+              {
+                "stat": "havocDmgBonus",
+                "value": 20
+              }
+            ]
+          }
         },
         {
           "name": "음향 전달 효과",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "다크 서지 상태일 경우, 일반 공격으로 목표 명중 시 추가로 공명 에너지 1pt가 회복되며, 해당 효과는 초당 1회 발생할 수 있다"
+          "effects": [],
+          "_note": "공명 에너지 회복 — 피해 계산 무관"
         }
       ]
     },
     "outro": {
       "name": "소리의 부름",
-      "entries": []
+      "entries": [
+        {
+          "id": "outro-1",
+          "name": "소리의 부름",
+          "damageType": [
+            "outro"
+          ],
+          "parts": [
+            {
+              "mv": 143.3
+            }
+          ],
+          "_fromDescription": true
+        }
+      ]
     }
   },
   "buffs": [],
-  "rotation": null,
+  "rotation": {
+    "name": "기본 사이클",
+    "draft": true,
+    "duration": 18,
+    "steps": [
+      {
+        "pending": true,
+        "note": "에코 (Q) — 메인 에코 계수/버프 추가 예정"
+      },
+      {
+        "note": "변주 → 일반 공격 1~5단 → 평정의 칼날 (어둠의 흐름)",
+        "skillIds": [
+          "intro-1",
+          "normal-1",
+          "normal-2",
+          "normal-3",
+          "normal-4",
+          "normal-5",
+          "skill-1"
+        ]
+      },
+      {
+        "note": "멸음 → 다크 서지",
+        "skillId": "circuit-1"
+      },
+      {
+        "note": "강화 평타 1~5단 → 격살",
+        "skillIds": [
+          "circuit-2",
+          "circuit-3",
+          "circuit-4",
+          "circuit-5",
+          "circuit-6",
+          "circuit-11"
+        ]
+      },
+      {
+        "note": "임연사적",
+        "skillId": "liberation-1"
+      },
+      {
+        "note": "반주 인멸 필드 (2초마다 3회)",
+        "skillId": "outro-1",
+        "count": 3
+      }
+    ]
+  },
   "chain": [
     {
       "name": "현의 여운",
       "description": "공명 스킬 피해 보너스 30% 증가",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C1 공명 스킬 피해 +30%",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "skillDmgBonus",
+              "value": 30
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "낮과 밤",
@@ -633,17 +717,70 @@
     {
       "name": "인멸의 먼지 소리",
       "description": "강공격 멸음, 공명 해방 임연사적을 사용하여 목표에 명중 시, 목표의 인멸 저항이 10% 감소하며, 20초간 지속된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C4 멸음·해방 명중 시 인멸 저항 -10%",
+          "condition": "20초",
+          "target": "team",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "resShred",
+              "value": 10,
+              "scope": {
+                "elements": [
+                  "인멸"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "만물의 경청",
       "description": "다크 서지 상태일 경우 일반 공격 5단은 추가로 1회의 인멸 피해를 입히며, 피해량은 일반 공격 5단 피해의 50%에 해당한다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C5 다크 서지 5단 추가타 50%",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "mvBoost",
+              "value": 50,
+              "scope": {
+                "skillIds": [
+                  "circuit-6"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "다크 서지 상승",
       "description": "다크 서지 상태일 경우, 방랑자의 크리티컬이 25% 증가된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C6 다크 서지 중 크리 +25%",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "critRate",
+              "value": 25
+            }
+          ]
+        }
+      ]
     }
   ],
   "_innateSkills": [

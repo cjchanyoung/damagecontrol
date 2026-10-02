@@ -492,13 +492,41 @@
       "nodes": [
         {
           "name": "물가에 닿은 하늘빛",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "만물의 윤기가 소모될 시, 해당 캐릭터는 추가로 10스택의 봄날의 생기를 획득하고, 최대치는 10스택이다. 봄날의 생기를 보유한 캐릭터의 현재 HP가 HP 최대치에 미도달 시, 2초마다 1스택의 봄날의 생기가 소모되고 수수가 수수 HP 최대치의 0.34%+62에 해당하는 HP를 회복시킨다.\n\n공명 스킬 · 깨어난 봄기운과 변주 스킬 · 청량한 옥소리로 목표 명중 시, 추가로 18pt의 협주 에너지와 13pt의 공명 에너지를 회복하고, 해당 공격의 크리티컬을 80% 증가시키며, 입히는 응결 피해를 240% 증가시킨다. 25초마다 최대 1회 발생할 수 있다"
+          "buff": {
+            "label": "봄기운·변주 크리 +80%, 응결 피해 +240%",
+            "condition": "깨어난 봄기운·청량한 옥소리 명중 시, 25초마다 1회",
+            "trigger": {
+              "mode": "toggle",
+              "default": true
+            },
+            "effects": [
+              {
+                "stat": "critRate",
+                "value": 80,
+                "scope": {
+                  "skillIds": [
+                    "skill-2",
+                    "intro-1"
+                  ]
+                }
+              },
+              {
+                "stat": "dmgBonus",
+                "value": 240,
+                "scope": {
+                  "skillIds": [
+                    "skill-2",
+                    "intro-1"
+                  ]
+                }
+              }
+            ]
+          }
         },
         {
           "name": "윤슬에 떠오른 금빛",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "파티 내 수수를 제외한 캐릭터가 치명적인 피해를 입었을 경우, 해당 피해로 인해 캐릭터는 의식을 잃지 않고 수수 현재 HP의 50%에 해당하는 HP를 회복하게 되며, 수수는 그에 상응하는 양의 HP를 상실하게 된다. 수수는 최소 HP 1pt를 유지하며, 해당 효과는 10분마다 1회 발생할 수 있다"
+          "effects": [],
+          "_note": "치명상 방지 — 피해 계산 무관"
         }
       ]
     },
@@ -507,8 +535,109 @@
       "entries": []
     }
   },
-  "buffs": [],
-  "rotation": null,
+  "buffs": [
+    {
+      "id": "outro",
+      "label": "반주: 파티 전체 피해 부스트 25%",
+      "condition": "30초",
+      "target": "team",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "dmgBoost",
+          "value": 25
+        }
+      ]
+    },
+    {
+      "id": "landscape-havoc",
+      "label": "천리강산: 인멸 방어력 6% 무시·저항 12% 무시",
+      "condition": "천리강산 안에서 암흑 효과 스택 소모 후 30초",
+      "target": "team",
+      "trigger": {
+        "mode": "toggle",
+        "default": false
+      },
+      "effects": [
+        {
+          "stat": "defIgnore",
+          "value": 6,
+          "scope": {
+            "elements": [
+              "인멸"
+            ]
+          }
+        },
+        {
+          "stat": "resShred",
+          "value": 12,
+          "scope": {
+            "elements": [
+              "인멸"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "letters-400",
+      "label": "꽃향기의 편지 400: 피해 +12% (공명 효율 260% 기준)",
+      "condition": "편지 400pt 이상 소모한 반주, 공명 효율 200% 초과 1%당 0.2%",
+      "target": "team",
+      "trigger": {
+        "mode": "toggle",
+        "default": false
+      },
+      "effects": [
+        {
+          "stat": "dmgBonus",
+          "value": 12
+        }
+      ]
+    }
+  ],
+  "rotation": {
+    "name": "기본 사이클",
+    "draft": true,
+    "duration": 15,
+    "steps": [
+      {
+        "pending": true,
+        "note": "에코 (Q) — 메인 에코 계수/버프 추가 예정"
+      },
+      {
+        "note": "변주 청량한 옥소리 → 비에 젖어들 무렵",
+        "skillId": "intro-1"
+      },
+      {
+        "note": "공명 스킬 · 비에 젖어들 무렵",
+        "skillId": "skill-3"
+      },
+      {
+        "note": "비에 젖어들 무렵 평타 1~4단",
+        "skillIds": [
+          "circuit-1",
+          "circuit-2",
+          "circuit-3",
+          "circuit-4"
+        ]
+      },
+      {
+        "note": "강공격 → 바람을 가르는 제비",
+        "skillIds": [
+          "circuit-5",
+          "circuit-7"
+        ]
+      },
+      {
+        "note": "공명 해방 · 반주 — 피해 없음, 파티 버프만",
+        "pending": true
+      }
+    ]
+  },
   "chain": [
     {
       "name": "빗물에 씻겨진 너른산 그림같고",
@@ -518,7 +647,23 @@
     {
       "name": "펼쳐진 노을빛 금처럼 흘러내려",
       "description": "천리강산에 있는 근처 파티 내 모든 캐릭터가 다음과 같은 효과를 발생시킨 후, 효과를 발생시킨 캐릭터의 크리티컬 피해를 50% 증가시키고, 30초간 지속된다.\n· 목표에게 「광학 효과」, 「불꽃 효과」, 「서리 효과」, 「풍식 효과」, 「전자 효과」를 추가하거나 혹은 해당 이상 효과 피해를 입힐 경우.\n· 목표의 「암흑 효과」 스택을 소모할 경우.\n파티 내 등장 캐릭터가 천리강산에 있지 않을 시, 해당 크리티컬 피해 증가 효과는 일시적으로 사라진다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C2 천리강산: 이상 효과 추가 시 크리 피해 +50%",
+          "condition": "천리강산 안에서 이상 효과를 추가한 캐릭터, 30초",
+          "target": "team",
+          "trigger": {
+            "mode": "toggle",
+            "default": false
+          },
+          "effects": [
+            {
+              "stat": "critDmg",
+              "value": 50
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "긴발을 올리고 석양을 맞이하니",
@@ -533,12 +678,54 @@
     {
       "name": "동풍에 올라타 저멀리 떠나가도",
       "description": "일반 공격 · 비에 젖어들 무렵과 강공격 · 비에 젖어들 무렵의 피해 배율이 100% 상승된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C5 비에 젖어들 무렵 평타·강공격 배율 ×2",
+          "_note": "API 변종 확인: 159.05 → 318.1, 119.29 → 238.58 (×2)",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "mvBoost",
+              "value": 100,
+              "scope": {
+                "skillIds": [
+                  "circuit-1",
+                  "circuit-2",
+                  "circuit-3",
+                  "circuit-4",
+                  "circuit-5"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "수려한 강산에 마음을 바치리라",
       "description": "변주 스킬 · 청량한 옥소리와 공명 스킬 · 깨어난 봄기운의 크리티컬 피해가 500% 증가된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C6 변주·깨어난 봄기운 크리 피해 +500%",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "critDmg",
+              "value": 500,
+              "scope": {
+                "skillIds": [
+                  "intro-1",
+                  "skill-2"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     }
   ],
   "_innateSkills": [

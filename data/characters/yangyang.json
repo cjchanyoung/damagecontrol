@@ -391,13 +391,25 @@
       "nodes": [
         {
           "name": "바람의 해석",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "공중 공격 날개의 뜻 발동 후, 스태미나를 30pt 회복한다"
+          "effects": [],
+          "_note": "스태미나 회복 — 피해 계산 무관"
         },
         {
           "name": "근심",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "변주 스킬 다크 블루의 찬송 발동 후, 양양의 기류 피해 보너스가 8% 증가하고 8초간 효과가 지속된다"
+          "buff": {
+            "label": "변주 후 기류 피해 +8%",
+            "condition": "8초",
+            "trigger": {
+              "mode": "toggle",
+              "default": true
+            },
+            "effects": [
+              {
+                "stat": "aeroDmgBonus",
+                "value": 8
+              }
+            ]
+          }
         }
       ]
     },
@@ -407,12 +419,62 @@
     }
   },
   "buffs": [],
-  "rotation": null,
+  "rotation": {
+    "name": "기본 사이클",
+    "draft": true,
+    "duration": 12,
+    "steps": [
+      {
+        "pending": true,
+        "note": "에코 (Q) — 메인 에코 계수/버프 추가 예정"
+      },
+      {
+        "note": "변주 — 흐르는 소리 1",
+        "skillId": "intro-1"
+      },
+      {
+        "note": "바람의 영역 — 흐르는 소리 2",
+        "skillId": "skill-1"
+      },
+      {
+        "note": "일반 공격 1~4단 — 흐르는 소리 3",
+        "skillIds": [
+          "normal-1",
+          "normal-2",
+          "normal-3",
+          "normal-4"
+        ]
+      },
+      {
+        "note": "공중 공격 · 날개의 뜻",
+        "skillId": "circuit-2"
+      },
+      {
+        "note": "북풍의 소용돌이",
+        "skillId": "liberation-1"
+      }
+    ]
+  },
   "chain": [
     {
       "name": "다크 블루의 세례",
       "description": "변주 스킬 다크 블루의 찬송 발동 후, 양양의 기류 피해보너스를 추가로 15%만큼 증가하며, 8초간 지속된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C1 변주 후 기류 피해 +15%",
+          "condition": "8초",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "aeroDmgBonus",
+              "value": 15
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "종달새의 여행",
@@ -422,22 +484,87 @@
     {
       "name": "끊이지 않는 바람의 숨결",
       "description": "공명 스킬 피해 보너스가 40% 증가하고, 바람 필드의 주변 목표에 대한 견인효과 증대하며, 견인 범위가 33% 증가한다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C3 공명 스킬 피해 +40%",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "skillDmgBonus",
+              "value": 40
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "귀를 기울이면",
       "description": "공중 공격 날개의 뜻 피해가 95% 증가한다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C4 날개의 뜻 피해 +95%",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "dmgBonus",
+              "value": 95,
+              "scope": {
+                "skillIds": [
+                  "circuit-2"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "울려 퍼지는 바람",
       "description": "공명 해방 북풍의 소용돌이로 인한 피해가 85% 증가한다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C5 북풍의 소용돌이 피해 +85%",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "dmgBonus",
+              "value": 85,
+              "scope": {
+                "skillIds": [
+                  "liberation-1"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "아름다움에게 바치는 찬가",
       "description": "공중 공격 날개의 뜻 발동 후, 파티 내의 모든 캐릭터의 공격력이 20% 증가하며, 20초간 지속된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C6 날개의 뜻 후 파티 공격력 +20%",
+          "condition": "20초",
+          "target": "team",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "atkPercent",
+              "value": 20
+            }
+          ]
+        }
+      ]
     }
   ],
   "_innateSkills": [

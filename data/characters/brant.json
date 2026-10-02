@@ -533,13 +533,18 @@
       "nodes": [
         {
           "name": "인도의 불꽃",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "파도의 갈채의 치료량이 20% 증가된다"
+          "effects": [],
+          "_note": "치료량 증가 — 피해 계산 무관"
         },
         {
           "name": "파도에 맞서는 결심",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "브렌트 공중 공격의 경직 저항력이 증가되고, 용융 피해 보너스가 15% 증가된다"
+          "effects": [
+            {
+              "stat": "fusionDmgBonus",
+              "value": 15
+            }
+          ],
+          "_note": "용융 피해 +15% (경직 저항은 계산 무관)"
         }
       ]
     },
@@ -548,23 +553,216 @@
       "entries": []
     }
   },
-  "buffs": [],
-  "rotation": null,
+  "buffs": [
+    {
+      "id": "life-on-stage",
+      "label": "극중 인생: 공격력 +1560 (공명 효율 280% 기준)",
+      "condition": "공명 효율 150% 초과 1%당 12, 최대 1560",
+      "_note": "공명 효율에 비례 — 280% 미만이면 직접 조정 필요",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "atkFlat",
+          "value": 1560
+        }
+      ]
+    },
+    {
+      "id": "my-life",
+      "label": "타오르는 불길 · 「나」의 인생: 공격력 +1040 추가 (1560 → 2600)",
+      "condition": "해방 후 12초, 공명 효율 150% 초과 1%당 20, 최대 2600",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "atkFlat",
+          "value": 1040
+        }
+      ]
+    },
+    {
+      "id": "outro-fusion",
+      "label": "반주: 다음 캐릭터 용융 피해 부스트 20%",
+      "condition": "14초",
+      "target": "others",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "dmgBoost",
+          "value": 20,
+          "scope": {
+            "elements": [
+              "용융"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "outro-skill",
+      "label": "반주: 다음 캐릭터 공명 스킬 피해 부스트 25%",
+      "target": "others",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "dmgBoost",
+          "value": 25,
+          "scope": {
+            "damageTypes": [
+              "skill"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "rotation": {
+    "name": "기본 사이클",
+    "draft": true,
+    "duration": 22,
+    "steps": [
+      {
+        "pending": true,
+        "note": "에코 (Q) — 메인 에코 계수/버프 추가 예정"
+      },
+      {
+        "note": "변주 → 막간의 박수 (공중 2단부터)",
+        "skillId": "intro-1"
+      },
+      {
+        "note": "공중 공격 2~4단 → 즉흥 랩소디",
+        "skillIds": [
+          "normal-10",
+          "normal-13",
+          "normal-15",
+          "normal-6"
+        ]
+      },
+      {
+        "note": "닻을 올려라!",
+        "skillId": "skill-1"
+      },
+      {
+        "note": "공중 공격 1~4단 — 갈채",
+        "skillIds": [
+          "normal-7",
+          "normal-10",
+          "normal-13",
+          "normal-15"
+        ]
+      },
+      {
+        "note": "세상 끝까지 → 타오르는 불길",
+        "skillId": "liberation-1"
+      },
+      {
+        "note": "공중 공격 1~4단 (갈채 효율 2배)",
+        "skillIds": [
+          "normal-7",
+          "normal-10",
+          "normal-13",
+          "normal-15"
+        ]
+      },
+      {
+        "note": "화염 귀멸의 서곡",
+        "skillId": "circuit-1"
+      }
+    ]
+  },
   "chain": [
     {
       "name": "해류와 바람을 따라서",
       "description": "화염 귀멸의 서곡 발동 기간 주변의 목표를 잠시 정체시킬 수 있으며, 이 기간에 다른 캐릭터로 전환하면 정체 효과가 즉시 종료된다.\n변주 스킬 나를 위하여! 발동 후, 혹은 매번 공중 공격 공중 돌기 시, 브렌트가 입히는 피해가 20% 증가되고, 5초간 지속되며, 최대 3스택 중첩이 가능하다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C1 변주·공중 돌기 후 피해 +20% (스택)",
+          "condition": "5초, 최대 3",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "stacks": {
+            "max": 3,
+            "default": 3
+          },
+          "effects": [
+            {
+              "stat": "dmgBonus",
+              "value": 20
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "환호와 미소를 위하여",
       "description": "공중 공격과 화염 귀멸의 서곡 발동 시 크리티컬이 30% 증가된다. \n브렌트의 반주 스킬 항로 확정!이 20초 내에 다음과 같은 추가 효과를 획득한다.\n다음 등장 캐릭터 혹은 브렌트의 반주 스킬을 활성화하는 근처 파티 내 캐릭터가 공명 스킬로 목표 명중 시, 브렌트가 목표를 공격하여 폭발을 1회 일으키고, 브렌트 공격력의 440%에 해당하는 용융 피해를 입히며, 해당 피해는 일반 공격 피해로 적용된다. 폭발은 1초마다 1회 발생할 수 있으며, 최대 2회까지 발생할 수 있다.\n· 해당 추가 효과는 다른 캐릭터로 전환해도 종료되지 않는다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C2 공중 공격·화염 귀멸의 서곡 크리 +30%",
+          "_note": "반주 후 팀원 공명 스킬마다 440% 폭발(최대 2회)은 엔트리가 없어 미반영",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "critRate",
+              "value": 30,
+              "scope": {
+                "skillIds": [
+                  "normal-7",
+                  "normal-8",
+                  "normal-9",
+                  "normal-10",
+                  "normal-11",
+                  "normal-12",
+                  "normal-13",
+                  "normal-14",
+                  "normal-15",
+                  "normal-17",
+                  "circuit-1"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "폭풍과 파도를 헤치며",
       "description": "화염 귀멸의 서곡 피해 배율이 42% 상승된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C3 화염 귀멸의 서곡 배율 ×1.42",
+          "_note": "API 변종 확인: 1322.09 → 1877.37 (×1.42)",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "mvBoost",
+              "value": 42,
+              "scope": {
+                "skillIds": [
+                  "circuit-1"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "마음껏 노래하리라",
@@ -574,12 +772,73 @@
     {
       "name": "배우 왈, 「인생이 곧 무대다!」",
       "description": "일반 공격 피해를 입힐 시, 일반 공격 피해 보너스가 15% 증가되고, 10초간 지속된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C5 일반 공격 피해 +15%",
+          "condition": "일반 공격 피해 후 10초",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "normalAtkDmgBonus",
+              "value": 15
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "선장 왈, 「카니발이 곧 세계다!」",
       "description": "공중 공격 배율이 30% 상승된다. 화염 귀멸의 서곡 발동 후, 그 자리에서 재연을 1회 발생시켜 화염 귀멸의 서곡 피해량의 30%에 해당하는 용융 피해를 입히며, 해당 피해는 일반 공격 피해로 적용된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C6 공중 공격 배율 ×1.3",
+          "_note": "API 변종 확인: 122.86 → 159.72, 101.53 → 131.99 (×1.3)",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "mvBoost",
+              "value": 30,
+              "scope": {
+                "skillIds": [
+                  "normal-7",
+                  "normal-8",
+                  "normal-9",
+                  "normal-10",
+                  "normal-11",
+                  "normal-12",
+                  "normal-13",
+                  "normal-14",
+                  "normal-15",
+                  "normal-17"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "label": "C6 화염 귀멸의 서곡 재연 30%",
+          "_note": "같은 판정의 30% 재연 → ×1.3. API 변종 804.59 = C3 적용 총합 2681.6 × 0.3 확인",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "mvBoost",
+              "value": 30,
+              "scope": {
+                "skillIds": [
+                  "circuit-1"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     }
   ],
   "_innateSkills": [

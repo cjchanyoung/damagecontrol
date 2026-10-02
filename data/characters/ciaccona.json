@@ -455,13 +455,23 @@
       "nodes": [
         {
           "name": "막간의 반주",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "샤콘이 공명 해방 트리오의 카덴차 발동 시, 자신의 HP 최대치 100%에 해당하는 실드를 획득하고, 4초간 지속되며, 다른 캐릭터는 해당 실드를 이어받을 수 없다"
+          "effects": [],
+          "_note": "해방 시 실드 — 피해 계산 무관"
         },
         {
           "name": "리나시타의 바람",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "강공격 · 네박자 중주가 입히는 피해가 30% 증가된다"
+          "effects": [
+            {
+              "stat": "dmgBonus",
+              "value": 30,
+              "scope": {
+                "skillIds": [
+                  "circuit-1"
+                ]
+              }
+            }
+          ],
+          "_note": "강공격 · 네박자 중주 피해 +30%"
         }
       ]
     },
@@ -470,18 +480,113 @@
       "entries": []
     }
   },
-  "buffs": [],
-  "rotation": null,
+  "buffs": [
+    {
+      "id": "solo",
+      "label": "음률의 독주: 파티 기류 피해 +24%",
+      "condition": "샤콘 또는 합주의 그림자가 음률의 독주 상태 (일반 공격 4단 후), 중첩 불가",
+      "target": "team",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "aeroDmgBonus",
+          "value": 24
+        }
+      ]
+    }
+  ],
+  "rotation": {
+    "name": "기본 사이클",
+    "draft": true,
+    "duration": 20,
+    "steps": [
+      {
+        "pending": true,
+        "note": "에코 (Q) — 메인 에코 계수/버프 추가 예정"
+      },
+      {
+        "note": "변주 — 음률 1",
+        "skillId": "intro-1"
+      },
+      {
+        "note": "일반 공격 1~4단 — 음률, 음률의 독주",
+        "skillIds": [
+          "normal-10",
+          "normal-1",
+          "normal-2",
+          "normal-3"
+        ]
+      },
+      {
+        "note": "하모니의 속주 — 합주의 그림자",
+        "skillId": "skill-1"
+      },
+      {
+        "note": "일반 공격 1~4단 — 음률 3칸",
+        "skillIds": [
+          "normal-10",
+          "normal-1",
+          "normal-2",
+          "normal-3"
+        ]
+      },
+      {
+        "note": "강공격 · 네박자 중주",
+        "skillId": "circuit-1"
+      },
+      {
+        "note": "트리오의 카덴차 → 교향시 · 주음",
+        "skillIds": [
+          "liberation-1",
+          "liberation-2"
+        ]
+      }
+    ]
+  },
   "chain": [
     {
       "name": "옛 바람의 음유 전주곡",
       "description": "공명 스킬 하모니의 속주 발동 시, 샤콘은 적의 공격에 의해 중단되지 않는 효과를 획득하며, 3초간 지속된다. 일반 공격 발동 시, 샤콘의 공격력이 35% 증가되고, 10초간 지속된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C1 일반 공격 시 공격력 +35%",
+          "condition": "10초",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "atkPercent",
+              "value": 35
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "사계절의 레가토",
       "description": "공명 해방 트리오의 카덴차 지속 기간 동안, 파티 내 캐릭터의 기류 피해 보너스가 40% 증가된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C2 해방 중 파티 기류 피해 +40%",
+          "condition": "트리오의 카덴차 연출 상태 동안",
+          "target": "team",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "aeroDmgBonus",
+              "value": 40
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "별빛이 쏟아지는 즉흥 연주",
@@ -491,12 +596,52 @@
     {
       "name": "토카타와 푸가",
       "description": "샤콘이 강공격 네박자 중주로 피해를 입힐 시, 적 방어력의 45%를 무시한다.\n샤콘이 공명 해방 피해를 입힐 시, 적의 방어력의 45%를 무시한다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C4 네박자 중주·공명 해방 방어력 45% 무시",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "defIgnore",
+              "value": 45,
+              "scope": {
+                "skillIds": [
+                  "circuit-1"
+                ]
+              }
+            },
+            {
+              "stat": "defIgnore",
+              "value": 45,
+              "scope": {
+                "damageTypes": [
+                  "liberation"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "한여름에 바치는 시",
       "description": "샤콘의 공명 해방 피해 보너스가 40% 증가한다.\n샤콘의 공명 해방 트리오의 카덴차의 근처 범위 내에 있는 캐릭터가 받는 피해가 30% 감소된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C5 공명 해방 피해 +40%",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "liberationDmgBonus",
+              "value": 40
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "끝나지 않은 피날레",

@@ -544,7 +544,7 @@
           "id": "liberation-4",
           "name": "스푸핑 프로그램 · 이동 제한 피해",
           "damageType": [
-            "liberation"
+            "concerto"
           ],
           "parts": [
             {
@@ -562,7 +562,8 @@
               ]
             }
           ],
-          "_todoDamageType": true
+          "_note": "해킹 피해 — 조화도 계열 피해로 분류",
+          "_fixed": true
         },
         {
           "id": "liberation-5",
@@ -656,7 +657,7 @@
           "id": "circuit-1",
           "name": "해킹 대응 · 데이터 크래시 피해",
           "damageType": [
-            "normal"
+            "concerto"
           ],
           "parts": [
             {
@@ -667,19 +668,32 @@
               "hits": 4
             }
           ],
-          "_todoDamageType": true
+          "_note": "해킹 피해 — 조화도 계열 피해로 분류",
+          "_fixed": true
         }
       ],
       "nodes": [
         {
           "name": "고스트 사이버웨어",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "루시가 파티 내 등장 캐릭터이고 8초 내에 어떠한 피해도 받지 않을 시, 자신에게 1스택의 옵티컬 일루전 효과를 추가한다. 해당 효과의 기본 최대치는 1스택이다.\n옵티컬 일루전: 공격을 받을 시 해당 피해를 100% 감소시키고, 해당 공격에 의해 자신이 공격을 받거나 피격 후 공중에 뜬 상태인 경우 즉시 이 상태에서 자동으로 벗어나게 되며, 이때 지면에 있으면 회피 성공 효과를 발생시키고, 효과 발생 후 1스택의 옵티컬 일루전이 제거된다. 해당 효과는 0.5초 내에 1회만 발생할 수 있다"
+          "effects": [],
+          "_note": "피해 무효화 — 피해 계산 무관"
         },
         {
           "name": "프로세스 크랙",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "공명 스킬 · 페이로드, 공명 스킬 · 펄스 교란 혹은 공명 스킬 · 데드락으로 노도급 혹은 해일급 적에게 피해를 입힐 시, 루시는 해당 목표에게 더미 마크를 추가하고, 2분간 지속된다. 더미 마크 지속 시간 내에, 파티 내 캐릭터가 직접 입힌 피해로 해당 목표를 격파 시, 루시는 「네트워크 백도어」 효과를 획득한다. 레베카가 파티에 있을 경우에도 동일한 효과를 획득할 수 있다.\n\n「네트워크 백도어」\n\n전체 피해가 10% 부스트되고, 해킹 피해 배율이 10% 상승된다. 효과 지속 시간은 2분이며 최대 2스택 중첩이 가능하다. 2스택까지 중첩될 시, 추가로 전체 피해가 5% 부스트되고, 해킹 피해 배율이 5% 상승된다. 루시가 의식을 잃을 시, 「네트워크 백도어」 효과를 획득할 수 없으며 동시에 보유한 「네트워크 백도어」 효과가 사라진다"
+          "buff": {
+            "label": "네트워크 백도어 2스택: 전체 피해 부스트 25%",
+            "condition": "더미 마크 대상(노도급·해일급) 격파 시, 2분, 2스택 시 10%×2+5%. 해킹 피해 배율 상승분은 미반영",
+            "trigger": {
+              "mode": "toggle",
+              "default": false
+            },
+            "effects": [
+              {
+                "stat": "dmgBoost",
+                "value": 25
+              }
+            ]
+          }
         }
       ]
     },
@@ -688,28 +702,299 @@
       "entries": []
     }
   },
-  "buffs": [],
-  "rotation": null,
+  "buffs": [
+    {
+      "id": "compression",
+      "label": "알고리즘 압축: 회절 피해 +65%",
+      "condition": "데드락 발동 후 8초",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "spectroDmgBonus",
+          "value": 65
+        }
+      ]
+    },
+    {
+      "id": "sql",
+      "label": "SQL: 멀티 스레드 배율 ×3.7",
+      "_note": "API 변종 확인: 59.65 → 220.68 (×3.7)",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "mvBoost",
+          "value": 270,
+          "scope": {
+            "skillIds": [
+              "normal-17"
+            ]
+          },
+          "group": "sql"
+        }
+      ]
+    },
+    {
+      "id": "spoof-malfunction",
+      "label": "스푸핑 · 사이버웨어 오작동: 받는 피해 +5%",
+      "condition": "넷러너에서 램 4 소모, 30초",
+      "target": "team",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "dmgBoost",
+          "value": 5
+        }
+      ]
+    },
+    {
+      "id": "spoof-protocol",
+      "label": "스푸핑 · 침투 프로토콜: 방어력 -5%",
+      "condition": "넷러너에서 램 4 소모, 30초",
+      "target": "team",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "defShred",
+          "value": 5
+        }
+      ]
+    },
+    {
+      "id": "outro",
+      "label": "반주: 다음 캐릭터 일반 공격 피해 부스트 25%",
+      "condition": "14초",
+      "target": "others",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "dmgBoost",
+          "value": 25,
+          "scope": {
+            "damageTypes": [
+              "normal"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "counter-program",
+      "label": "카운터 프로그램: 해킹 · 이탈 추가 시 피해 부스트 20%",
+      "condition": "반주 후 25초, 루시 외 캐릭터가 해킹 · 이탈 추가",
+      "target": "others",
+      "trigger": {
+        "mode": "toggle",
+        "default": false
+      },
+      "effects": [
+        {
+          "stat": "dmgBoost",
+          "value": 20
+        }
+      ]
+    }
+  ],
+  "rotation": {
+    "name": "기본 사이클",
+    "draft": true,
+    "duration": 22,
+    "steps": [
+      {
+        "pending": true,
+        "note": "에코 (Q) — 메인 에코 계수/버프 추가 예정"
+      },
+      {
+        "note": "변주",
+        "skillId": "intro-1"
+      },
+      {
+        "note": "페이로드 → 추가 공격 → 펄스 교란 (TCP)",
+        "skillIds": [
+          "skill-1",
+          "skill-4",
+          "skill-2"
+        ]
+      },
+      {
+        "note": "일반 공격 1~4단 — TCP 100",
+        "skillIds": [
+          "normal-1",
+          "normal-2",
+          "normal-3",
+          "normal-4"
+        ]
+      },
+      {
+        "note": "데드락 → 알고리즘 압축 (SQL)",
+        "skillId": "skill-3"
+      },
+      {
+        "note": "스레드 리퍼 1~4단 — 루트 권한",
+        "skillIds": [
+          "normal-11",
+          "normal-12",
+          "normal-13",
+          "normal-14"
+        ]
+      },
+      {
+        "note": "싱글 → 듀얼 → 멀티 스레드 (SQL 소모)",
+        "skillIds": [
+          "normal-15",
+          "normal-16",
+          "normal-17"
+        ]
+      },
+      {
+        "note": "올드넷 딥 다이브: 핑 · 시냅스 과열 · 이동 제한",
+        "skillIds": [
+          "liberation-2",
+          "liberation-3",
+          "liberation-4"
+        ]
+      },
+      {
+        "note": "오버라이드",
+        "skillId": "liberation-5"
+      }
+    ]
+  },
   "chain": [
     {
       "name": "달, 티켓 그리고 동경",
       "description": "공명 스킬 · 페이로드, 공명 스킬 · 펄스 교란, 강공격 · 듀얼 스레드와 강공격 · 멀티 스레드는 적의 공격에 의해 중단되지 않는다.\n변주 스킬 · 과거의 환각 발동 시 공격력이 20% 증가되고, 14초간 지속된다.\n파티 내 캐릭터가 직접 입힌 피해로 스푸핑 프로그램 효과를 보유한 목표를 격파 시, 루시는 이 효과를 기록하고 해당되는 빠른 응답을 활성화하며, 6초간 지속된다. 루시가 의식을 잃을 시, 기록 효과도 사라진다.\n빠른 응답: 적용 기간 동안, 파티 내 등장 캐릭터 주변 일정 범위 내 모든 목표에게 기록된 스푸핑 프로그램 효과를 추가하고, 범위 내의 각 목표에게 1회만 적용된다.\n기록할 수 있는 스푸핑 프로그램 효과: 스푸핑 프로그램 · 사이버웨어 오작동, 스푸핑 프로그램 · 침투 프로토콜, 스푸핑 프로그램 · 이동 제한, 스푸핑 프로그램 · 무기 오류, 스푸핑 프로그램 · 사이버 사이코시스. 빠른 응답을 통해 스푸핑 프로그램 효과 추가 시, 지속적으로 적용되는 상태 효과만 추가한다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C1 변주 후 공격력 +20%",
+          "condition": "14초",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "atkPercent",
+              "value": 20
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "블랙월, 과거 그리고 도망",
       "description": "공명 해방 · 넷러너와 공명 해방 · 올드넷 딥 다이브 발동 시, 기본 램이 32pt까지 증가된다.\n공명 스킬 · 펄스 교란 발동 후 추가로 450%의 회절 피해를 1회 입히고, 해당 피해는 강공격 피해로 적용된다.\n해당 피해로 목표 명중 시, 목표에게 추가로 다음의 스푸핑 프로그램 효과를 추가한다. 스푸핑 프로그램 · 사이버웨어 오작동, 스푸핑 프로그램 · 침투 프로토콜, 스푸핑 프로그램 · 이동 제한, 스푸핑 프로그램 · 무기 오류, 스푸핑 프로그램 · 사이버 사이코시스. 해당 방식을 통해 스푸핑 프로그램 효과 추가 시, 지속적으로 적용되는 상태 효과만 추가한다.\n공명 회로 · 블랙월 뎁스 효과: 강공격 · 멀티 스레드 발동 시, 자신이 SQL을 보유할 경우 피해 배율 상승 효과가 270%에서 560%까지 상승된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C2 SQL 강화: 멀티 스레드 270% → 560%",
+          "_note": "API 변종 확인: 59.65 → 393.65 (×6.6). SQL과 같은 그룹(sql)으로 더해져 1+2.7+2.9. 펄스 교란 후 450% 강공격 추가타는 미반영",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "mvBoost",
+              "value": 290,
+              "group": "sql",
+              "scope": {
+                "skillIds": [
+                  "normal-17"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "사이버펑크",
       "description": "공명 해방 · 넷러너와 공명 해방 · 올드넷 딥 다이브의 오버라이드 피해 배율이 50% 상승되고, 크리티컬 피해가 100% 증가된다.\n스푸핑 프로그램 · 이동 제한의 피해 배율이 65% 상승된다.\n해킹 대응 · 데이터 크래시의 피해 배율이 65% 상승된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C3 오버라이드 배율 ×1.5, 크리 피해 +100%",
+          "_note": "API 변종 확인: 894.65 → 1341.97, 1789.29 → 2683.94 (×1.5)",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "mvBoost",
+              "value": 50,
+              "scope": {
+                "skillIds": [
+                  "liberation-1",
+                  "liberation-5"
+                ]
+              }
+            },
+            {
+              "stat": "critDmg",
+              "value": 100,
+              "scope": {
+                "skillIds": [
+                  "liberation-1",
+                  "liberation-5"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "label": "C3 이동 제한·데이터 크래시 배율 ×1.65",
+          "_note": "API 변종 확인: 911.83 → 1504.51, 1094.19 → 1805.41 (×1.65)",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "mvBoost",
+              "value": 65,
+              "scope": {
+                "skillIds": [
+                  "liberation-4",
+                  "circuit-1"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "나이트 시티에 살아있는 전설은 없다",
       "description": "파티 내 캐릭터가 「해킹 · 이탈」 추가 후, 파티 내 캐릭터의 전체 속성 피해 보너스를 20% 증가시키고, 20초간 지속된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C4 해킹 · 이탈 추가 후 파티 전체 속성 피해 +20%",
+          "condition": "20초",
+          "target": "team",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "dmgBonus",
+              "value": 20
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "끊어진 지옥으로 향하는 길",
@@ -719,7 +1004,44 @@
     {
       "name": "I Really Want to Stay At Your House",
       "description": "「해킹 · 이탈」 효과를 보유하거나 혹은 「해킹 · 간섭」 상태에 있는 목표가 루시로부터 받는 강공격 피해가 40% 증가된다.\n「해킹 · 이탈」 효과를 보유하거나 혹은 「해킹 · 간섭」 상태에 있는 목표가 루시로부터 받는 해킹 피해가 60% 증가된다.\n해킹 대응 · 데이터 크래시로 발생시키는 정체 효과가 1.5초까지 연장된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C6 해킹 대상이 받는 강공격 피해 +40%",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "dmgBoost",
+              "value": 40,
+              "scope": {
+                "damageTypes": [
+                  "heavy"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "label": "C6 해킹 대상이 받는 해킹 피해 +60%",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "dmgBoost",
+              "value": 60,
+              "scope": {
+                "damageTypes": [
+                  "concerto"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     }
   ],
   "_innateSkills": [

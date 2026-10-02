@@ -429,13 +429,13 @@
       "nodes": [
         {
           "name": "맑은 순수함",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "공명 스킬 눈부시는 현란함 발동 후, 일정 시간 내에 공중 공격을 발동하면, 해당 공중 공격으로 피해를 입히기 전에 피해와 공격에 면역된다.\n카를로타가 파티에 있을 시, 파티 내 등장 캐릭터의 활공 스태미나 소모를 20% 감소시킨다"
+          "effects": [],
+          "_note": "피해 면역·활공 스태미나 — 피해 계산과 무관"
         },
         {
           "name": "예술지상주의",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "변주 스킬 겨울의 음률, 공명 스킬 눈부시는 현란함, 공명 해방 죽음의 징조, 강공격 마지막 길은 명중된 목표에게 해리 효과를 추가할 수 있다"
+          "effects": [],
+          "_note": "해리 부여 스킬 확대 — 해리 방어 무시 버프로 반영됨"
         }
       ]
     },
@@ -460,38 +460,253 @@
       ]
     }
   },
-  "buffs": [],
-  "rotation": null,
+  "buffs": [
+    {
+      "id": "dissociation",
+      "label": "해리: 방어력 18% 무시",
+      "condition": "해리 효과를 보유한 목표에게 피해 (해방·변주·현란함·죽음의 징조·마지막 길이 부여)",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "defIgnore",
+          "value": 18
+        }
+      ]
+    },
+    {
+      "id": "unveiler",
+      "label": "제막자: 해방 배율 ×1.8",
+      "condition": "「영민」이 가득 찬 상태로 화려한 총의 춤 진입",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "mvBoost",
+          "value": 80,
+          "scope": {
+            "skillIds": [
+              "liberation-1",
+              "liberation-2",
+              "liberation-3"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "rotation": {
+    "name": "기본 사이클",
+    "draft": true,
+    "duration": 25,
+    "steps": [
+      {
+        "pending": true,
+        "note": "에코 (Q) — 메인 에코 계수/버프 추가 예정"
+      },
+      {
+        "note": "변주 — 영민 30, 결정체 3",
+        "skillId": "intro-1"
+      },
+      {
+        "note": "폭력 미학 → 눈부시는 현란함 (결정체 소모, 영민 충전)",
+        "skillIds": [
+          "skill-1",
+          "skill-2"
+        ]
+      },
+      {
+        "note": "일반 공격 1·2단 → 필수의 수단 1~3단 (영민 가득 → 제막자)",
+        "skillIds": [
+          "normal-1",
+          "normal-2",
+          "normal-3",
+          "normal-4",
+          "normal-5"
+        ]
+      },
+      {
+        "note": "공명 해방 → 화려한 총의 춤",
+        "skillId": "liberation-1"
+      },
+      {
+        "note": "죽음의 징조 4회",
+        "skillId": "liberation-2",
+        "count": 4
+      },
+      {
+        "note": "피할 수 없는 죽음",
+        "skillId": "liberation-3"
+      },
+      {
+        "note": "영민 재충전 후 강공격 마지막 길",
+        "skillId": "circuit-1"
+      },
+      {
+        "note": "반주",
+        "skillId": "outro-1"
+      }
+    ]
+  },
   "chain": [
     {
       "name": "아름다움 또는 죽음, 반짝임 뒤의 시듦",
       "description": "카를로타가 해리 효과를 보유한 목표에게 피해를 입힐 시, 해당 피해의 크리티컬이 12.5% 증가된다. 공명 스킬 눈부시는 현란함을 발동하여 넘쳐나는 불빛 상태의 목표에 명중 시, 추가로 「영민」 30pt를 회복한다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C1 해리 대상 크리 +12.5%",
+          "condition": "해리 효과를 보유한 목표에게 피해",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "critRate",
+              "value": 12.5
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "고독과 죽음, 몰락은 곧 새로운 탄생",
       "description": "공명 해방 피할 수 없는 죽음의 피해 배율이 126% 상승된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C2 피할 수 없는 죽음 배율 ×2.26",
+          "_note": "API 변종 확인: 644.33 → 1456.17 (×2.26)",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "mvBoost",
+              "value": 126,
+              "scope": {
+                "skillIds": [
+                  "liberation-3"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "스텝 업, 앞으로, 우아한 진행 방식",
       "description": "반주 스킬 만화경의 불꽃: 반주 스킬 연설 발동 후, 추가로 공격 1회를 가하여, 카를로타 공격력의 1032.18%에 해당하는 응결 피해를 입힌다. \n공명 스킬 폭력 미학, 공명 스킬 눈부시는 현란함의 피해 배율이 93% 상승된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C3 반주 추가타 1032.18%",
+          "_note": "반주 발동 후 추가 1회 공격 — 같은 판정·스케일링이라 반주 계수에 더해서 처리",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "mvFlat",
+              "value": 1032.18,
+              "scope": {
+                "skillIds": [
+                  "outro-1"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "label": "C3 공명 스킬 배율 ×1.93",
+          "_note": "API 변종 확인: 144.11 → 278.12, 338.18 → 652.68 (×1.93)",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "mvBoost",
+              "value": 93,
+              "scope": {
+                "skillIds": [
+                  "skill-1",
+                  "skill-2"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "과거의 비로, 찬송의 술을 위하여",
       "description": "카를로타가 강공격, 강공격 제한 전략, 강공격 마지막 길 발동 시, 파티 내 캐릭터의 공명 스킬 피해 보너스가 25% 증가되고, 30초간 지속된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C4 파티 공명 스킬 피해 +25%",
+          "condition": "강공격·제한 전략·마지막 길 발동 후 30초",
+          "target": "team",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "skillDmgBonus",
+              "value": 25
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "어젯 밤, 오늘 그리고 지난 과거를 위하여",
       "description": "강공격 마지막 길의 피해 배율이 47% 상승된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C5 마지막 길 배율 ×1.47",
+          "_note": "API 변종 확인: 66.83 → 98.24, 501.21 → 736.78 (×1.47)",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "mvBoost",
+              "value": 47,
+              "scope": {
+                "skillIds": [
+                  "circuit-1"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "종막 앞에 선 예전 그대로의 나",
       "description": "공명 해방 죽음의 징조의 사격은 더 큰 피해를 입힐 수 있고, 생성되는 결정체 수량이 두 배로 늘어나며, 두 효과는 공명 해방 죽음의 징조의 피해 배율을 186.6% 상승시킨다.\n공명 해방 죽음의 징조의 사격으로 목표 명중 시, 목표에게 넘쳐나는 반짝임 효과를 추가한다. 해당 효과가 지속되는 동안 어떤 행동도 취할 수 없고, 피해를 받거나 1.5초의 지속 시간이 지나면 해당 효과가 사라진다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C6 죽음의 징조 배율 ×2.866",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "mvBoost",
+              "value": 186.6,
+              "scope": {
+                "skillIds": [
+                  "liberation-2"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     }
   ],
   "_innateSkills": [

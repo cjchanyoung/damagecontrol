@@ -483,13 +483,28 @@
       "nodes": [
         {
           "name": "수호신의 빛",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "금희의 회절 피해 보너스가 20% 증가한다"
+          "effects": [
+            {
+              "stat": "spectroDmgBonus",
+              "value": 20
+            }
+          ],
+          "_note": "회절 피해 +20%"
         },
         {
           "name": "정신",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "변주 스킬 반룡의 빛 피해 배율이 50% 상승한다"
+          "effects": [
+            {
+              "stat": "mvBoost",
+              "value": 50,
+              "scope": {
+                "skillIds": [
+                  "intro-1"
+                ]
+              }
+            }
+          ],
+          "_note": "반룡의 빛 배율 ×1.5 — API 변종 159.05 → 238.58 확인"
         }
       ]
     },
@@ -498,13 +513,103 @@
       "entries": []
     }
   },
-  "buffs": [],
-  "rotation": null,
+  "buffs": [
+    {
+      "id": "incandescence",
+      "label": "봄의 빛: 승천하는 용 · 별빛 배율 +44.54% (pt당)",
+      "condition": "승천하는 용 발동 시 최대 50pt 소모",
+      "_note": "원문 기타수치 '봄의 빛 1pt 당 배율 증가량 44.54%' (덧셈). C6 ×1.45가 이 가산분까지 곱해져 'C6: 봄의 빛 효과 45% 상승'과 일치",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "stacks": {
+        "max": 50,
+        "default": 50
+      },
+      "effects": [
+        {
+          "stat": "mvFlat",
+          "value": 44.54,
+          "scope": {
+            "skillIds": [
+              "circuit-9"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "rotation": {
+    "name": "기본 사이클",
+    "draft": true,
+    "duration": 15,
+    "steps": [
+      {
+        "pending": true,
+        "note": "에코 (Q) — 메인 에코 계수/버프 추가 예정"
+      },
+      {
+        "note": "변주 반룡의 빛",
+        "skillId": "intro-1"
+      },
+      {
+        "note": "창공의 무지개 → 용을 타고 하늘로 향해",
+        "skillId": "skill-2"
+      },
+      {
+        "note": "하늘로 향해 평타 1·2단 → 달을 품은 용녀 → 3·4단",
+        "skillIds": [
+          "circuit-1",
+          "circuit-2",
+          "circuit-5",
+          "circuit-3",
+          "circuit-4"
+        ]
+      },
+      {
+        "note": "승천하는 용 (햇살 → 별빛, 봄의 빛 50)",
+        "skillIds": [
+          "circuit-7",
+          "circuit-9"
+        ]
+      },
+      {
+        "note": "만물의 정화",
+        "skillId": "liberation-1"
+      }
+    ]
+  },
   "chain": [
     {
       "name": "승천하는 물결",
       "description": "금희가 일반 공격 하늘로 향해 · 일반 공격, 공명 스킬 달을 품은 용녀 발동 시, 경칩 1스택을 획득하고, 4스택 중첩이 가능하며, 6초간 지속된다. 공명 스킬 승천하는 용 발동 시, 경칩의 모든 스택을 소진하며, 1스택씩 소모할 때마다 공명 스킬 승천하는 용이 입힌 피해가 20% 증가한다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C1 경칩: 승천하는 용 피해 +20% (스택)",
+          "condition": "하늘로 향해 평타·달을 품은 용녀마다 1스택, 최대 4",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "stacks": {
+            "max": 4,
+            "default": 4
+          },
+          "effects": [
+            {
+              "stat": "dmgBonus",
+              "value": 20,
+              "scope": {
+                "skillIds": [
+                  "circuit-7",
+                  "circuit-9"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "그치는 눈송이",
@@ -514,22 +619,96 @@
     {
       "name": "운명적인 사도",
       "description": "금희가 변주 스킬 반룡의 빛 발동 후, 「적선」 효과를 1스택 획득하며, 스택마다 공격력이 25% 증가한다. 2스택까지 중첩이 가능하며 20초간 지속된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C3 적선: 공격력 +25% (스택)",
+          "condition": "변주마다 1스택, 최대 2, 20초",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "stacks": {
+            "max": 2,
+            "default": 2
+          },
+          "effects": [
+            {
+              "stat": "atkPercent",
+              "value": 25
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "인간 세상의 수호자",
       "description": "금희가 공명 해방 만물의 정화 또는 공명 스킬 승천하는 용 발동 시, 근처에 있는 파티 내 모든 캐릭터의 전체 속성 피해 보너스가 20% 증가하며, 20초간 지속된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C4 해방·승천하는 용 후 파티 전체 속성 피해 +20%",
+          "condition": "20초",
+          "target": "team",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "dmgBonus",
+              "value": 20
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "눈을 녹이는 햇살",
       "description": "공명 해방 만물의 정화 피해 배율이 120% 상승한다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C5 만물의 정화 배율 ×2.2",
+          "_note": "API 변종 확인: 1166.22 → 2565.69 (×2.2)",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "mvBoost",
+              "value": 120,
+              "scope": {
+                "skillIds": [
+                  "liberation-1"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "엄동설한 끝에 비추는 봄",
       "description": "공명 스킬 승천하는 용 피해 배율이 45% 상승되며, 「봄의 빛」 소모 시 얻는 배율 증가 효과가 추가로 45% 상승된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C6 승천하는 용 배율 ×1.45 (봄의 빛 가산분 포함)",
+          "_note": "API 변종 확인: 347.92 → 504.49, 19.89 → 28.83 (×1.45)",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "mvBoost",
+              "value": 45,
+              "scope": {
+                "skillIds": [
+                  "circuit-7",
+                  "circuit-9"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     }
   ],
   "_innateSkills": [

@@ -624,13 +624,23 @@
       "nodes": [
         {
           "name": "결전",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "공명 스킬 신뢰의 피해 배율이 40% 상승하고 , 몬스터의 공진 수치를 감소시키는 능력이 향상된다"
+          "effects": [
+            {
+              "stat": "mvBoost",
+              "value": 40,
+              "scope": {
+                "skillIds": [
+                  "circuit-1"
+                ]
+              }
+            }
+          ],
+          "_note": "신뢰 배율 ×1.4 — API 변종 39.77 → 55.67 확인"
         },
         {
           "name": "빛의 제약",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "공명 스킬 뇌전의 늪 및 공명 스킬 신뢰의 범위가 대폭 증가하며, 전투 상태 중 퇴장 시, 「예리한 뇌전」이 가득 차 있지 않은 경우, 연무는 자동으로 그 자리에 공명 스킬 뇌전의 쐐기 1개를 남긴다"
+          "effects": [],
+          "_note": "범위 증가 — 피해 계산 무관"
         }
       ]
     },
@@ -640,7 +650,60 @@
     }
   },
   "buffs": [],
-  "rotation": null,
+  "rotation": {
+    "name": "기본 사이클",
+    "draft": true,
+    "duration": 15,
+    "steps": [
+      {
+        "pending": true,
+        "note": "에코 (Q) — 메인 에코 계수/버프 추가 예정"
+      },
+      {
+        "note": "변주",
+        "skillId": "intro-1"
+      },
+      {
+        "note": "뇌전의 쐐기",
+        "skillId": "skill-1"
+      },
+      {
+        "note": "일반 공격 1~5단 + 쐐기 협동 공격",
+        "skillIds": [
+          "normal-1",
+          "normal-2",
+          "normal-3",
+          "normal-4",
+          "normal-5"
+        ]
+      },
+      {
+        "note": "쐐기 협동 공격",
+        "skillId": "skill-2",
+        "count": 6
+      },
+      {
+        "note": "신뢰 (예리한 뇌전 100)",
+        "skillId": "circuit-1"
+      },
+      {
+        "note": "적토중명 → 뇌전의 집행",
+        "skillId": "liberation-1"
+      },
+      {
+        "note": "뇌전의 집행 평타 1~5단 → 강공격 → 천둥 쫓기",
+        "skillIds": [
+          "circuit-2",
+          "circuit-3",
+          "circuit-4",
+          "circuit-5",
+          "circuit-6",
+          "circuit-7",
+          "circuit-8"
+        ]
+      }
+    ]
+  },
   "chain": [
     {
       "name": "차 한잔의 여유",
@@ -655,7 +718,26 @@
     {
       "name": "정의의 화신",
       "description": "공명 스킬 뇌전의 쐐기의 협동 공격이 목표에 명중 시, 연무 방어력 20%를 기반으로 피해가 추가로 증가한다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C3 뇌전의 쐐기 협동 공격 +방어력 20%",
+          "_note": "같은 판정·같은 방어력 스케일링이라 계수에 더해서 처리",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "mvFlat",
+              "value": 20,
+              "scope": {
+                "skillIds": [
+                  "skill-2"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "극기의 권법",
@@ -665,12 +747,41 @@
     {
       "name": "절대적인 보호",
       "description": "공명 스킬 천둥의 쐐기가 있을 시, 연무의 공명 해방 피해 보너스가 50% 증가한다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C5 쐐기가 있을 때 공명 해방 피해 +50%",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "liberationDmgBonus",
+              "value": 50
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "평화를 위하여",
       "description": "공명 스킬 천둥의 쐐기의 범위 내에 있는 전체 파티원의 방어력이 32% 증가하며 3초간 지속된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C6 쐐기 범위 내 파티 방어력 +32%",
+          "target": "team",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "defPercent",
+              "value": 32
+            }
+          ]
+        }
+      ]
     }
   ],
   "_innateSkills": [

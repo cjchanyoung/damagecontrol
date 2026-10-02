@@ -589,13 +589,23 @@
       "nodes": [
         {
           "name": "온실",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "인멸 피해 보너스가 15% 증가되고, 강공격 전지 피해는 일반 공격 피해로 적용된다"
+          "effects": [
+            {
+              "stat": "havocDmgBonus",
+              "value": 15
+            }
+          ],
+          "_note": "인멸 피해 +15%, 강공격 전지는 일반 공격 판정"
         },
         {
           "name": "점유",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "일반 공격 피해 보너스가 15% 증가하고, 일반 공격과 일반 공격 넝쿨의 춤, 일반 공격 타오르는 넝쿨의 춤의 경직 저항력이 증가한다"
+          "effects": [
+            {
+              "stat": "normalAtkDmgBonus",
+              "value": 15
+            }
+          ],
+          "_note": "일반 공격 피해 +15%"
         }
       ]
     },
@@ -622,38 +632,348 @@
       ]
     }
   },
-  "buffs": [],
-  "rotation": null,
+  "buffs": [
+    {
+      "id": "sweet-dream",
+      "label": "달콤한 꿈: 기본 공격 계열 배율 +50%",
+      "condition": "일순의 꽃 후 만개 직전 상태",
+      "_note": "꽃망울·C6 강화와 같은 효과라 같은 그룹(dream)으로 더함",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "mvBoost",
+          "value": 50,
+          "group": "dream",
+          "scope": {
+            "skillIds": [
+              "normal-1",
+              "normal-2",
+              "normal-3",
+              "normal-4",
+              "normal-5",
+              "normal-6",
+              "normal-7",
+              "normal-8",
+              "skill-1",
+              "skill-2",
+              "skill-3",
+              "skill-4",
+              "skill-5",
+              "skill-6",
+              "skill-7",
+              "skill-8",
+              "skill-9"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "buds",
+      "label": "붉은 동백꽃 · 꽃망울: 달콤한 꿈 +5% (스택)",
+      "condition": "일순의 꽃 직전 꽃망울 스택, 최대 10",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "stacks": {
+        "max": 10,
+        "default": 10
+      },
+      "effects": [
+        {
+          "stat": "mvBoost",
+          "value": 5,
+          "group": "dream",
+          "scope": {
+            "skillIds": [
+              "normal-1",
+              "normal-2",
+              "normal-3",
+              "normal-4",
+              "normal-5",
+              "normal-6",
+              "normal-7",
+              "normal-8",
+              "skill-1",
+              "skill-2",
+              "skill-3",
+              "skill-4",
+              "skill-5",
+              "skill-6",
+              "skill-7",
+              "skill-8",
+              "skill-9"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "outro-extra",
+      "label": "일순의 꽃 후 반주 추가 피해 459.02%",
+      "_note": "API 변종 459.02 (같은 판정·스케일링이라 반주 계수에 더함)",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "mvFlat",
+          "value": 459.02,
+          "scope": {
+            "skillIds": [
+              "outro-1"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "rotation": {
+    "name": "기본 사이클",
+    "draft": true,
+    "duration": 25,
+    "steps": [
+      {
+        "pending": true,
+        "note": "에코 (Q) — 메인 에코 계수/버프 추가 예정"
+      },
+      {
+        "note": "변주 — 꽃술 100",
+        "skillId": "intro-1"
+      },
+      {
+        "note": "일반 공격 1~5단 — 꽃망울",
+        "skillIds": [
+          "normal-1",
+          "normal-2",
+          "normal-3",
+          "normal-4",
+          "normal-5"
+        ]
+      },
+      {
+        "note": "일순의 꽃 → 만개 직전 (달콤한 꿈)",
+        "skillId": "circuit-1"
+      },
+      {
+        "note": "피어난 동백꽃 → 넝쿨의 춤 1~3 → 타오르는 넝쿨의 춤 → 4단",
+        "skillIds": [
+          "skill-1",
+          "skill-2",
+          "skill-3",
+          "skill-4",
+          "skill-9",
+          "skill-5"
+        ]
+      },
+      {
+        "note": "암흑 꽃술의 마음",
+        "skillId": "skill-6"
+      },
+      {
+        "note": "피어난 동백꽃 → 넝쿨의 춤 1~3 → 타오르는 넝쿨의 춤 → 4단 → 암흑 꽃술의 마음",
+        "skillIds": [
+          "skill-1",
+          "skill-2",
+          "skill-3",
+          "skill-4",
+          "skill-9",
+          "skill-5",
+          "skill-6"
+        ]
+      },
+      {
+        "note": "아름다운 결말",
+        "skillId": "liberation-1"
+      },
+      {
+        "note": "반주 (일순의 꽃 후 추가 피해)",
+        "skillId": "outro-1"
+      }
+    ]
+  },
   "chain": [
     {
       "name": "나만의 비밀스러운 오솔길에서",
       "description": "변주 스킬 팔천의 춘추 발동 시, 크리티컬 피해가 28% 증가되며, 18초간 지속되고, 25초마다 1회 발생할 수 있다.\n공명 회로 일순의 꽃 상태는 적의 공격에 의해 중단되지 않는다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C1 변주 후 크리 피해 +28%",
+          "condition": "18초",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "critDmg",
+              "value": 28
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "침묵의 꽃 향기를 부르며",
       "description": "공명 회로 일순의 꽃의 피해 배율이 120% 상승된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C2 일순의 꽃 배율 ×2.2",
+          "_note": "API 변종 확인: 1262.45 → 2777.38 (×2.2)",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "mvBoost",
+              "value": 120,
+              "scope": {
+                "skillIds": [
+                  "circuit-1"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "모든 꽃씨보다 소중한 가시덤불",
       "description": "공명 해방 아름다운 결말의 피해 배율이 50% 상승된다. 만개 직전 상태 기간 동안, 카멜리아의 공격력이 58% 증가된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C3 아름다운 결말 배율 ×1.5",
+          "_note": "API 변종 확인: 1202.81 → 1804.21 (×1.5)",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "mvBoost",
+              "value": 50,
+              "scope": {
+                "skillIds": [
+                  "liberation-1"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "label": "C3 만개 직전 상태: 공격력 +58%",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "atkPercent",
+              "value": 58
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "영원한 생명력을 가진 뿌리",
       "description": "변주 스킬 팔천의 춘추를 발동 후, 파티 내 캐릭터의 일반 공격 피해 보너스가 25% 증가하며, 30초간 지속된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C4 변주 후 파티 일반 공격 피해 +25%",
+          "condition": "30초",
+          "target": "team",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "normalAtkDmgBonus",
+              "value": 25
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "그 무한함을 당신의 손에 쥐여줄 것이다",
       "description": "변주 스킬 팔천의 춘추 피해 배율이 303% 상승된다.\n반주 스킬 뒤엉킨 넝쿨 피해 배율이 68% 상승된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C5 변주 ×4.03, 반주 ×1.68",
+          "_note": "API 변종 확인: 198.81 → 801.21 (×4.03), 329.24 → 553.11, 459.02 → 771.15 (×1.68)",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "mvBoost",
+              "value": 303,
+              "scope": {
+                "skillIds": [
+                  "intro-1"
+                ]
+              }
+            },
+            {
+              "stat": "mvBoost",
+              "value": 68,
+              "scope": {
+                "skillIds": [
+                  "outro-1"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "그저 그대의 수많은 만개를 기다리리라",
       "description": "공명 회로 달콤한 꿈의 피해 배율 상승 효과가 추가로 150% 상승된다.\n공명 회로 시들지 않는 꽃: 공명 회로 일순의 꽃 발동 후 15초 이내에 협주 에너지가 가득 찰 시 시들지 않는 꽃이 사용 가능한 상태일 경우, 공명 스킬은 시들지 않는 꽃으로 대체된다. \n시들지 않는 꽃 발동 시, 협주 에너지 50pt를 소모하고, 「붉은 동백꽃 · 꽃술」 50pt를 회복하며, 공명 회로 일순의 꽃 피해량의 100%에 해당하는 인멸 피해를 입히고, 해당 피해는 일반 공격 피해로 적용되며, 25초마다 1회 발동한다.\n시들지 않는 꽃 발동 후, 만개 직전 상태에 진입하여, 모든 「붉은 동백꽃 · 꽃망울」을 제거하고, 공명 회로 달콤한 꿈의 피해 배율 상승 효과를 250%까지 상승시킨다.\n공명 회로 시들지 않는 꽃 상태는 적의 공격에 의해 중단되지 않는다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C6 달콤한 꿈 +150% (최대 250%)",
+          "_note": "시들지 않는 꽃(일순의 꽃 100% 재발동)은 체인 의존이라 기본 로테이션엔 미포함",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "mvBoost",
+              "value": 150,
+              "group": "dream",
+              "scope": {
+                "skillIds": [
+                  "normal-1",
+                  "normal-2",
+                  "normal-3",
+                  "normal-4",
+                  "normal-5",
+                  "normal-6",
+                  "normal-7",
+                  "normal-8",
+                  "skill-1",
+                  "skill-2",
+                  "skill-3",
+                  "skill-4",
+                  "skill-5",
+                  "skill-6",
+                  "skill-7",
+                  "skill-8",
+                  "skill-9"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     }
   ],
   "_innateSkills": [

@@ -306,21 +306,6 @@
               "mv": 675.96
             }
           ]
-        },
-        {
-          "id": "liberation-1",
-          "name": "스킬 피해",
-          "damageType": [
-            "liberation"
-          ],
-          "parts": [
-            {
-              "mv": 198.81
-            },
-            {
-              "mv": 675.96
-            }
-          ]
         }
       ],
       "nodes": [
@@ -487,111 +472,41 @@
               ]
             }
           ]
-        },
-        {
-          "id": "circuit-1",
-          "name": "공명 참격 · 선음 피해",
-          "damageType": [
-            "skill"
-          ],
-          "parts": [
-            {
-              "hits": 2,
-              "mvByLevel": [
-                64.93,
-                70.25,
-                75.58,
-                83.03,
-                88.35,
-                94.48,
-                103,
-                111.51,
-                120.03,
-                129.08
-              ]
-            }
-          ]
-        },
-        {
-          "id": "circuit-2",
-          "name": "공명 참격 · 선음 비륜 피해",
-          "damageType": [
-            "skill"
-          ],
-          "parts": [
-            {
-              "mvByLevel": [
-                20,
-                21.64,
-                23.28,
-                25.58,
-                27.22,
-                29.11,
-                31.73,
-                34.35,
-                36.98,
-                39.77
-              ]
-            }
-          ]
-        },
-        {
-          "id": "circuit-3",
-          "name": "공명 참격 · 메아리 1단 피해",
-          "damageType": [
-            "skill"
-          ],
-          "parts": [
-            {
-              "mvByLevel": [
-                40,
-                43.28,
-                46.56,
-                51.16,
-                54.44,
-                58.21,
-                63.46,
-                68.7,
-                73.95,
-                79.53
-              ]
-            }
-          ]
-        },
-        {
-          "id": "circuit-4",
-          "name": "공명 참격 · 메아리 2단 피해",
-          "damageType": [
-            "skill"
-          ],
-          "parts": [
-            {
-              "mvByLevel": [
-                80,
-                86.56,
-                93.12,
-                102.31,
-                108.87,
-                116.41,
-                126.91,
-                137.4,
-                147.9,
-                159.05
-              ]
-            }
-          ]
         }
       ],
       "nodes": [
         {
           "name": "과묵",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "일반 공격 공명 참격 · 메아리의 피해가 60% 증가한다"
+          "effects": [
+            {
+              "stat": "dmgBonus",
+              "value": 60,
+              "scope": {
+                "skillIds": [
+                  "circuit-3",
+                  "circuit-4"
+                ]
+              }
+            }
+          ],
+          "_note": "공명 참격 · 메아리 피해 +60%"
         },
         {
           "name": "경청",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "강공격 소리의 연주를 사용한 후, 방랑자의 공격력이 15% 증가되며, 5초 동안 지속된다"
+          "buff": {
+            "label": "소리의 연주 후 공격력 +15%",
+            "condition": "5초",
+            "trigger": {
+              "mode": "toggle",
+              "default": true
+            },
+            "effects": [
+              {
+                "stat": "atkPercent",
+                "value": 15
+              }
+            ]
+          }
         }
       ]
     },
@@ -601,17 +516,85 @@
     }
   },
   "buffs": [],
-  "rotation": null,
+  "rotation": {
+    "name": "기본 사이클",
+    "draft": true,
+    "duration": 15,
+    "steps": [
+      {
+        "pending": true,
+        "note": "에코 (Q) — 메인 에코 계수/버프 추가 예정"
+      },
+      {
+        "note": "변주 — 미세한 소리",
+        "skillId": "intro-1"
+      },
+      {
+        "note": "일반 공격 1~3단 → 소리의 연주 → 여음",
+        "skillIds": [
+          "normal-1",
+          "normal-2",
+          "normal-3",
+          "normal-6",
+          "normal-7"
+        ]
+      },
+      {
+        "note": "공명 참격 · 선음 → 메아리 1·2단",
+        "skillIds": [
+          "circuit-1",
+          "circuit-3",
+          "circuit-4"
+        ]
+      },
+      {
+        "note": "공명 참격",
+        "skillId": "skill-1"
+      },
+      {
+        "note": "울림의 연주",
+        "skillId": "liberation-1"
+      }
+    ]
+  },
   "chain": [
     {
       "name": "시초의 기행",
       "description": "공명 스킬 공명 참격 또는 공명 스킬 공명 참격·선음 발동 시, 방랑자의 크리티컬이 15% 증가하며, 7초간 지속된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C1 공명 참격 후 크리 +15%",
+          "condition": "7초",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "critRate",
+              "value": 15
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "작은 속삭임",
       "description": "방랑자의 회절 피해 보너스가 추가로 20% 증가한다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C2 회절 피해 +20%",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "spectroDmgBonus",
+              "value": 20
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "만물의 소리",
@@ -626,12 +609,46 @@
     {
       "name": "울림의 흐름",
       "description": "공명 해방 피해 보너스가 40% 증가한다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C5 공명 해방 피해 +40%",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "liberationDmgBonus",
+              "value": 40
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "먼길의 결말",
       "description": "공명 스킬 공명 참격 혹은 공명 참격·선음이 목표에 명중 시, 목표의 회절 피해 저항이 10% 감소하며, 20초간 지속된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C6 공명 참격 명중 시 회절 저항 -10%",
+          "condition": "20초",
+          "target": "team",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "resShred",
+              "value": 10,
+              "scope": {
+                "elements": [
+                  "회절"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     }
   ],
   "_innateSkills": [

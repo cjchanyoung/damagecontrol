@@ -394,13 +394,50 @@
       "nodes": [
         {
           "name": "은밀한 모략",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "일반 공격 심안 · 정복 또는 일반 공격 심안 · 돌진 발동 시 , 「이화」 1스택씩 보유할 때마다 장리의 용융 피해 보너스가 5% 증가된다"
+          "buff": {
+            "label": "정복·돌진: 이화 1스택당 용융 피해 +5% (스택)",
+            "condition": "발동 시점의 이화 스택, 최대 4 (0→3 순으로 쌓이니 평균 2)",
+            "trigger": {
+              "mode": "toggle",
+              "default": true
+            },
+            "stacks": {
+              "max": 4,
+              "default": 2
+            },
+            "effects": [
+              {
+                "stat": "dmgBonus",
+                "value": 5,
+                "scope": {
+                  "skillIds": [
+                    "skill-2",
+                    "skill-3"
+                  ]
+                }
+              }
+            ]
+          }
         },
         {
           "name": "태세 분쇄",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "강공격 이화의 화신 또는 공명 해방 이화의 충성심 발동 시 장리의 용융 피해 보너스가 20% 증가하며, 공격으로 피해를 입힐 때 목표의 15% 방어력을 무시한다"
+          "buff": {
+            "label": "이화의 화신·해방 후 용융 피해 +20%, 방어력 15% 무시",
+            "trigger": {
+              "mode": "toggle",
+              "default": true
+            },
+            "effects": [
+              {
+                "stat": "fusionDmgBonus",
+                "value": 20
+              },
+              {
+                "stat": "defIgnore",
+                "value": 15
+              }
+            ]
+          }
         }
       ]
     },
@@ -409,38 +446,254 @@
       "entries": []
     }
   },
-  "buffs": [],
-  "rotation": null,
+  "buffs": [
+    {
+      "id": "red-feather",
+      "label": "빨간 깃털: 이화의 화신 공격력 +25%",
+      "condition": "해방 후 10초 안에 이화의 화신",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "atkPercent",
+          "value": 25
+        }
+      ]
+    },
+    {
+      "id": "outro-fusion",
+      "label": "반주: 다음 캐릭터 용융 피해 부스트 20%",
+      "condition": "10초",
+      "target": "others",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "dmgBoost",
+          "value": 20,
+          "scope": {
+            "elements": [
+              "용융"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "outro-lib",
+      "label": "반주: 다음 캐릭터 공명 해방 피해 부스트 25%",
+      "target": "others",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "dmgBoost",
+          "value": 25,
+          "scope": {
+            "damageTypes": [
+              "liberation"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "rotation": {
+    "name": "기본 사이클",
+    "draft": true,
+    "duration": 22,
+    "steps": [
+      {
+        "pending": true,
+        "note": "에코 (Q) — 메인 에코 계수/버프 추가 예정"
+      },
+      {
+        "note": "변주 → 심안 · 정복 (이화 1)",
+        "skillIds": [
+          "intro-1",
+          "skill-2"
+        ]
+      },
+      {
+        "note": "심안 · 액운 → 정복 ×2 (이화 3)",
+        "repeat": 2,
+        "skillIds": [
+          "skill-1",
+          "skill-2"
+        ]
+      },
+      {
+        "note": "일반 공격 1~4단 → 정복 (이화 4)",
+        "skillIds": [
+          "normal-1",
+          "normal-2",
+          "normal-3",
+          "normal-4",
+          "skill-2"
+        ]
+      },
+      {
+        "note": "강공격 · 이화의 화신",
+        "skillId": "circuit-1"
+      },
+      {
+        "note": "이화의 충성심 (이화 4) → 이화의 화신 (빨간 깃털)",
+        "skillIds": [
+          "liberation-1",
+          "circuit-1"
+        ]
+      }
+    ]
+  },
   "chain": [
     {
       "name": "숨겨진 진심",
       "description": "공명 스킬 불멸의 깃털 또는 강공격 이화의 화신 발동 시, 장리의 경직 저항력이 증가하며, 가하는 피해가 10% 증가한다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C1 불멸의 깃털·이화의 화신 후 피해 +10%",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "dmgBonus",
+              "value": 10
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "바라는 소원",
       "description": "「이화」 획득 시, 장리의 크리티컬이 25% 증가하며, 8초간 지속된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C2 이화 획득 시 크리 +25%",
+          "condition": "8초",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "critRate",
+              "value": 25
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "풍문의 축적",
       "description": "공명 해방 이화의 충성심으로 가하는 피해가 80% 증가한다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C3 이화의 충성심 피해 +80%",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "dmgBonus",
+              "value": 80,
+              "scope": {
+                "skillIds": [
+                  "liberation-1"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "언어의 미학",
       "description": "변주 스킬 발동 후, 파티 내 캐릭터 공격력이 20% 증가하며, 30초간 지속된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C4 변주 후 파티 공격력 +20%",
+          "condition": "30초",
+          "target": "team",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "atkPercent",
+              "value": 20
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "해탈의 성취",
       "description": "강공격 이화의 화신 배율이 50% 상승하고, 입히는 피해가 50% 증가한다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C5 이화의 화신 배율 ×1.5, 피해 +50%",
+          "_note": "API 변종 확인: 457.85 → 686.78 (×1.5)",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "mvBoost",
+              "value": 50,
+              "scope": {
+                "skillIds": [
+                  "circuit-1"
+                ]
+              }
+            },
+            {
+              "stat": "dmgBonus",
+              "value": 50,
+              "scope": {
+                "skillIds": [
+                  "circuit-1"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "치밀한 계획",
       "description": "공명 스킬 불멸의 깃털, 강공격 이화의 화신, 공명 해방 이화의 충성심으로 피해를 입힐 때 추가로 목표의 40% 방어력을 무시한다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C6 공명 스킬·이화의 화신·해방 방어력 40% 무시",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "defIgnore",
+              "value": 40,
+              "scope": {
+                "skillIds": [
+                  "skill-1",
+                  "skill-2",
+                  "skill-3",
+                  "circuit-1",
+                  "liberation-1"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     }
   ],
   "_innateSkills": [

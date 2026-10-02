@@ -352,6 +352,79 @@
               ]
             }
           ]
+        },
+        {
+          "id": "liberation-5",
+          "name": "사냥꾼의 검술 · 지옥의 그림자 1단 피해",
+          "damageType": [
+            "normal"
+          ],
+          "parts": [
+            {
+              "mv": 88.07
+            }
+          ],
+          "_note": "원문 기타수치에서 추가 (Lv.10 기준)",
+          "_manual": true
+        },
+        {
+          "id": "liberation-6",
+          "name": "사냥꾼의 검술 · 지옥의 그림자 2단 피해",
+          "damageType": [
+            "normal"
+          ],
+          "parts": [
+            {
+              "mv": 35.23,
+              "hits": 2
+            },
+            {
+              "mv": 52.84,
+              "hits": 2
+            }
+          ],
+          "_manual": true
+        },
+        {
+          "id": "liberation-7",
+          "name": "사냥꾼의 검술 · 지옥의 그림자 3단 피해",
+          "damageType": [
+            "normal"
+          ],
+          "parts": [
+            {
+              "mv": 163.84
+            }
+          ],
+          "_manual": true
+        },
+        {
+          "id": "liberation-8",
+          "name": "사냥꾼의 검술 · 지옥의 그림자 4단 피해",
+          "damageType": [
+            "normal"
+          ],
+          "parts": [
+            {
+              "mv": 34.82,
+              "hits": 6
+            }
+          ],
+          "_manual": true
+        },
+        {
+          "id": "liberation-9",
+          "name": "사냥꾼의 검술 · 지옥의 그림자 5단 피해",
+          "damageType": [
+            "normal"
+          ],
+          "parts": [
+            {
+              "mv": 150.19,
+              "hits": 2
+            }
+          ],
+          "_manual": true
         }
       ],
       "nodes": [
@@ -456,23 +529,99 @@
       "nodes": [
         {
           "name": "핏빛의 각오",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "강공격 「자애」 발동 시, 카카루의 공명 해방 피해 보너스가 10% 증가하며, 15초간 지속된다"
+          "buff": {
+            "label": "자애 후 공명 해방 피해 +10%",
+            "condition": "15초",
+            "trigger": {
+              "mode": "toggle",
+              "default": true
+            },
+            "effects": [
+              {
+                "stat": "liberationDmgBonus",
+                "value": 10
+              }
+            ]
+          }
         },
         {
           "name": "용감한 헌신",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "강공격 「사형 선고」로 목표 명중 시, 카카루가 받는 피해가 15% 감소하며, 5초간 지속된다"
+          "effects": [],
+          "_note": "받는 피해 감소 — 피해 계산 무관"
         }
       ]
     },
     "outro": {
       "name": "그림자의 기습",
-      "entries": []
+      "entries": [
+        {
+          "id": "outro-1",
+          "name": "그림자의 기습",
+          "damageType": [
+            "outro"
+          ],
+          "parts": [
+            {
+              "mv": 195.98
+            },
+            {
+              "mv": 391.96
+            }
+          ],
+          "_fromDescription": true
+        }
+      ]
     }
   },
   "buffs": [],
-  "rotation": null,
+  "rotation": {
+    "name": "기본 사이클",
+    "draft": true,
+    "duration": 22,
+    "steps": [
+      {
+        "pending": true,
+        "note": "에코 (Q) — 메인 에코 계수/버프 추가 예정"
+      },
+      {
+        "note": "변주 전역 수배",
+        "skillId": "intro-1"
+      },
+      {
+        "note": "척살 명령 1~3단 (잔인 3) → 자애",
+        "skillIds": [
+          "skill-1",
+          "skill-2",
+          "skill-3",
+          "circuit-1"
+        ]
+      },
+      {
+        "note": "환영의 각인 → 살육의 무장",
+        "skillId": "liberation-1"
+      },
+      {
+        "note": "지옥의 그림자 1~5단 (살의 5) → 사형 선고 ×2",
+        "repeat": 2,
+        "skillIds": [
+          "liberation-5",
+          "liberation-6",
+          "liberation-7",
+          "liberation-8",
+          "liberation-9",
+          "circuit-2"
+        ]
+      },
+      {
+        "note": "반주 그림자의 기습",
+        "skillId": "outro-1"
+      },
+      {
+        "note": "재등장 변주 「필요한 수단」",
+        "skillId": "liberation-4"
+      }
+    ]
+  },
   "chain": [
     {
       "name": "은밀한 담판",
@@ -482,27 +631,110 @@
     {
       "name": "제로섬 게임",
       "description": "변주 스킬 전역 수배 또는 변주 스킬 「필요한 수단」 발동 후, 공명 스킬 피해 보너스가 30% 증가하며, 15초간 지속된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C2 변주 후 공명 스킬 피해 +30%",
+          "condition": "15초",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "skillDmgBonus",
+              "value": 30
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "강권 외교",
       "description": "공명 해방 살육의 무장 상태가 지속되는 동안, 카카루의 전도 피해 보너스가 25% 증가한다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C3 살육의 무장 중 전도 피해 +25%",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "electroDmgBonus",
+              "value": 25
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "무리의 위협",
       "description": "반주 스킬 그림자의 기습 발동 시, 파티 내의 캐릭터의 전도 피해 보너스가 20% 증가하며, 30초간 지속된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C4 반주 후 파티 전도 피해 +20%",
+          "condition": "30초",
+          "target": "team",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "electroDmgBonus",
+              "value": 20
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "위탁 협상",
       "description": "변주 스킬 전역 수배 및 변주 스킬 「필요한 수단」의 피해가 50% 증가한다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C5 변주 피해 +50%",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "dmgBonus",
+              "value": 50,
+              "scope": {
+                "skillIds": [
+                  "intro-1",
+                  "liberation-4"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "마지막 기회",
       "description": "강공격 「사형 선고」 발동 시, 카카루는 2개의 사냥의 그림자를 소환하여 협동 공격을 진행한다. 사냥의 그림자마다 카카루 100.00% 공격의 전도 피해를 주며, 이번 피해는 공명 해방 피해로 적용된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C6 사형 선고 시 사냥의 그림자 2회 (100%씩)",
+          "_note": "같은 판정(공명 해방)이라 사형 선고 계수에 더해서 처리",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "mvFlat",
+              "value": 200,
+              "scope": {
+                "skillIds": [
+                  "circuit-2"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     }
   ],
   "_innateSkills": [

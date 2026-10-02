@@ -106,17 +106,34 @@ function entryBaseMv(entry, level) {
   return (entry.parts || []).reduce((sum, p) => sum + resolvePartMv(p, level), 0);
 }
 
-// scope가 있는 효과가 이 스킬에 적용되는지
-function matchScope(scope, entry) {
+// scope가 있는 효과가 이 스킬에 적용되는지.
+// element는 이 피해의 실제 속성 — 'inherit'를 풀어낸 값이라 호출하는 쪽에서 넘겨줌.
+function matchScope(scope, entry, element) {
   if (!scope) return true;
   if (scope.skillIds && !scope.skillIds.includes(entry.id)) return false;
   if (scope.damageTypes && !(entry.damageType || []).some(t => scope.damageTypes.includes(t))) return false;
+  if (scope.elements && !scope.elements.includes(element)) return false;
   return true;
 }
 
-function scopedSum(scoped, stat, entry) {
+// 버프마다 (1 + 값) 을 곱함 — 서로 다른 출처가 곱으로 쌓이는 항(배율 상승)용.
+// 단, 게임 설명에 "서로 중첩된다"고 적힌 쌍은 덧셈이라 같은 group 끼리 먼저 더한 뒤 한 인수로 곱함
+// (루크: 황금의 재량 110% + C3 136.5% → ×3.465, 데니아 C2는 group 없이 곱 → ×2.5×1.4 둘 다 API 확인).
+function scopedProduct(scoped, stat, entry, element) {
+  const groups = {};
+  let prod = 1;
+  (scoped || []).forEach(e => {
+    if (e.stat !== stat || !matchScope(e.scope, entry, element)) return;
+    if (e.group) groups[e.group] = (groups[e.group] || 0) + e.value;
+    else prod *= 1 + e.value / 100;
+  });
+  Object.values(groups).forEach(sum => { prod *= 1 + sum / 100; });
+  return prod;
+}
+
+function scopedSum(scoped, stat, entry, element) {
   return (scoped || []).reduce(
-    (sum, e) => (e.stat === stat && matchScope(e.scope, entry) ? sum + e.value : sum), 0);
+    (sum, e) => (e.stat === stat && matchScope(e.scope, entry, element) ? sum + e.value : sum), 0);
 }
 
 // 캐릭터 상세 데이터의 skills를 화면에 뿌리기 좋은 평평한 배열로 펼침.
@@ -155,6 +172,7 @@ function normalizeBuff(buff, id, label, options) {
       stat: e.stat,
       value: Array.isArray(e.value) ? (e.value[idx] || 0) : (e.value || 0),
       scope: e.scope || null,
+      group: e.group || null,
     })),
   };
 }
@@ -229,8 +247,10 @@ function computeEntryDamage(entry, ctx) {
 
   // 계수 = (스킬 계수 + 배율 가산) × (1 + 추가 배율)
   const baseMv = entryBaseMv(entry, level);
-  const mvFlat = (stats.mvFlat || 0) + scopedSum(scoped, 'mvFlat', entry);
-  const mvBoost = 1 + ((stats.mvBoost || 0) + scopedSum(scoped, 'mvBoost', entry)) / 100;
+  const mvFlat = (stats.mvFlat || 0) + scopedSum(scoped, 'mvFlat', entry, element);
+  // 서로 다른 버프의 '배율 X% 상승'은 곱해짐 (데니아 추방: 핵심 ×2.5 → C2까지 ×2.5×1.4 로 API 확인).
+  // 한 버프 안의 스택끼리는 더해진 값이 한 덩어리로 들어오므로 그대로 (1 + 합) 하나의 인수가 됨.
+  const mvBoost = (1 + (stats.mvBoost || 0) / 100) * scopedProduct(scoped, 'mvBoost', entry, element);
   const mv = (baseMv + mvFlat) * mvBoost;
 
   // 공격력 (방어력/HP 계수 캐릭터면 scaling으로 바꿔 씀)
@@ -238,7 +258,7 @@ function computeEntryDamage(entry, ctx) {
   const atk = stats[scalingStat] || 0;
 
   // 피해 증가 = 1 + 속성 + 스킬 판정별 보너스 (전부 덧셈)
-  let inc = (stats.dmgBonus || 0) + scopedSum(scoped, 'dmgBonus', entry);
+  let inc = (stats.dmgBonus || 0) + scopedSum(scoped, 'dmgBonus', entry, element);
   const elementKey = ELEMENT_BONUS_KEY[element];
   if (elementKey) inc += stats[elementKey] || 0;
   (entry.damageType || []).forEach(t => {
@@ -248,20 +268,24 @@ function computeEntryDamage(entry, ctx) {
   const dmgInc = 1 + inc / 100;
 
   // 피해 부스트 (별도 곱)
-  const dmgBoost = 1 + ((stats.dmgBoost || 0) + scopedSum(scoped, 'dmgBoost', entry)) / 100;
+  const dmgBoost = 1 + ((stats.dmgBoost || 0) + scopedSum(scoped, 'dmgBoost', entry, element)) / 100;
 
-  // 크리티컬
-  const critRate = Math.max(0, Math.min(100, stats.critRate || 0)) / 100;
-  const critDmg = (stats.critDmg || 0) / 100;
+  // 크리티컬 — "강공격의 크리티컬 피해 +X%"처럼 스킬 한정으로 붙는 경우가 많아서 scope도 받음
+  const critRateSum = (stats.critRate || 0) + scopedSum(scoped, 'critRate', entry, element);
+  const critRate = Math.max(0, Math.min(100, critRateSum)) / 100;
+  const critDmg = ((stats.critDmg || 0) + scopedSum(scoped, 'critDmg', entry, element)) / 100;
   const critAvg = critRate * critDmg + (1 - critRate);
 
   // 방어력
+  const defIgnore = (stats.defIgnore || 0) + scopedSum(scoped, 'defIgnore', entry, element);
+  const defShred = (stats.defShred || 0) + scopedSum(scoped, 'defShred', entry, element);
   const enemyDef = (ENEMY_DEF_PER_LEVEL * enemy.level + ENEMY_DEF_BASE)
-    * Math.max(0, 1 - ((stats.defIgnore || 0) + (stats.defShred || 0)) / 100);
+    * Math.max(0, 1 - (defIgnore + defShred) / 100);
   const defTerm = 1 - enemyDef / (enemyDef + DEF_CONST_BASE + DEF_CONST_PER_LEVEL * charLevel);
 
   // 저항
-  const resTerm = 1 - ((enemy.res || 0) - (stats.resShred || 0)) / 100;
+  const resShred = (stats.resShred || 0) + scopedSum(scoped, 'resShred', entry, element);
+  const resTerm = 1 - ((enemy.res || 0) - resShred) / 100;
 
   const common = atk * (mv / 100) * dmgInc * dmgBoost * defTerm * resTerm;
 
