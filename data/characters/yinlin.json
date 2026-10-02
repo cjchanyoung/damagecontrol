@@ -445,13 +445,46 @@
       "nodes": [
         {
           "name": "과도한 통증",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "공명 스킬 자기장의 포효 사용 후, 크리티컬이 15% 증가하며, 5초간 지속된다"
+          "buff": {
+            "label": "자기장의 포효 후 크리 +15%",
+            "condition": "5초",
+            "trigger": {
+              "mode": "toggle",
+              "default": true
+            },
+            "effects": [
+              {
+                "stat": "critRate",
+                "value": 15
+              }
+            ]
+          }
         },
         {
           "name": "명확한 목표",
-          "_todo": "효과를 buff로 옮겨야 함",
-          "_description": "공명 스킬 천둥의 폭발이 죄악의 표식을 지닌 목표를 명중 시 피해가 10% 증가되며, 이 효과가 발생될 시 공격력이 10% 증가되고 4초간 지속된다"
+          "buff": {
+            "label": "천둥의 폭발 표식 명중: 피해 +10%, 공격력 +10%",
+            "condition": "4초",
+            "trigger": {
+              "mode": "toggle",
+              "default": true
+            },
+            "effects": [
+              {
+                "stat": "dmgBonus",
+                "value": 10,
+                "scope": {
+                  "skillIds": [
+                    "skill-2"
+                  ]
+                }
+              },
+              {
+                "stat": "atkPercent",
+                "value": 10
+              }
+            ]
+          }
         }
       ]
     },
@@ -460,13 +493,111 @@
       "entries": []
     }
   },
-  "buffs": [],
-  "rotation": null,
+  "buffs": [
+    {
+      "id": "outro",
+      "label": "반주: 다음 캐릭터 전도 피해 부스트 20%, 공명 해방 피해 부스트 25%",
+      "condition": "14초",
+      "target": "others",
+      "trigger": {
+        "mode": "toggle",
+        "default": true
+      },
+      "effects": [
+        {
+          "stat": "dmgBoost",
+          "value": 20,
+          "scope": {
+            "elements": [
+              "전도"
+            ]
+          }
+        },
+        {
+          "stat": "dmgBoost",
+          "value": 25,
+          "scope": {
+            "damageTypes": [
+              "liberation"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "rotation": {
+    "name": "기본 사이클",
+    "draft": true,
+    "duration": 18,
+    "steps": [
+      {
+        "pending": true,
+        "note": "에코 (Q) — 메인 에코 계수/버프 추가 예정"
+      },
+      {
+        "note": "변주 광풍의 뇌정",
+        "skillId": "intro-1"
+      },
+      {
+        "note": "자기장의 포효 → 죽음의 자석",
+        "skillId": "skill-1"
+      },
+      {
+        "note": "일반 공격 1~4단 + 자기장의 폭발 ×4",
+        "skillIds": [
+          "normal-1",
+          "normal-2",
+          "normal-3",
+          "normal-4",
+          "skill-3",
+          "skill-3",
+          "skill-3",
+          "skill-3"
+        ]
+      },
+      {
+        "note": "천둥의 폭발",
+        "skillId": "skill-2"
+      },
+      {
+        "note": "천면 매혹 (심판 게이지 100)",
+        "skillId": "circuit-1"
+      },
+      {
+        "note": "파천의 뇌격",
+        "skillId": "liberation-1"
+      },
+      {
+        "note": "징벌의 인장 → 심판의 뇌전 (초당 1회)",
+        "skillId": "circuit-2",
+        "count": 8
+      }
+    ]
+  },
   "chain": [
     {
       "name": "양난의 선택",
       "description": "공명 스킬 자기장의 포효와 천둥의 폭발의 피해가 70% 증가한다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C1 자기장의 포효·천둥의 폭발 피해 +70%",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "dmgBonus",
+              "value": 70,
+              "scope": {
+                "skillIds": [
+                  "skill-1",
+                  "skill-2"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "뒤얽힌 포로",
@@ -476,17 +607,70 @@
     {
       "name": "냉정한 판결",
       "description": "공명 회로 심판의 뇌전의 피해 배율이 55% 상승한다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C3 심판의 뇌전 배율 ×1.55",
+          "trigger": {
+            "mode": "always"
+          },
+          "effects": [
+            {
+              "stat": "mvBoost",
+              "value": 55,
+              "scope": {
+                "skillIds": [
+                  "circuit-2"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "전진의 격려",
       "description": "공명 회로 심판의 뇌전 명중 시, 파티 내 캐릭터의 공격력이 20% 증가하며, 12초간 지속된다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C4 심판의 뇌전 명중 시 파티 공격력 +20%",
+          "condition": "12초",
+          "target": "team",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "atkPercent",
+              "value": 20
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "결의의 울림",
       "description": "공명 해방 파천의 뇌격이 공명 회로 죄악의 표식, 징벌의 인장을 가진 목표를 명중 시, 피해 100% 증가한다",
-      "buffs": []
+      "buffs": [
+        {
+          "label": "C5 파천의 뇌격 표식 명중 시 피해 +100%",
+          "trigger": {
+            "mode": "toggle",
+            "default": true
+          },
+          "effects": [
+            {
+              "stat": "dmgBonus",
+              "value": 100,
+              "scope": {
+                "skillIds": [
+                  "liberation-1"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "name": "정의의 이행",
